@@ -274,7 +274,7 @@ public:
     void retranslateUi(QMainWindow *MainWindow)
     {
         MainWindow->setWindowTitle(QApplication::translate("MainWindow", "MainWindow", Q_NULLPTR));
-        pushButton_6->setText(QApplication::translate("MainWindow", "RU", Q_NULLPTR));
+        pushButton_6->setText(QApplication::translate("MainWindow", "\320\240\320\243", Q_NULLPTR));
         pushButton->setText(QApplication::translate("MainWindow", "PushButton", Q_NULLPTR));
         pushButton_2->setText(QApplication::translate("MainWindow", "Training", Q_NULLPTR));
         pushButton_3->setText(QApplication::translate("MainWindow", "Translate", Q_NULLPTR));
