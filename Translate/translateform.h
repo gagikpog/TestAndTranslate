@@ -18,12 +18,17 @@ public:
     ~TranslateForm();
 
 private slots:
-    void on_pushButton_clicked();
     void replyFinished(QNetworkReply* reply);
+    void on_btmLanguage_clicked();
+    void on_btmFavorite_clicked();
+    void on_btmTranslate_clicked();
+    void ReadDB();
+
     void on_msgInput_returnPressed();
 
 private:
     Ui::TranslateForm *ui;
+    QString TranslateLanguage = "ru";
 };
 
 #endif // TRANSLATEFORM_H
