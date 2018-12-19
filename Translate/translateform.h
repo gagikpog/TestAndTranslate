@@ -24,8 +24,6 @@ private slots:
     void on_btmTranslate_clicked();
     void ReadDB();
 
-    void on_msgInput_returnPressed();
-
 private:
     Ui::TranslateForm *ui;
     QString TranslateLanguage = "ru";

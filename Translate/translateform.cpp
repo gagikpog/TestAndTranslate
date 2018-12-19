@@ -78,10 +78,12 @@ void TranslateForm::on_btmLanguage_clicked()
     if(TranslateLanguage == "ru")
     {
         TranslateLanguage = "en";
-        ui->btmLanguage->setText("EN-РУ");
+        ui->label1->setText("Russian");
+        ui->label2->setText("English");
     }else {
         TranslateLanguage = "ru";
-        ui->btmLanguage->setText("РУ-EN");
+        ui->label1->setText("English");
+        ui->label2->setText("Russian");
     }
 }
 
@@ -99,7 +101,7 @@ void TranslateForm::on_btmTranslate_clicked()
     //это мой личный ключ. НЕ ТРОГАТЬ!
     QString myYandexKey = "trnsl.1.1.20181218T063705Z.c1ca51e673146583.e557c8ab73bfc914cc1311dc2ec7646f9b1fa50f";
     //то что нужно переводить
-    QString translateText = ui->msgInput->text();
+    QString translateText = ui->msgInput->toPlainText();
     //нечего переводить
     if(translateText == "")
     {
@@ -112,8 +114,3 @@ void TranslateForm::on_btmTranslate_clicked()
     NAM->get(QNetworkRequest(QUrl(host+"?key="+myYandexKey+"&text="+translateText+"&lang="+TranslateLanguage)));
 }
 
-void TranslateForm::on_msgInput_returnPressed()
-{
-    //при нажатии на "Enter" запускается перевод
-    //on_btmTranslate_clicked();
-}

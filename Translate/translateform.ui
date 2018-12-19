@@ -17,120 +17,167 @@
    <string notr="true">QWidget {
 background: qradialgradient(cx: 0.3, cy: -0.4,
 fx: 0.3, fy: -0.4,
-radius: 1.3, stop: 0 #fff, stop: 1 #aaa);
+radius: 1.3, stop: 0 #fff, stop: 1 #ddd);
 }
 
-QLineEdit, QPushButton {
+QPushButton {
 color: #000;
-border: 2px solid #555;
-border-radius: 17px;
+border: 1px solid #555;
 padding: 5px;
 background: qradialgradient(cx: 0.3, cy: -0.4,
 fx: 0.3, fy: -0.4,
-radius: 1.3, stop: 0 #fff, stop: 1 #ccc);
+radius: 1.3, stop: 0 #eee, stop: 1 #fff);
 }
-QLineEdit:hover ,QPushButton:hover {
+QPushButton:hover {
 background: qradialgradient(cx: 0.3, cy: -0.4,
 fx: 0.3, fy: -0.4,
-radius: 1.3, stop: 0 #fff, stop: 1 #fff);
+radius: 1.3, stop: 0 #eee, stop: 1 #ddd);
 }
 QPushButton:pressed {
 background: qradialgradient(cx: 0.4, cy: -0.1,
 fx: 0.4, fy: -0.1,
-radius: 1.3, stop: 0 #eee, stop: 1 #aaa);
+radius: 1.3, stop: 0 #e5e5e5, stop: 1 #d5d5d5);
 }
-QLabel{
+QTextEdit{
 background: qradialgradient(cx: 0.4, cy: -0.1,
 fx: 0.4, fy: -0.1,
 radius: 1.3, stop: 0 #fff, stop: 1 #eee);
+}
+QLabel{
+padding: 0px 10px;
 }</string>
   </property>
-  <layout class="QVBoxLayout" name="verticalLayout_3">
+  <layout class="QVBoxLayout" name="verticalLayout">
    <item>
     <layout class="QHBoxLayout" name="horizontalLayout">
+     <property name="spacing">
+      <number>0</number>
+     </property>
      <item>
-      <layout class="QVBoxLayout" name="verticalLayout">
-       <item>
-        <layout class="QHBoxLayout" name="horizontalLayout_2">
-         <item>
-          <widget class="QLineEdit" name="msgInput">
-           <property name="minimumSize">
-            <size>
-             <width>0</width>
-             <height>45</height>
-            </size>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QPushButton" name="btmLanguage">
-           <property name="minimumSize">
-            <size>
-             <width>0</width>
-             <height>45</height>
-            </size>
-           </property>
-           <property name="text">
-            <string>РУ-EN</string>
-           </property>
-           <property name="autoDefault">
-            <bool>false</bool>
-           </property>
-          </widget>
-         </item>
-        </layout>
-       </item>
-       <item>
-        <widget class="QLabel" name="msgOutput">
-         <property name="text">
-          <string/>
-         </property>
-        </widget>
-       </item>
-      </layout>
+      <widget class="QPushButton" name="btmTranslate">
+       <property name="minimumSize">
+        <size>
+         <width>150</width>
+         <height>45</height>
+        </size>
+       </property>
+       <property name="font">
+        <font>
+         <pointsize>14</pointsize>
+        </font>
+       </property>
+       <property name="text">
+        <string>Translate</string>
+       </property>
+      </widget>
      </item>
      <item>
-      <layout class="QVBoxLayout" name="verticalLayout_2">
-       <item>
-        <widget class="QPushButton" name="btmTranslate">
-         <property name="minimumSize">
-          <size>
-           <width>150</width>
-           <height>45</height>
-          </size>
-         </property>
-         <property name="text">
-          <string>Translate</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QPushButton" name="btmFavorite">
-         <property name="minimumSize">
-          <size>
-           <width>150</width>
-           <height>45</height>
-          </size>
-         </property>
-         <property name="text">
-          <string>Favorite</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QPushButton" name="btmRemove">
-         <property name="minimumSize">
-          <size>
-           <width>150</width>
-           <height>45</height>
-          </size>
-         </property>
-         <property name="text">
-          <string>Remove</string>
-         </property>
-        </widget>
-       </item>
-      </layout>
+      <widget class="QPushButton" name="btmFavorite">
+       <property name="minimumSize">
+        <size>
+         <width>150</width>
+         <height>45</height>
+        </size>
+       </property>
+       <property name="font">
+        <font>
+         <pointsize>14</pointsize>
+        </font>
+       </property>
+       <property name="text">
+        <string>Favorite</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="btmRemove">
+       <property name="minimumSize">
+        <size>
+         <width>150</width>
+         <height>45</height>
+        </size>
+       </property>
+       <property name="font">
+        <font>
+         <pointsize>14</pointsize>
+        </font>
+       </property>
+       <property name="text">
+        <string>Remove</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+   <item>
+    <layout class="QGridLayout" name="gridLayout">
+     <property name="verticalSpacing">
+      <number>10</number>
+     </property>
+     <item row="1" column="2">
+      <widget class="QTextEdit" name="msgOutput">
+       <property name="maximumSize">
+        <size>
+         <width>16777215</width>
+         <height>100</height>
+        </size>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="0">
+      <widget class="QTextEdit" name="msgInput">
+       <property name="maximumSize">
+        <size>
+         <width>16777215</width>
+         <height>100</height>
+        </size>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="2">
+      <widget class="QLabel" name="label2">
+       <property name="text">
+        <string>Russian</string>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="1">
+      <widget class="QPushButton" name="btmLanguage">
+       <property name="minimumSize">
+        <size>
+         <width>30</width>
+         <height>30</height>
+        </size>
+       </property>
+       <property name="maximumSize">
+        <size>
+         <width>30</width>
+         <height>30</height>
+        </size>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">QPushButton{
+border-radius: 15px;
+border: 2px solid #555
+}</string>
+       </property>
+       <property name="text">
+        <string>🗘</string>
+       </property>
+       <property name="autoDefault">
+        <bool>false</bool>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="0">
+      <widget class="QLabel" name="label1">
+       <property name="styleSheet">
+        <string notr="true"/>
+       </property>
+       <property name="text">
+        <string>English</string>
+       </property>
+      </widget>
      </item>
     </layout>
    </item>

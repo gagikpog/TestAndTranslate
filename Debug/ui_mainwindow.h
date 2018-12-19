@@ -70,90 +70,90 @@ public:
         gradient.setSpread(QGradient::PadSpread);
         gradient.setCoordinateMode(QGradient::ObjectBoundingMode);
         gradient.setColorAt(0, QColor(255, 255, 255, 255));
-        gradient.setColorAt(1, QColor(170, 170, 170, 255));
+        gradient.setColorAt(1, QColor(221, 221, 221, 255));
         QBrush brush(gradient);
         palette.setBrush(QPalette::Active, QPalette::Button, brush);
         QRadialGradient gradient1(0.3, -0.4, 1.3, 0.3, -0.4);
         gradient1.setSpread(QGradient::PadSpread);
         gradient1.setCoordinateMode(QGradient::ObjectBoundingMode);
         gradient1.setColorAt(0, QColor(255, 255, 255, 255));
-        gradient1.setColorAt(1, QColor(170, 170, 170, 255));
+        gradient1.setColorAt(1, QColor(221, 221, 221, 255));
         QBrush brush1(gradient1);
         palette.setBrush(QPalette::Active, QPalette::Base, brush1);
         QRadialGradient gradient2(0.3, -0.4, 1.3, 0.3, -0.4);
         gradient2.setSpread(QGradient::PadSpread);
         gradient2.setCoordinateMode(QGradient::ObjectBoundingMode);
         gradient2.setColorAt(0, QColor(255, 255, 255, 255));
-        gradient2.setColorAt(1, QColor(170, 170, 170, 255));
+        gradient2.setColorAt(1, QColor(221, 221, 221, 255));
         QBrush brush2(gradient2);
         palette.setBrush(QPalette::Active, QPalette::Window, brush2);
         QRadialGradient gradient3(0.3, -0.4, 1.3, 0.3, -0.4);
         gradient3.setSpread(QGradient::PadSpread);
         gradient3.setCoordinateMode(QGradient::ObjectBoundingMode);
         gradient3.setColorAt(0, QColor(255, 255, 255, 255));
-        gradient3.setColorAt(1, QColor(170, 170, 170, 255));
+        gradient3.setColorAt(1, QColor(221, 221, 221, 255));
         QBrush brush3(gradient3);
         palette.setBrush(QPalette::Inactive, QPalette::Button, brush3);
         QRadialGradient gradient4(0.3, -0.4, 1.3, 0.3, -0.4);
         gradient4.setSpread(QGradient::PadSpread);
         gradient4.setCoordinateMode(QGradient::ObjectBoundingMode);
         gradient4.setColorAt(0, QColor(255, 255, 255, 255));
-        gradient4.setColorAt(1, QColor(170, 170, 170, 255));
+        gradient4.setColorAt(1, QColor(221, 221, 221, 255));
         QBrush brush4(gradient4);
         palette.setBrush(QPalette::Inactive, QPalette::Base, brush4);
         QRadialGradient gradient5(0.3, -0.4, 1.3, 0.3, -0.4);
         gradient5.setSpread(QGradient::PadSpread);
         gradient5.setCoordinateMode(QGradient::ObjectBoundingMode);
         gradient5.setColorAt(0, QColor(255, 255, 255, 255));
-        gradient5.setColorAt(1, QColor(170, 170, 170, 255));
+        gradient5.setColorAt(1, QColor(221, 221, 221, 255));
         QBrush brush5(gradient5);
         palette.setBrush(QPalette::Inactive, QPalette::Window, brush5);
         QRadialGradient gradient6(0.3, -0.4, 1.3, 0.3, -0.4);
         gradient6.setSpread(QGradient::PadSpread);
         gradient6.setCoordinateMode(QGradient::ObjectBoundingMode);
         gradient6.setColorAt(0, QColor(255, 255, 255, 255));
-        gradient6.setColorAt(1, QColor(170, 170, 170, 255));
+        gradient6.setColorAt(1, QColor(221, 221, 221, 255));
         QBrush brush6(gradient6);
         palette.setBrush(QPalette::Disabled, QPalette::Button, brush6);
         QRadialGradient gradient7(0.3, -0.4, 1.3, 0.3, -0.4);
         gradient7.setSpread(QGradient::PadSpread);
         gradient7.setCoordinateMode(QGradient::ObjectBoundingMode);
         gradient7.setColorAt(0, QColor(255, 255, 255, 255));
-        gradient7.setColorAt(1, QColor(170, 170, 170, 255));
+        gradient7.setColorAt(1, QColor(221, 221, 221, 255));
         QBrush brush7(gradient7);
         palette.setBrush(QPalette::Disabled, QPalette::Base, brush7);
         QRadialGradient gradient8(0.3, -0.4, 1.3, 0.3, -0.4);
         gradient8.setSpread(QGradient::PadSpread);
         gradient8.setCoordinateMode(QGradient::ObjectBoundingMode);
         gradient8.setColorAt(0, QColor(255, 255, 255, 255));
-        gradient8.setColorAt(1, QColor(170, 170, 170, 255));
+        gradient8.setColorAt(1, QColor(221, 221, 221, 255));
         QBrush brush8(gradient8);
         palette.setBrush(QPalette::Disabled, QPalette::Window, brush8);
         centralWidget->setPalette(palette);
         centralWidget->setStyleSheet(QLatin1String("QWidget {\n"
 "background: qradialgradient(cx: 0.3, cy: -0.4,\n"
 "fx: 0.3, fy: -0.4,\n"
-"radius: 1.3, stop: 0 #fff, stop: 1 #aaa);\n"
+"radius: 1.3, stop: 0 #fff, stop: 1 #ddd);\n"
 "}\n"
 "\n"
 "QPushButton {\n"
 "color: #000;\n"
-"border: 2px solid #555;\n"
-"border-radius: 17px;\n"
+"border: 1px solid #555;\n"
+"border-radius:17px;\n"
 "padding: 5px;\n"
 "background: qradialgradient(cx: 0.3, cy: -0.4,\n"
 "fx: 0.3, fy: -0.4,\n"
-"radius: 1.3, stop: 0 #fff, stop: 1 #ccc);\n"
+"radius: 1.3, stop: 0 #eee, stop: 1 #fff);\n"
 "}\n"
 "QPushButton:hover {\n"
 "background: qradialgradient(cx: 0.3, cy: -0.4,\n"
 "fx: 0.3, fy: -0.4,\n"
-"radius: 1.3, stop: 0 #fff, stop: 1 #fff);\n"
+"radius: 1.3, stop: 0 #eee, stop: 1 #ddd);\n"
 "}\n"
 "QPushButton:pressed {\n"
 "background: qradialgradient(cx: 0.4, cy: -0.1,\n"
 "fx: 0.4, fy: -0.1,\n"
-"radius: 1.3, stop: 0 #eee, stop: 1 #aaa);\n"
+"radius: 1.3, stop: 0 #e5e5e5, stop: 1 #d5d5d5);\n"
 "}"));
         horizontalLayout = new QHBoxLayout(centralWidget);
         horizontalLayout->setSpacing(6);
