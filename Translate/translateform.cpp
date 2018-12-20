@@ -4,8 +4,11 @@
 TranslateForm::TranslateForm(QWidget *parent) : QDialog(parent), ui(new Ui::TranslateForm)
 {
     ui->setupUi(this);
+    setWindowTitle("Translator");
+    //открываем соединение с базой
     db = QSqlDatabase::addDatabase("QSQLITE");
     db.setDatabaseName("data.db");
+    //заполнить таблицу
     ReadDB();
 }
 
@@ -60,9 +63,12 @@ void TranslateForm::ReadDB()
         while (query.next())
         {
             i++;
+            //добавить строку в таблице
             ui->tableWidget->setRowCount(i);
+            //создаю колонку
             QTableWidgetItem *itemEN = new QTableWidgetItem (query.value(enNo).toString());
             QTableWidgetItem *itemRU = new QTableWidgetItem (query.value(ruNo).toString());
+            //добавляю его в таблицу
             ui->tableWidget->setItem(i-1,0,itemEN);
             ui->tableWidget->setItem(i-1,1,itemRU);
         }
@@ -74,32 +80,36 @@ void TranslateForm::on_btmLanguage_clicked()
 {
     //переключить перевод языков
     if(TranslateLanguage == "ru")
-    {
         TranslateLanguage = "en";
-        ui->label1->setText("Russian");
-        ui->label2->setText("English");
-    }else {
-        TranslateLanguage = "ru";
-        ui->label1->setText("English");
-        ui->label2->setText("Russian");
-    }
+    else TranslateLanguage = "ru";
+    //swap названий
     QString tmp = ui->msgOutput->text();
     ui->msgOutput->setText(ui->msgInput->text());
     ui->msgInput->setText(tmp);
+    //swap названий
+    tmp = ui->label1->text();
+    ui->label1->setText(ui->label2->text());
+    ui->label2->setText(tmp);
+    //сделать перевод
+    on_btmTranslate_clicked();
 }
 
 void TranslateForm::on_btmFavorite_clicked()
 {
+    //берем слова для добавления в избранные
     QString txt1,txt2;
     txt1 = ui->msgInput->text();
     txt2 = ui->msgOutput->text();
+    //проверка на простоту строк
     if( txt1 != "" && txt2 != "")
     {
+        //если с русского на английский меняем местами слова
         if(TranslateLanguage == "en")
             txt1.swap(txt2);
 
         if(db.open())
         {
+            //если слово уже добавлена предупреждаю и выхожу
             if(!ui->tableWidget->findItems(txt1,0).empty())
             {
                 QMessageBox msgBox;
@@ -107,14 +117,17 @@ void TranslateForm::on_btmFavorite_clicked()
                 msgBox.exec();
                 return;
             }
+            //запрос на добавления
             QString queryStr = "INSERT INTO favorite (enText , ruText) VALUES('"+txt1+"','"+txt2+"');";
             //
             QSqlQuery query = QSqlQuery(db);
             if(query.exec(queryStr))
             {
+                //если слово успешно добавлена очистить поля
                 ui->msgInput->setText("");
                 ui->msgOutput->setText("");
             }
+            //обновить таблицу
             ReadDB();
         }
     }
@@ -145,39 +158,66 @@ void TranslateForm::on_btmTranslate_clicked()
 
 void TranslateForm::on_msgInput_returnPressed()
 {
+    //при нажатии на Enter переводить
     on_btmTranslate_clicked();
 }
 
 void TranslateForm::on_btmRemove_clicked()
 {
+    //удаление записи из базы
     if(db.open())
     {
+        QMessageBox msgBox;
+        msgBox.setWindowTitle(msgBoxTitle);
+        //получаю список выделенных ячеек
         QModelIndexList indexList = ui->tableWidget->selectionModel()->selectedIndexes();
-        if(!indexList.empty())
+        //если ничего не выделено то выходим
+        if(indexList.empty())
         {
-            QMessageBox msgBox;
-            msgBox.setWindowTitle("Message");
-            msgBox.setText("Do you really want to delete this word?");
-            msgBox.setStandardButtons(QMessageBox::Yes);
-            msgBox.addButton(QMessageBox::No);
-            msgBox.setDefaultButton(QMessageBox::No);
-            if(msgBox.exec() == QMessageBox::No)
-                return;
-            QString str =  ui->tableWidget->item(indexList.at(0).row(),0)->text();
-            QString queryStr = "DELETE FROM favorite WHERE enText='"+str+"';";
-            //
-            QSqlQuery query = QSqlQuery(db);
-            if(query.exec(queryStr))
-            {
-                ui->msgInput->setText("");
-                ui->msgOutput->setText("");
-            }
-            ReadDB();
+            msgBox.setText(msgBoxWarning);
+            msgBox.exec();
+            return;
         }
+        //ожидание  подтверждение на удаление
+        msgBox.setText(msgBoxQuestion);
+        msgBox.setStandardButtons(QMessageBox::Yes);
+        msgBox.addButton(QMessageBox::No);
+        msgBox.setDefaultButton(QMessageBox::No);
+        //не удалить
+        if(msgBox.exec() == QMessageBox::No)
+            return;
+        //получить выделенную строку
+        QString str =  ui->tableWidget->item(indexList.at(0).row(),0)->text();
+        //запрос на удаление
+        QString queryStr = "DELETE FROM favorite WHERE enText='"+str+"';";
+        //выполнить запрос
+        QSqlQuery query = QSqlQuery(db);
+        query.exec(queryStr);
+        //обновить таблицу
+        ReadDB();
     }
 }
 
 void TranslateForm::resizeEvent(QResizeEvent*)
 {
+    //ширину первой колонки сделать половины ширины окна
     ui->tableWidget->setColumnWidth(0,(width()-20)/2);
+}
+
+void TranslateForm::setInterfaceLanguage(QString lang)
+{
+    if(lang == "ru")
+    {
+        ui->btmFavorite->setText("Добавить в избранные");
+        ui->btmRemove->setText("Удалить");
+        ui->btmTranslate->setText("Перевести");
+        ui->label1->setText("Английский");
+        ui->label2->setText("Русский");
+        ui->tableWidget->horizontalHeaderItem(0)->setText("Английский");
+        ui->tableWidget->horizontalHeaderItem(1)->setText("Русский");
+        msgBoxWarning = "Выберите пожалуйста слово для удаления!";
+        msgBoxQuestion = "Вы действительно хотите удалить это слово?";
+        msgBoxTitle = "Сообщение";
+        setWindowTitle("Переводчик");
+    }
 }

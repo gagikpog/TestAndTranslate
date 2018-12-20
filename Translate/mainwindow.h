@@ -14,9 +14,13 @@ class MainWindow : public QMainWindow
 public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
-
+    void setInterfaceLanguage(QString lang= "ru");
 private slots:
-    void on_pushButton_3_clicked();
+    void on_btmTranslate_clicked();
+
+    void on_btmLanguage_clicked();
+
+    void on_btmTraining_clicked();
 
 private:
     Ui::MainWindow *ui;

@@ -33,15 +33,15 @@ public:
     QSpacerItem *horizontalSpacer;
     QSpacerItem *verticalSpacer;
     QHBoxLayout *horizontalLayout_2;
-    QPushButton *pushButton_6;
+    QPushButton *btmLanguage;
     QSpacerItem *horizontalSpacer_3;
     QVBoxLayout *verticalLayout;
     QSpacerItem *verticalSpacer_2;
     QPushButton *pushButton;
-    QPushButton *pushButton_2;
-    QPushButton *pushButton_3;
-    QPushButton *pushButton_4;
-    QPushButton *pushButton_5;
+    QPushButton *btmTraining;
+    QPushButton *btmTranslate;
+    QPushButton *btmSetting;
+    QPushButton *btmExit;
     QSpacerItem *verticalSpacer_3;
     QSpacerItem *horizontalSpacer_4;
 
@@ -173,12 +173,12 @@ public:
         horizontalLayout_2 = new QHBoxLayout();
         horizontalLayout_2->setSpacing(6);
         horizontalLayout_2->setObjectName(QStringLiteral("horizontalLayout_2"));
-        pushButton_6 = new QPushButton(centralWidget);
-        pushButton_6->setObjectName(QStringLiteral("pushButton_6"));
-        pushButton_6->setMinimumSize(QSize(40, 40));
-        pushButton_6->setMaximumSize(QSize(40, 40));
+        btmLanguage = new QPushButton(centralWidget);
+        btmLanguage->setObjectName(QStringLiteral("btmLanguage"));
+        btmLanguage->setMinimumSize(QSize(40, 40));
+        btmLanguage->setMaximumSize(QSize(40, 40));
 
-        horizontalLayout_2->addWidget(pushButton_6);
+        horizontalLayout_2->addWidget(btmLanguage);
 
         horizontalSpacer_3 = new QSpacerItem(40, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
 
@@ -210,47 +210,47 @@ public:
 
         verticalLayout->addWidget(pushButton);
 
-        pushButton_2 = new QPushButton(centralWidget);
-        pushButton_2->setObjectName(QStringLiteral("pushButton_2"));
-        pushButton_2->setMinimumSize(QSize(300, 90));
-        pushButton_2->setMaximumSize(QSize(400, 100));
-        pushButton_2->setFont(font1);
-        pushButton_2->setCursor(QCursor(Qt::PointingHandCursor));
-        pushButton_2->setMouseTracking(false);
-        pushButton_2->setStyleSheet(QStringLiteral(""));
+        btmTraining = new QPushButton(centralWidget);
+        btmTraining->setObjectName(QStringLiteral("btmTraining"));
+        btmTraining->setMinimumSize(QSize(300, 90));
+        btmTraining->setMaximumSize(QSize(400, 100));
+        btmTraining->setFont(font1);
+        btmTraining->setCursor(QCursor(Qt::PointingHandCursor));
+        btmTraining->setMouseTracking(false);
+        btmTraining->setStyleSheet(QStringLiteral(""));
 
-        verticalLayout->addWidget(pushButton_2);
+        verticalLayout->addWidget(btmTraining);
 
-        pushButton_3 = new QPushButton(centralWidget);
-        pushButton_3->setObjectName(QStringLiteral("pushButton_3"));
-        pushButton_3->setMinimumSize(QSize(300, 90));
-        pushButton_3->setMaximumSize(QSize(400, 100));
-        pushButton_3->setFont(font1);
-        pushButton_3->setCursor(QCursor(Qt::PointingHandCursor));
-        pushButton_3->setMouseTracking(false);
-        pushButton_3->setStyleSheet(QStringLiteral(""));
+        btmTranslate = new QPushButton(centralWidget);
+        btmTranslate->setObjectName(QStringLiteral("btmTranslate"));
+        btmTranslate->setMinimumSize(QSize(300, 90));
+        btmTranslate->setMaximumSize(QSize(400, 100));
+        btmTranslate->setFont(font1);
+        btmTranslate->setCursor(QCursor(Qt::PointingHandCursor));
+        btmTranslate->setMouseTracking(false);
+        btmTranslate->setStyleSheet(QStringLiteral(""));
 
-        verticalLayout->addWidget(pushButton_3);
+        verticalLayout->addWidget(btmTranslate);
 
-        pushButton_4 = new QPushButton(centralWidget);
-        pushButton_4->setObjectName(QStringLiteral("pushButton_4"));
-        pushButton_4->setMinimumSize(QSize(300, 90));
-        pushButton_4->setMaximumSize(QSize(400, 100));
-        pushButton_4->setFont(font1);
-        pushButton_4->setCursor(QCursor(Qt::PointingHandCursor));
-        pushButton_4->setMouseTracking(false);
-        pushButton_4->setStyleSheet(QStringLiteral(""));
+        btmSetting = new QPushButton(centralWidget);
+        btmSetting->setObjectName(QStringLiteral("btmSetting"));
+        btmSetting->setMinimumSize(QSize(300, 90));
+        btmSetting->setMaximumSize(QSize(400, 100));
+        btmSetting->setFont(font1);
+        btmSetting->setCursor(QCursor(Qt::PointingHandCursor));
+        btmSetting->setMouseTracking(false);
+        btmSetting->setStyleSheet(QStringLiteral(""));
 
-        verticalLayout->addWidget(pushButton_4);
+        verticalLayout->addWidget(btmSetting);
 
-        pushButton_5 = new QPushButton(centralWidget);
-        pushButton_5->setObjectName(QStringLiteral("pushButton_5"));
-        pushButton_5->setMinimumSize(QSize(300, 90));
-        pushButton_5->setMaximumSize(QSize(400, 100));
-        pushButton_5->setFont(font1);
-        pushButton_5->setCursor(QCursor(Qt::PointingHandCursor));
+        btmExit = new QPushButton(centralWidget);
+        btmExit->setObjectName(QStringLiteral("btmExit"));
+        btmExit->setMinimumSize(QSize(300, 90));
+        btmExit->setMaximumSize(QSize(400, 100));
+        btmExit->setFont(font1);
+        btmExit->setCursor(QCursor(Qt::PointingHandCursor));
 
-        verticalLayout->addWidget(pushButton_5);
+        verticalLayout->addWidget(btmExit);
 
         verticalSpacer_3 = new QSpacerItem(20, 40, QSizePolicy::Minimum, QSizePolicy::Expanding);
 
@@ -266,7 +266,7 @@ public:
         MainWindow->setCentralWidget(centralWidget);
 
         retranslateUi(MainWindow);
-        QObject::connect(pushButton_5, SIGNAL(clicked()), MainWindow, SLOT(close()));
+        QObject::connect(btmExit, SIGNAL(clicked()), MainWindow, SLOT(close()));
 
         QMetaObject::connectSlotsByName(MainWindow);
     } // setupUi
@@ -274,12 +274,12 @@ public:
     void retranslateUi(QMainWindow *MainWindow)
     {
         MainWindow->setWindowTitle(QApplication::translate("MainWindow", "MainWindow", Q_NULLPTR));
-        pushButton_6->setText(QApplication::translate("MainWindow", "\320\240\320\243", Q_NULLPTR));
+        btmLanguage->setText(QApplication::translate("MainWindow", "\320\240\320\243", Q_NULLPTR));
         pushButton->setText(QApplication::translate("MainWindow", "PushButton", Q_NULLPTR));
-        pushButton_2->setText(QApplication::translate("MainWindow", "Training", Q_NULLPTR));
-        pushButton_3->setText(QApplication::translate("MainWindow", "Translate", Q_NULLPTR));
-        pushButton_4->setText(QApplication::translate("MainWindow", "Settings", Q_NULLPTR));
-        pushButton_5->setText(QApplication::translate("MainWindow", "Exit", Q_NULLPTR));
+        btmTraining->setText(QApplication::translate("MainWindow", "Training", Q_NULLPTR));
+        btmTranslate->setText(QApplication::translate("MainWindow", "Translate", Q_NULLPTR));
+        btmSetting->setText(QApplication::translate("MainWindow", "Settings", Q_NULLPTR));
+        btmExit->setText(QApplication::translate("MainWindow", "Exit", Q_NULLPTR));
     } // retranslateUi
 
 };

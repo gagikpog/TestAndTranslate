@@ -52,13 +52,17 @@ OBJECTS_DIR   = ./
 
 SOURCES       = ../Translate/main.cpp \
 		../Translate/mainwindow.cpp \
-		../Translate/translateform.cpp moc_mainwindow.cpp \
-		moc_translateform.cpp
+		../Translate/translateform.cpp \
+		../Translate/trainingform.cpp moc_mainwindow.cpp \
+		moc_translateform.cpp \
+		moc_trainingform.cpp
 OBJECTS       = main.o \
 		mainwindow.o \
 		translateform.o \
+		trainingform.o \
 		moc_mainwindow.o \
-		moc_translateform.o
+		moc_translateform.o \
+		moc_trainingform.o
 DIST          = /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/spec_pre.prf \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/common/unix.conf \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/common/linux.conf \
@@ -134,9 +138,11 @@ DIST          = /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/spec_pre.prf \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/yacc.prf \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/lex.prf \
 		../Translate/Translate.pro ../Translate/mainwindow.h \
-		../Translate/translateform.h ../Translate/main.cpp \
+		../Translate/translateform.h \
+		../Translate/trainingform.h ../Translate/main.cpp \
 		../Translate/mainwindow.cpp \
-		../Translate/translateform.cpp
+		../Translate/translateform.cpp \
+		../Translate/trainingform.cpp
 QMAKE_TARGET  = Translate
 DESTDIR       = 
 TARGET        = Translate
@@ -145,7 +151,7 @@ TARGET        = Translate
 first: all
 ####### Build rules
 
-$(TARGET): ui_mainwindow.h ui_translateform.h $(OBJECTS)  
+$(TARGET): ui_mainwindow.h ui_translateform.h ui_trainingform.h $(OBJECTS)  
 	$(LINK) $(LFLAGS) -o $(TARGET) $(OBJECTS) $(OBJCOMP) $(LIBS)
 
 Makefile: ../Translate/Translate.pro /usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++/qmake.conf /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/spec_pre.prf \
@@ -324,9 +330,9 @@ distdir: FORCE
 	@test -d $(DISTDIR) || mkdir -p $(DISTDIR)
 	$(COPY_FILE) --parents $(DIST) $(DISTDIR)/
 	$(COPY_FILE) --parents /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/data/dummy.cpp $(DISTDIR)/
-	$(COPY_FILE) --parents ../Translate/mainwindow.h ../Translate/translateform.h $(DISTDIR)/
-	$(COPY_FILE) --parents ../Translate/main.cpp ../Translate/mainwindow.cpp ../Translate/translateform.cpp $(DISTDIR)/
-	$(COPY_FILE) --parents ../Translate/mainwindow.ui ../Translate/translateform.ui $(DISTDIR)/
+	$(COPY_FILE) --parents ../Translate/mainwindow.h ../Translate/translateform.h ../Translate/trainingform.h $(DISTDIR)/
+	$(COPY_FILE) --parents ../Translate/main.cpp ../Translate/mainwindow.cpp ../Translate/translateform.cpp ../Translate/trainingform.cpp $(DISTDIR)/
+	$(COPY_FILE) --parents ../Translate/mainwindow.ui ../Translate/translateform.ui ../Translate/trainingform.ui $(DISTDIR)/
 
 
 clean: compiler_clean 
@@ -358,9 +364,9 @@ compiler_moc_predefs_clean:
 moc_predefs.h: /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/data/dummy.cpp
 	g++ -pipe -g -Wall -W -dM -E -o moc_predefs.h /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/data/dummy.cpp
 
-compiler_moc_header_make_all: moc_mainwindow.cpp moc_translateform.cpp
+compiler_moc_header_make_all: moc_mainwindow.cpp moc_translateform.cpp moc_trainingform.cpp
 compiler_moc_header_clean:
-	-$(DEL_FILE) moc_mainwindow.cpp moc_translateform.cpp
+	-$(DEL_FILE) moc_mainwindow.cpp moc_translateform.cpp moc_trainingform.cpp
 moc_mainwindow.cpp: ../Translate/mainwindow.h \
 		moc_predefs.h \
 		/usr/lib/qt5/bin/moc
@@ -371,11 +377,16 @@ moc_translateform.cpp: ../Translate/translateform.h \
 		/usr/lib/qt5/bin/moc
 	/usr/lib/qt5/bin/moc $(DEFINES) --include ./moc_predefs.h -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++ -I/home/gagik/Documents/QT/Translate/Translate -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtWidgets -I/usr/include/x86_64-linux-gnu/qt5/QtGui -I/usr/include/x86_64-linux-gnu/qt5/QtNetwork -I/usr/include/x86_64-linux-gnu/qt5/QtSql -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I. -I/usr/include/c++/7 -I/usr/include/x86_64-linux-gnu/c++/7 -I/usr/include/c++/7/backward -I/usr/lib/gcc/x86_64-linux-gnu/7/include -I/usr/local/include -I/usr/lib/gcc/x86_64-linux-gnu/7/include-fixed -I/usr/include/x86_64-linux-gnu -I/usr/include ../Translate/translateform.h -o moc_translateform.cpp
 
+moc_trainingform.cpp: ../Translate/trainingform.h \
+		moc_predefs.h \
+		/usr/lib/qt5/bin/moc
+	/usr/lib/qt5/bin/moc $(DEFINES) --include ./moc_predefs.h -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++ -I/home/gagik/Documents/QT/Translate/Translate -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtWidgets -I/usr/include/x86_64-linux-gnu/qt5/QtGui -I/usr/include/x86_64-linux-gnu/qt5/QtNetwork -I/usr/include/x86_64-linux-gnu/qt5/QtSql -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I. -I/usr/include/c++/7 -I/usr/include/x86_64-linux-gnu/c++/7 -I/usr/include/c++/7/backward -I/usr/lib/gcc/x86_64-linux-gnu/7/include -I/usr/local/include -I/usr/lib/gcc/x86_64-linux-gnu/7/include-fixed -I/usr/include/x86_64-linux-gnu -I/usr/include ../Translate/trainingform.h -o moc_trainingform.cpp
+
 compiler_moc_source_make_all:
 compiler_moc_source_clean:
-compiler_uic_make_all: ui_mainwindow.h ui_translateform.h
+compiler_uic_make_all: ui_mainwindow.h ui_translateform.h ui_trainingform.h
 compiler_uic_clean:
-	-$(DEL_FILE) ui_mainwindow.h ui_translateform.h
+	-$(DEL_FILE) ui_mainwindow.h ui_translateform.h ui_trainingform.h
 ui_mainwindow.h: ../Translate/mainwindow.ui \
 		/usr/lib/qt5/bin/uic
 	/usr/lib/qt5/bin/uic ../Translate/mainwindow.ui -o ui_mainwindow.h
@@ -383,6 +394,10 @@ ui_mainwindow.h: ../Translate/mainwindow.ui \
 ui_translateform.h: ../Translate/translateform.ui \
 		/usr/lib/qt5/bin/uic
 	/usr/lib/qt5/bin/uic ../Translate/translateform.ui -o ui_translateform.h
+
+ui_trainingform.h: ../Translate/trainingform.ui \
+		/usr/lib/qt5/bin/uic
+	/usr/lib/qt5/bin/uic ../Translate/trainingform.ui -o ui_trainingform.h
 
 compiler_yacc_decl_make_all:
 compiler_yacc_decl_clean:
@@ -406,11 +421,18 @@ translateform.o: ../Translate/translateform.cpp ../Translate/translateform.h \
 		ui_translateform.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o translateform.o ../Translate/translateform.cpp
 
+trainingform.o: ../Translate/trainingform.cpp ../Translate/trainingform.h \
+		ui_trainingform.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o trainingform.o ../Translate/trainingform.cpp
+
 moc_mainwindow.o: moc_mainwindow.cpp 
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_mainwindow.o moc_mainwindow.cpp
 
 moc_translateform.o: moc_translateform.cpp 
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_translateform.o moc_translateform.cpp
+
+moc_trainingform.o: moc_trainingform.cpp 
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_trainingform.o moc_trainingform.cpp
 
 ####### Install
 

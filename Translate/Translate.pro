@@ -28,12 +28,15 @@ DEFINES += QT_DEPRECATED_WARNINGS
 SOURCES += \
         main.cpp \
         mainwindow.cpp \
-    translateform.cpp
+    translateform.cpp \
+    trainingform.cpp
 
 HEADERS += \
         mainwindow.h \
-    translateform.h
+    translateform.h \
+    trainingform.h
 
 FORMS += \
         mainwindow.ui \
-    translateform.ui
+    translateform.ui \
+    trainingform.ui

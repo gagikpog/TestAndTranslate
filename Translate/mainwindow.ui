@@ -304,7 +304,7 @@ radius: 1.3, stop: 0 #e5e5e5, stop: 1 #d5d5d5);
       <item>
        <layout class="QHBoxLayout" name="horizontalLayout_2">
         <item>
-         <widget class="QPushButton" name="pushButton_6">
+         <widget class="QPushButton" name="btmLanguage">
           <property name="minimumSize">
            <size>
             <width>40</width>
@@ -394,7 +394,7 @@ radius: 1.3, stop: 0 #e5e5e5, stop: 1 #d5d5d5);
        </widget>
       </item>
       <item>
-       <widget class="QPushButton" name="pushButton_2">
+       <widget class="QPushButton" name="btmTraining">
         <property name="minimumSize">
          <size>
           <width>300</width>
@@ -427,7 +427,7 @@ radius: 1.3, stop: 0 #e5e5e5, stop: 1 #d5d5d5);
        </widget>
       </item>
       <item>
-       <widget class="QPushButton" name="pushButton_3">
+       <widget class="QPushButton" name="btmTranslate">
         <property name="minimumSize">
          <size>
           <width>300</width>
@@ -460,7 +460,7 @@ radius: 1.3, stop: 0 #e5e5e5, stop: 1 #d5d5d5);
        </widget>
       </item>
       <item>
-       <widget class="QPushButton" name="pushButton_4">
+       <widget class="QPushButton" name="btmSetting">
         <property name="minimumSize">
          <size>
           <width>300</width>
@@ -493,7 +493,7 @@ radius: 1.3, stop: 0 #e5e5e5, stop: 1 #d5d5d5);
        </widget>
       </item>
       <item>
-       <widget class="QPushButton" name="pushButton_5">
+       <widget class="QPushButton" name="btmExit">
         <property name="minimumSize">
          <size>
           <width>300</width>
@@ -557,7 +557,7 @@ radius: 1.3, stop: 0 #e5e5e5, stop: 1 #d5d5d5);
  <resources/>
  <connections>
   <connection>
-   <sender>pushButton_5</sender>
+   <sender>btmExit</sender>
    <signal>clicked()</signal>
    <receiver>MainWindow</receiver>
    <slot>close()</slot>

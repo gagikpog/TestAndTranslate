@@ -194,7 +194,7 @@ public:
     {
         TranslateForm->setWindowTitle(QApplication::translate("TranslateForm", "Dialog", Q_NULLPTR));
         btmTranslate->setText(QApplication::translate("TranslateForm", "Translate", Q_NULLPTR));
-        btmFavorite->setText(QApplication::translate("TranslateForm", "Favorite", Q_NULLPTR));
+        btmFavorite->setText(QApplication::translate("TranslateForm", "Add to Favorites", Q_NULLPTR));
         btmRemove->setText(QApplication::translate("TranslateForm", "Remove", Q_NULLPTR));
         label2->setText(QApplication::translate("TranslateForm", "Russian", Q_NULLPTR));
         btmLanguage->setText(QApplication::translate("TranslateForm", "\360\237\227\230", Q_NULLPTR));

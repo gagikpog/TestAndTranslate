@@ -85,7 +85,7 @@ padding: 0px 10px;
         </font>
        </property>
        <property name="text">
-        <string>Favorite</string>
+        <string>Add to Favorites</string>
        </property>
       </widget>
      </item>

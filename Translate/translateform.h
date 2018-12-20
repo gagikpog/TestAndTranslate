@@ -27,6 +27,7 @@ class TranslateForm : public QDialog
 public:
     explicit TranslateForm(QWidget *parent = 0);
     ~TranslateForm();
+    void setInterfaceLanguage(QString lang = "ru");
 
 private slots:
     void replyFinished(QNetworkReply* reply);
@@ -42,6 +43,9 @@ private slots:
 private:
     Ui::TranslateForm *ui;
     QString TranslateLanguage = "ru";
+    QString msgBoxQuestion = "Do you really want to delete this word?";
+    QString msgBoxWarning = "Please select a word to remove!";
+    QString msgBoxTitle = "Message";
     QSqlDatabase db;
 };
 
