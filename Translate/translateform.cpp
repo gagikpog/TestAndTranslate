@@ -1,20 +1,19 @@
 #include "translateform.h"
 #include "ui_translateform.h"
-#include <QNetworkReply>
-#include <QRegularExpression>
-#include <QString>
-#include <QSql>
-#include <QSqlDatabase>
-#include <QSqlQuery>
-#include <QSqlRecord>
 
 TranslateForm::TranslateForm(QWidget *parent) : QDialog(parent), ui(new Ui::TranslateForm)
 {
     ui->setupUi(this);
+    db = QSqlDatabase::addDatabase("QSQLITE");
+    db.setDatabaseName("data.db");
+    ReadDB();
 }
 
 TranslateForm::~TranslateForm()
 {
+    //закрываю соединение
+    db.close();
+    db.removeDatabase("data.db");
     delete ui;
 }
 
@@ -46,28 +45,27 @@ void TranslateForm::replyFinished(QNetworkReply* reply)
 void TranslateForm::ReadDB()
 {
     //создаем подключение к БД
-    QSqlDatabase db = QSqlDatabase::addDatabase("QSQLITE");
-    db.setDatabaseName("data.db");
+    //QSqlDatabase db = QSqlDatabase::addDatabase("QSQLITE");
+    //db.setDatabaseName("data.db");
     if(db.open())
     {
-        //очистить список
-        ui->listWidget->clear();
         //запрос на выделение всего
         QSqlQuery query = QSqlQuery("SELECT * FROM favorite",db);
         //получаю номера колонок
         int enNo = query.record().indexOf("enText");
         int ruNo = query.record().indexOf("ruText");
-        int raNo = query.record().indexOf("rating");
+        //int raNo = query.record().indexOf("rating");
        //по очереди вывожу все
-        while (query.next()) {
-            QString str = query.value(enNo).toString();
-            str += " " + query.value(ruNo).toString();
-            str += " " + query.value(raNo).toString();
-            ui->listWidget->addItem(str);
+        int i = 0;
+        while (query.next())
+        {
+            i++;
+            ui->tableWidget->setRowCount(i);
+            QTableWidgetItem *itemEN = new QTableWidgetItem (query.value(enNo).toString());
+            QTableWidgetItem *itemRU = new QTableWidgetItem (query.value(ruNo).toString());
+            ui->tableWidget->setItem(i-1,0,itemEN);
+            ui->tableWidget->setItem(i-1,1,itemRU);
         }
-        //закрываю соединение
-        db.close();
-        db.removeDatabase("data.db");
     }
 }
 
@@ -85,11 +83,42 @@ void TranslateForm::on_btmLanguage_clicked()
         ui->label1->setText("English");
         ui->label2->setText("Russian");
     }
+    QString tmp = ui->msgOutput->text();
+    ui->msgOutput->setText(ui->msgInput->text());
+    ui->msgInput->setText(tmp);
 }
 
 void TranslateForm::on_btmFavorite_clicked()
 {
-    ReadDB();
+    QString txt1,txt2;
+    txt1 = ui->msgInput->text();
+    txt2 = ui->msgOutput->text();
+    if( txt1 != "" && txt2 != "")
+    {
+        if(TranslateLanguage == "en")
+            txt1.swap(txt2);
+
+        if(db.open())
+        {
+            if(!ui->tableWidget->findItems(txt1,0).empty())
+            {
+                QMessageBox msgBox;
+                msgBox.setText("The word has already been added");
+                msgBox.exec();
+                return;
+            }
+            QString queryStr = "INSERT INTO favorite (enText , ruText) VALUES('"+txt1+"','"+txt2+"');";
+            //
+            QSqlQuery query = QSqlQuery(db);
+            if(query.exec(queryStr))
+            {
+                ui->msgInput->setText("");
+                ui->msgOutput->setText("");
+            }
+            ReadDB();
+        }
+    }
+
 }
 
 void TranslateForm::on_btmTranslate_clicked()
@@ -101,7 +130,7 @@ void TranslateForm::on_btmTranslate_clicked()
     //это мой личный ключ. НЕ ТРОГАТЬ!
     QString myYandexKey = "trnsl.1.1.20181218T063705Z.c1ca51e673146583.e557c8ab73bfc914cc1311dc2ec7646f9b1fa50f";
     //то что нужно переводить
-    QString translateText = ui->msgInput->toPlainText();
+    QString translateText = ui->msgInput->text();
     //нечего переводить
     if(translateText == "")
     {
@@ -114,3 +143,41 @@ void TranslateForm::on_btmTranslate_clicked()
     NAM->get(QNetworkRequest(QUrl(host+"?key="+myYandexKey+"&text="+translateText+"&lang="+TranslateLanguage)));
 }
 
+void TranslateForm::on_msgInput_returnPressed()
+{
+    on_btmTranslate_clicked();
+}
+
+void TranslateForm::on_btmRemove_clicked()
+{
+    if(db.open())
+    {
+        QModelIndexList indexList = ui->tableWidget->selectionModel()->selectedIndexes();
+        if(!indexList.empty())
+        {
+            QMessageBox msgBox;
+            msgBox.setWindowTitle("Message");
+            msgBox.setText("Do you really want to delete this word?");
+            msgBox.setStandardButtons(QMessageBox::Yes);
+            msgBox.addButton(QMessageBox::No);
+            msgBox.setDefaultButton(QMessageBox::No);
+            if(msgBox.exec() == QMessageBox::No)
+                return;
+            QString str =  ui->tableWidget->item(indexList.at(0).row(),0)->text();
+            QString queryStr = "DELETE FROM favorite WHERE enText='"+str+"';";
+            //
+            QSqlQuery query = QSqlQuery(db);
+            if(query.exec(queryStr))
+            {
+                ui->msgInput->setText("");
+                ui->msgOutput->setText("");
+            }
+            ReadDB();
+        }
+    }
+}
+
+void TranslateForm::resizeEvent(QResizeEvent*)
+{
+    ui->tableWidget->setColumnWidth(0,(width()-20)/2);
+}

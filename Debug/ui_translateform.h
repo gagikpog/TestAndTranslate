@@ -18,9 +18,9 @@
 #include <QtWidgets/QHBoxLayout>
 #include <QtWidgets/QHeaderView>
 #include <QtWidgets/QLabel>
-#include <QtWidgets/QListWidget>
+#include <QtWidgets/QLineEdit>
 #include <QtWidgets/QPushButton>
-#include <QtWidgets/QTextEdit>
+#include <QtWidgets/QTableWidget>
 #include <QtWidgets/QVBoxLayout>
 
 QT_BEGIN_NAMESPACE
@@ -34,18 +34,18 @@ public:
     QPushButton *btmFavorite;
     QPushButton *btmRemove;
     QGridLayout *gridLayout;
-    QTextEdit *msgOutput;
-    QTextEdit *msgInput;
     QLabel *label2;
     QPushButton *btmLanguage;
     QLabel *label1;
-    QListWidget *listWidget;
+    QLineEdit *msgInput;
+    QLineEdit *msgOutput;
+    QTableWidget *tableWidget;
 
     void setupUi(QDialog *TranslateForm)
     {
         if (TranslateForm->objectName().isEmpty())
             TranslateForm->setObjectName(QStringLiteral("TranslateForm"));
-        TranslateForm->resize(834, 624);
+        TranslateForm->resize(634, 736);
         TranslateForm->setStyleSheet(QLatin1String("QWidget {\n"
 "background: qradialgradient(cx: 0.3, cy: -0.4,\n"
 "fx: 0.3, fy: -0.4,\n"
@@ -112,18 +112,6 @@ public:
         gridLayout = new QGridLayout();
         gridLayout->setObjectName(QStringLiteral("gridLayout"));
         gridLayout->setVerticalSpacing(10);
-        msgOutput = new QTextEdit(TranslateForm);
-        msgOutput->setObjectName(QStringLiteral("msgOutput"));
-        msgOutput->setMaximumSize(QSize(16777215, 100));
-
-        gridLayout->addWidget(msgOutput, 1, 2, 1, 1);
-
-        msgInput = new QTextEdit(TranslateForm);
-        msgInput->setObjectName(QStringLiteral("msgInput"));
-        msgInput->setMaximumSize(QSize(16777215, 100));
-
-        gridLayout->addWidget(msgInput, 1, 0, 1, 1);
-
         label2 = new QLabel(TranslateForm);
         label2->setObjectName(QStringLiteral("label2"));
 
@@ -147,13 +135,54 @@ public:
 
         gridLayout->addWidget(label1, 0, 0, 1, 1);
 
+        msgInput = new QLineEdit(TranslateForm);
+        msgInput->setObjectName(QStringLiteral("msgInput"));
+        msgInput->setMinimumSize(QSize(0, 40));
+
+        gridLayout->addWidget(msgInput, 1, 0, 1, 1);
+
+        msgOutput = new QLineEdit(TranslateForm);
+        msgOutput->setObjectName(QStringLiteral("msgOutput"));
+        msgOutput->setMinimumSize(QSize(0, 40));
+
+        gridLayout->addWidget(msgOutput, 1, 2, 1, 1);
+
 
         verticalLayout->addLayout(gridLayout);
 
-        listWidget = new QListWidget(TranslateForm);
-        listWidget->setObjectName(QStringLiteral("listWidget"));
+        tableWidget = new QTableWidget(TranslateForm);
+        if (tableWidget->columnCount() < 2)
+            tableWidget->setColumnCount(2);
+        QTableWidgetItem *__qtablewidgetitem = new QTableWidgetItem();
+        tableWidget->setHorizontalHeaderItem(0, __qtablewidgetitem);
+        QTableWidgetItem *__qtablewidgetitem1 = new QTableWidgetItem();
+        tableWidget->setHorizontalHeaderItem(1, __qtablewidgetitem1);
+        tableWidget->setObjectName(QStringLiteral("tableWidget"));
+        tableWidget->setMinimumSize(QSize(0, 300));
+        tableWidget->setAcceptDrops(false);
+        tableWidget->setAutoFillBackground(false);
+        tableWidget->setLineWidth(1);
+        tableWidget->setEditTriggers(QAbstractItemView::NoEditTriggers);
+        tableWidget->setDragDropOverwriteMode(false);
+        tableWidget->setSelectionMode(QAbstractItemView::SingleSelection);
+        tableWidget->setSelectionBehavior(QAbstractItemView::SelectRows);
+        tableWidget->setShowGrid(false);
+        tableWidget->setGridStyle(Qt::SolidLine);
+        tableWidget->setSortingEnabled(false);
+        tableWidget->setWordWrap(true);
+        tableWidget->setRowCount(0);
+        tableWidget->horizontalHeader()->setVisible(true);
+        tableWidget->horizontalHeader()->setCascadingSectionResizes(false);
+        tableWidget->horizontalHeader()->setDefaultSectionSize(0);
+        tableWidget->horizontalHeader()->setHighlightSections(true);
+        tableWidget->horizontalHeader()->setProperty("showSortIndicator", QVariant(false));
+        tableWidget->horizontalHeader()->setStretchLastSection(true);
+        tableWidget->verticalHeader()->setVisible(false);
+        tableWidget->verticalHeader()->setCascadingSectionResizes(false);
+        tableWidget->verticalHeader()->setProperty("showSortIndicator", QVariant(false));
+        tableWidget->verticalHeader()->setStretchLastSection(false);
 
-        verticalLayout->addWidget(listWidget);
+        verticalLayout->addWidget(tableWidget);
 
 
         retranslateUi(TranslateForm);
@@ -170,6 +199,12 @@ public:
         label2->setText(QApplication::translate("TranslateForm", "Russian", Q_NULLPTR));
         btmLanguage->setText(QApplication::translate("TranslateForm", "\360\237\227\230", Q_NULLPTR));
         label1->setText(QApplication::translate("TranslateForm", "English", Q_NULLPTR));
+        msgInput->setText(QString());
+        msgOutput->setText(QString());
+        QTableWidgetItem *___qtablewidgetitem = tableWidget->horizontalHeaderItem(0);
+        ___qtablewidgetitem->setText(QApplication::translate("TranslateForm", "English", Q_NULLPTR));
+        QTableWidgetItem *___qtablewidgetitem1 = tableWidget->horizontalHeaderItem(1);
+        ___qtablewidgetitem1->setText(QApplication::translate("TranslateForm", "Russian", Q_NULLPTR));
     } // retranslateUi
 
 };
