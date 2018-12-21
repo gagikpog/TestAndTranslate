@@ -17,7 +17,7 @@
 #include <QtWidgets/QHBoxLayout>
 #include <QtWidgets/QHeaderView>
 #include <QtWidgets/QLabel>
-#include <QtWidgets/QListView>
+#include <QtWidgets/QListWidget>
 #include <QtWidgets/QPushButton>
 #include <QtWidgets/QSpacerItem>
 #include <QtWidgets/QVBoxLayout>
@@ -29,13 +29,13 @@ class Ui_TrainingForm
 public:
     QVBoxLayout *verticalLayout;
     QHBoxLayout *horizontalLayout_2;
-    QPushButton *pushButton;
-    QPushButton *pushButton_2;
+    QPushButton *btmCheck;
+    QPushButton *btmNext;
     QSpacerItem *horizontalSpacer;
     QHBoxLayout *horizontalLayout;
-    QListView *listView;
-    QListView *listView_2;
-    QLabel *label;
+    QListWidget *list1;
+    QListWidget *list2;
+    QLabel *labelStatus;
 
     void setupUi(QDialog *TrainingForm)
     {
@@ -78,17 +78,21 @@ public:
         verticalLayout->setObjectName(QStringLiteral("verticalLayout"));
         horizontalLayout_2 = new QHBoxLayout();
         horizontalLayout_2->setObjectName(QStringLiteral("horizontalLayout_2"));
-        pushButton = new QPushButton(TrainingForm);
-        pushButton->setObjectName(QStringLiteral("pushButton"));
-        pushButton->setMinimumSize(QSize(150, 40));
+        btmCheck = new QPushButton(TrainingForm);
+        btmCheck->setObjectName(QStringLiteral("btmCheck"));
+        btmCheck->setMinimumSize(QSize(150, 40));
+        QFont font;
+        font.setPointSize(14);
+        btmCheck->setFont(font);
 
-        horizontalLayout_2->addWidget(pushButton);
+        horizontalLayout_2->addWidget(btmCheck);
 
-        pushButton_2 = new QPushButton(TrainingForm);
-        pushButton_2->setObjectName(QStringLiteral("pushButton_2"));
-        pushButton_2->setMinimumSize(QSize(150, 40));
+        btmNext = new QPushButton(TrainingForm);
+        btmNext->setObjectName(QStringLiteral("btmNext"));
+        btmNext->setMinimumSize(QSize(150, 40));
+        btmNext->setFont(font);
 
-        horizontalLayout_2->addWidget(pushButton_2);
+        horizontalLayout_2->addWidget(btmNext);
 
         horizontalSpacer = new QSpacerItem(40, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
 
@@ -99,26 +103,32 @@ public:
 
         horizontalLayout = new QHBoxLayout();
         horizontalLayout->setObjectName(QStringLiteral("horizontalLayout"));
-        listView = new QListView(TrainingForm);
-        listView->setObjectName(QStringLiteral("listView"));
-        listView->setMinimumSize(QSize(250, 450));
+        list1 = new QListWidget(TrainingForm);
+        list1->setObjectName(QStringLiteral("list1"));
+        list1->setMinimumSize(QSize(200, 300));
+        QFont font1;
+        font1.setPointSize(12);
+        list1->setFont(font1);
 
-        horizontalLayout->addWidget(listView);
+        horizontalLayout->addWidget(list1);
 
-        listView_2 = new QListView(TrainingForm);
-        listView_2->setObjectName(QStringLiteral("listView_2"));
-        listView_2->setMinimumSize(QSize(250, 450));
+        list2 = new QListWidget(TrainingForm);
+        list2->setObjectName(QStringLiteral("list2"));
+        list2->setMinimumSize(QSize(200, 300));
+        list2->setFont(font1);
+        list2->setWordWrap(true);
+        list2->setSortingEnabled(true);
 
-        horizontalLayout->addWidget(listView_2);
+        horizontalLayout->addWidget(list2);
 
 
         verticalLayout->addLayout(horizontalLayout);
 
-        label = new QLabel(TrainingForm);
-        label->setObjectName(QStringLiteral("label"));
-        label->setMinimumSize(QSize(0, 30));
+        labelStatus = new QLabel(TrainingForm);
+        labelStatus->setObjectName(QStringLiteral("labelStatus"));
+        labelStatus->setMinimumSize(QSize(0, 30));
 
-        verticalLayout->addWidget(label);
+        verticalLayout->addWidget(labelStatus);
 
 
         retranslateUi(TrainingForm);
@@ -129,9 +139,9 @@ public:
     void retranslateUi(QDialog *TrainingForm)
     {
         TrainingForm->setWindowTitle(QApplication::translate("TrainingForm", "Dialog", Q_NULLPTR));
-        pushButton->setText(QApplication::translate("TrainingForm", "PushButton", Q_NULLPTR));
-        pushButton_2->setText(QApplication::translate("TrainingForm", "PushButton", Q_NULLPTR));
-        label->setText(QApplication::translate("TrainingForm", "TextLabel", Q_NULLPTR));
+        btmCheck->setText(QApplication::translate("TrainingForm", "Check", Q_NULLPTR));
+        btmNext->setText(QApplication::translate("TrainingForm", "Next", Q_NULLPTR));
+        labelStatus->setText(QString());
     } // retranslateUi
 
 };

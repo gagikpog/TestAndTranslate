@@ -36,9 +36,9 @@ private slots:
     void on_btmTranslate_clicked();
     void ReadDB();
     void on_msgInput_returnPressed();
-
     void on_btmRemove_clicked();
     void resizeEvent(QResizeEvent* event);
+    void on_btmClear_clicked();
 
 private:
     Ui::TranslateForm *ui;

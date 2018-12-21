@@ -39,6 +39,7 @@ public:
     QLabel *label1;
     QLineEdit *msgInput;
     QLineEdit *msgOutput;
+    QPushButton *btmClear;
     QTableWidget *tableWidget;
 
     void setupUi(QDialog *TranslateForm)
@@ -147,6 +148,30 @@ public:
 
         gridLayout->addWidget(msgOutput, 1, 2, 1, 1);
 
+        btmClear = new QPushButton(TranslateForm);
+        btmClear->setObjectName(QStringLiteral("btmClear"));
+        btmClear->setMaximumSize(QSize(30, 30));
+        QFont font1;
+        font1.setPointSize(14);
+        font1.setBold(false);
+        font1.setWeight(50);
+        btmClear->setFont(font1);
+        btmClear->setStyleSheet(QLatin1String("QPushButton{\n"
+"border-radius: 6px;\n"
+"border: 2px solid #555\n"
+"}\n"
+"\n"
+"QPushButton:hover{\n"
+"	background-color: #ff1111;\n"
+"	font-weight: 500;\n"
+"}\n"
+"QPushButton:pressed{\n"
+"	background-color: #ff6666;\n"
+"	font-weight: 400;\n"
+"}"));
+
+        gridLayout->addWidget(btmClear, 1, 1, 1, 1);
+
 
         verticalLayout->addLayout(gridLayout);
 
@@ -159,6 +184,9 @@ public:
         tableWidget->setHorizontalHeaderItem(1, __qtablewidgetitem1);
         tableWidget->setObjectName(QStringLiteral("tableWidget"));
         tableWidget->setMinimumSize(QSize(0, 300));
+        QFont font2;
+        font2.setPointSize(12);
+        tableWidget->setFont(font2);
         tableWidget->setAcceptDrops(false);
         tableWidget->setAutoFillBackground(false);
         tableWidget->setLineWidth(1);
@@ -171,7 +199,7 @@ public:
         tableWidget->setSortingEnabled(false);
         tableWidget->setWordWrap(true);
         tableWidget->setRowCount(0);
-        tableWidget->horizontalHeader()->setVisible(true);
+        tableWidget->horizontalHeader()->setVisible(false);
         tableWidget->horizontalHeader()->setCascadingSectionResizes(false);
         tableWidget->horizontalHeader()->setDefaultSectionSize(0);
         tableWidget->horizontalHeader()->setHighlightSections(true);
@@ -201,6 +229,7 @@ public:
         label1->setText(QApplication::translate("TranslateForm", "English", Q_NULLPTR));
         msgInput->setText(QString());
         msgOutput->setText(QString());
+        btmClear->setText(QApplication::translate("TranslateForm", "X", Q_NULLPTR));
         QTableWidgetItem *___qtablewidgetitem = tableWidget->horizontalHeaderItem(0);
         ___qtablewidgetitem->setText(QApplication::translate("TranslateForm", "English", Q_NULLPTR));
         QTableWidgetItem *___qtablewidgetitem1 = tableWidget->horizontalHeaderItem(1);

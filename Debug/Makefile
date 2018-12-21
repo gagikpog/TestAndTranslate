@@ -414,7 +414,8 @@ main.o: ../Translate/main.cpp ../Translate/mainwindow.h
 
 mainwindow.o: ../Translate/mainwindow.cpp ../Translate/mainwindow.h \
 		ui_mainwindow.h \
-		../Translate/translateform.h
+		../Translate/translateform.h \
+		../Translate/trainingform.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o mainwindow.o ../Translate/mainwindow.cpp
 
 translateform.o: ../Translate/translateform.cpp ../Translate/translateform.h \

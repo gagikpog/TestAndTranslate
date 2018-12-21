@@ -221,3 +221,9 @@ void TranslateForm::setInterfaceLanguage(QString lang)
         setWindowTitle("Переводчик");
     }
 }
+
+void TranslateForm::on_btmClear_clicked()
+{
+    ui->msgInput->setText("");
+    ui->msgOutput->setText("");
+}

@@ -185,6 +185,41 @@ border: 2px solid #555
        </property>
       </widget>
      </item>
+     <item row="1" column="1">
+      <widget class="QPushButton" name="btmClear">
+       <property name="maximumSize">
+        <size>
+         <width>30</width>
+         <height>30</height>
+        </size>
+       </property>
+       <property name="font">
+        <font>
+         <pointsize>14</pointsize>
+         <weight>50</weight>
+         <bold>false</bold>
+        </font>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">QPushButton{
+border-radius: 6px;
+border: 2px solid #555
+}
+
+QPushButton:hover{
+	background-color: #ff1111;
+	font-weight: 500;
+}
+QPushButton:pressed{
+	background-color: #ff6666;
+	font-weight: 400;
+}</string>
+       </property>
+       <property name="text">
+        <string>X</string>
+       </property>
+      </widget>
+     </item>
     </layout>
    </item>
    <item>
@@ -194,6 +229,11 @@ border: 2px solid #555
        <width>0</width>
        <height>300</height>
       </size>
+     </property>
+     <property name="font">
+      <font>
+       <pointsize>12</pointsize>
+      </font>
      </property>
      <property name="acceptDrops">
       <bool>false</bool>
@@ -232,7 +272,7 @@ border: 2px solid #555
       <number>0</number>
      </property>
      <attribute name="horizontalHeaderVisible">
-      <bool>true</bool>
+      <bool>false</bool>
      </attribute>
      <attribute name="horizontalHeaderCascadingSectionResizes">
       <bool>false</bool>
