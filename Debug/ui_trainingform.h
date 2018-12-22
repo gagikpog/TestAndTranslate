@@ -61,6 +61,12 @@ public:
 "fx: 0.3, fy: -0.4,\n"
 "radius: 1.3, stop: 0 #eee, stop: 1 #ddd);\n"
 "}\n"
+"QPushButton:!enabled {\n"
+"background: qradialgradient(cx: 0.3, cy: -0.4,\n"
+"fx: 0.3, fy: -0.4,\n"
+"radius: 1.3, stop: 0 #fff, stop: 1 #fff);\n"
+"border: 1px solid #bbb\n"
+"}\n"
 "QPushButton:pressed {\n"
 "background: qradialgradient(cx: 0.4, cy: -0.1,\n"
 "fx: 0.4, fy: -0.1,\n"
@@ -130,6 +136,9 @@ public:
 
         verticalLayout->addWidget(labelStatus);
 
+        QWidget::setTabOrder(btmCheck, btmNext);
+        QWidget::setTabOrder(btmNext, list1);
+        QWidget::setTabOrder(list1, list2);
 
         retranslateUi(TrainingForm);
 

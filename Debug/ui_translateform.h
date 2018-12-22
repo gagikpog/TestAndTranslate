@@ -52,7 +52,12 @@ public:
 "fx: 0.3, fy: -0.4,\n"
 "radius: 1.3, stop: 0 #fff, stop: 1 #ddd);\n"
 "}\n"
-"\n"
+"QPushButton:!enabled {\n"
+"background: qradialgradient(cx: 0.3, cy: -0.4,\n"
+"fx: 0.3, fy: -0.4,\n"
+"radius: 1.3, stop: 0 #fff, stop: 1 #fff);\n"
+"border: 1px solid #bbb\n"
+"}\n"
 "QPushButton {\n"
 "color: #000;\n"
 "border: 1px solid #555;\n"
@@ -212,6 +217,13 @@ public:
 
         verticalLayout->addWidget(tableWidget);
 
+        QWidget::setTabOrder(btmTranslate, btmFavorite);
+        QWidget::setTabOrder(btmFavorite, btmRemove);
+        QWidget::setTabOrder(btmRemove, btmLanguage);
+        QWidget::setTabOrder(btmLanguage, msgInput);
+        QWidget::setTabOrder(msgInput, btmClear);
+        QWidget::setTabOrder(btmClear, msgOutput);
+        QWidget::setTabOrder(msgOutput, tableWidget);
 
         retranslateUi(TranslateForm);
 

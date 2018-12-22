@@ -18,10 +18,13 @@ class TrainingForm : public QDialog
 public:
     explicit TrainingForm(QWidget *parent = 0);
     ~TrainingForm();
-    void setInterfaceLanguage();
-    int listLineCount = 20;
+    void setInterfaceLanguage(QString lang = "ru");
+    int listLineCount = 5;
 private slots:
     void on_btmCheck_clicked();
+    void on_btmNext_clicked();
+    void on_list1_clicked(const QModelIndex &index);
+    void on_list2_clicked(const QModelIndex &index);
 
 private:
     Ui::TrainingForm *ui;
@@ -32,6 +35,7 @@ private:
     void changeReatingBD(QString enWord,int val);
     QList<ssint> data;
     QSqlDatabase db;
+    int ansRight = 0, ansWrong = 0;
 };
 
 struct ssint

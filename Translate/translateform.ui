@@ -19,7 +19,12 @@ background: qradialgradient(cx: 0.3, cy: -0.4,
 fx: 0.3, fy: -0.4,
 radius: 1.3, stop: 0 #fff, stop: 1 #ddd);
 }
-
+QPushButton:!enabled {
+background: qradialgradient(cx: 0.3, cy: -0.4,
+fx: 0.3, fy: -0.4,
+radius: 1.3, stop: 0 #fff, stop: 1 #fff);
+border: 1px solid #bbb
+}
 QPushButton {
 color: #000;
 border: 1px solid #555;
@@ -315,6 +320,16 @@ QPushButton:pressed{
    </item>
   </layout>
  </widget>
+ <tabstops>
+  <tabstop>btmTranslate</tabstop>
+  <tabstop>btmFavorite</tabstop>
+  <tabstop>btmRemove</tabstop>
+  <tabstop>btmLanguage</tabstop>
+  <tabstop>msgInput</tabstop>
+  <tabstop>btmClear</tabstop>
+  <tabstop>msgOutput</tabstop>
+  <tabstop>tableWidget</tabstop>
+ </tabstops>
  <resources/>
  <connections/>
 </ui>

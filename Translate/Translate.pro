@@ -29,14 +29,17 @@ SOURCES += \
         main.cpp \
         mainwindow.cpp \
     translateform.cpp \
-    trainingform.cpp
+    trainingform.cpp \
+    constructorform.cpp
 
 HEADERS += \
         mainwindow.h \
     translateform.h \
-    trainingform.h
+    trainingform.h \
+    constructorform.h
 
 FORMS += \
         mainwindow.ui \
     translateform.ui \
-    trainingform.ui
+    trainingform.ui \
+    constructorform.ui
