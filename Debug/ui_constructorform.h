@@ -36,7 +36,7 @@ public:
     {
         if (ConstructorForm->objectName().isEmpty())
             ConstructorForm->setObjectName(QStringLiteral("ConstructorForm"));
-        ConstructorForm->resize(572, 475);
+        ConstructorForm->resize(719, 660);
         verticalLayout = new QVBoxLayout(ConstructorForm);
         verticalLayout->setObjectName(QStringLiteral("verticalLayout"));
         pushButton_2 = new QPushButton(ConstructorForm);

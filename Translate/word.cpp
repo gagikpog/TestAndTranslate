@@ -5,20 +5,25 @@ Word::Word(QWidget *parent) : QWidget(parent)
     txt = "text";
 }
 
+void Word::setText(QString t)
+{
+    txt = t;
+    font = QFont("ubuntu",11);
+    QFontMetrics fm(font);
+    int pixelsWide = fm.width(txt);
+    int pixelsHigh = fm.height();
+    setGeometry(pos().x(),pos().y(),pixelsWide+50,pixelsHigh+20);
+}
+
 void Word::paintEvent(QPaintEvent *event)
 {
     QRect rect = event->rect();
-       QPainter painter(this);
-       painter.setRenderHint(QPainter::Antialiasing);
-       painter.setPen(Qt::black);
-       painter.drawText(rect, Qt::AlignCenter,txt);
-       painter.drawRect(rect);
-       return;
-
-    //QPainter painter(this);
-    //QRectF size = QRectF(0,0,width(),height());
-   // painter.setBrush(Qt::red);
-       //painter.drawPie(size,0,90*16);
+    QPainter painter(this);
+    painter.setRenderHint(QPainter::Antialiasing);
+    painter.setPen(Qt::black);
+    painter.setFont(font);
+    painter.drawText(rect, Qt::AlignCenter,txt);
+    painter.drawRect(rect);
 }
 
 void Word::mousePressEvent(QMouseEvent *eventPress)
@@ -26,34 +31,32 @@ void Word::mousePressEvent(QMouseEvent *eventPress)
     QPoint p = eventPress->pos();
     w = p.x();
     h = p.y();
-    //Y = ((QGroupBox*)(parent()))->pos().y();
-
-    //txt = QString::number(w)+"|"+QString::number(h)+ "||" + QString::number(pos().x())+"|"+QString::number(pos().y());
-    //repaint();
-    //update();
 }
 
 void Word::mouseReleaseEvent(QMouseEvent *releaseEvent)
 {
+
 }
 
 void Word::mouseMoveEvent(QMouseEvent *eventMove)
 {
-    QPoint point = QCursor::pos();
+    QPoint cousorPos = QCursor::pos();
     QGroupBox* prnt = ((QGroupBox*)parent());
-    QPoint parentPos = QWidget::mapToGlobal(prnt->pos());
-    point.rx() -= w;
-    point.ry() -= h;
+    QPoint parentPos = parentWidget()->mapToGlobal(QPoint(0,0));
+    cousorPos.rx() -= w;
+    cousorPos.ry() -= h;
 
-    if(point.x() < parentPos.x())
-        point.rx() = parentPos.x();
-    if(point.y() < parentPos.y())
-        point.ry() = parentPos.y();
-    //if(point.x()+width() > prnt->width()+prnt->pos().x())
-        //point.rx() = prnt->pos().x() + prnt->width() - width();
+    if(cousorPos.x() < parentPos.x())
+        cousorPos.rx() = parentPos.x();
+    if(cousorPos.y() < parentPos.y())
+        cousorPos.ry() = parentPos.y();
+    if(cousorPos.x() + width() > prnt->width() + parentPos.x())
+        cousorPos.rx() = parentPos.x() + prnt->width() - width();
+    if(cousorPos.y() + height() > prnt->height() + parentPos.y())
+        cousorPos.ry() = parentPos.y() + prnt->height() - height();
 
-    move(parentWidget()->mapFromGlobal(point));
-    //setGeometry(eventMove->pos().x(),eventMove->pos().y(),size().width(),size().height());
-    txt = QString::number(w)+"|"+QString::number(h)+ "||" + QString::number(eventMove->pos().x())+"|"+QString::number(eventMove->pos().y());
+    move(parentWidget()->mapFromGlobal(cousorPos));
+    //txt = QString::number(w)+"|"+QString::number(h)+ "||" + QString::number(parentPos.x())+"|"+QString::number(parentPos.y());
     repaint();
+    update();
 }

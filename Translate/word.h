@@ -11,7 +11,7 @@ class Word : public QWidget
     Q_OBJECT
 public:
     explicit Word(QWidget *parent = nullptr);
-    void setText(QString t){txt = t;}
+    void setText(QString t);
     QString text()const{return txt;}
 signals:
 
@@ -26,6 +26,7 @@ private:
     QString txt;
     int X,Y;
     int w = 0,h = 0;
+    QFont font;
 };
 
 #endif // WORD_H

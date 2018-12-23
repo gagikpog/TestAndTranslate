@@ -16,7 +16,9 @@ void ConstructorForm::on_pushButton_clicked()
 {
     Word* word = new Word(ui->frame);
     //word->setGeometry(0,0,word->size().width(),word->size().height());
-    word->setGeometry(0,0,500,500);
+
+    word->setGeometry(0,0,100,40);
+    word->setText("Hello");
     word->show();
 
 }
