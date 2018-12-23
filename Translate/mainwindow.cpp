@@ -2,6 +2,7 @@
 #include "ui_mainwindow.h"
 #include "translateform.h"
 #include "trainingform.h"
+#include "constructorform.h"
 
 MainWindow::MainWindow(QWidget *parent): QMainWindow(parent), ui(new Ui::MainWindow)
 {
@@ -58,5 +59,15 @@ void MainWindow::on_btmTraining_clicked()
         trForm->setInterfaceLanguage();
     this->hide();
     trForm->exec();
+    this->show();
+}
+
+void MainWindow::on_pushButton_clicked()
+{
+    ConstructorForm *form = new ConstructorForm();
+    //if(ui->btmLanguage->text() == "EN")
+    //    form->setInterfaceLanguage();
+    this->hide();
+    form->exec();
     this->show();
 }

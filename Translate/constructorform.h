@@ -15,6 +15,9 @@ public:
     explicit ConstructorForm(QWidget *parent = 0);
     ~ConstructorForm();
 
+private slots:
+    void on_pushButton_clicked();
+
 private:
     Ui::ConstructorForm *ui;
 };
