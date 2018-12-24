@@ -13,6 +13,7 @@ public:
     explicit Word(QWidget *parent = nullptr);
     void setText(QString t);
     QString text()const{return txt;}
+    int ID()const{return id;}
 signals:
 
 public slots:
@@ -27,6 +28,9 @@ private:
     int X,Y;
     int w = 0,h = 0;
     QFont font;
+    void ListUpdate();
+    static int currentID;
+    int id;
 };
 
 #endif // WORD_H

@@ -1,8 +1,14 @@
 #include "word.h"
+#include "constructorform.h"
+
+
+int Word::currentID = 0;
 
 Word::Word(QWidget *parent) : QWidget(parent)
 {
     txt = "text";
+    id = currentID;
+    currentID++;
 }
 
 void Word::setText(QString t)
@@ -21,9 +27,15 @@ void Word::paintEvent(QPaintEvent *event)
     QPainter painter(this);
     painter.setRenderHint(QPainter::Antialiasing);
     painter.setPen(Qt::black);
+
+    QPainterPath path;
+    path.addRoundedRect(QRectF(0, 0, rect.width(),rect.height()), 0, 0);
+    painter.fillPath(path,Qt::white);
+    painter.drawRect(rect);
+
+
     painter.setFont(font);
     painter.drawText(rect, Qt::AlignCenter,txt);
-    painter.drawRect(rect);
 }
 
 void Word::mousePressEvent(QMouseEvent *eventPress)
@@ -31,14 +43,19 @@ void Word::mousePressEvent(QMouseEvent *eventPress)
     QPoint p = eventPress->pos();
     w = p.x();
     h = p.y();
+    //ListUpdate();
+    show();
+    activateWindow();
+    raise();
+    //repaint();
 }
 
-void Word::mouseReleaseEvent(QMouseEvent *releaseEvent)
+void Word::mouseReleaseEvent(QMouseEvent *)
 {
 
 }
 
-void Word::mouseMoveEvent(QMouseEvent *eventMove)
+void Word::mouseMoveEvent(QMouseEvent *)
 {
     QPoint cousorPos = QCursor::pos();
     QGroupBox* prnt = ((QGroupBox*)parent());
@@ -57,6 +74,10 @@ void Word::mouseMoveEvent(QMouseEvent *eventMove)
 
     move(parentWidget()->mapFromGlobal(cousorPos));
     //txt = QString::number(w)+"|"+QString::number(h)+ "||" + QString::number(parentPos.x())+"|"+QString::number(parentPos.y());
-    repaint();
-    update();
+    ListUpdate();
+}
+
+void Word::ListUpdate()
+{
+    ((ConstructorForm*)(parent()->parent()))->ListUpdate(id);
 }
