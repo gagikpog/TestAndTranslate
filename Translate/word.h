@@ -14,6 +14,14 @@ public:
     void setText(QString t);
     QString text()const{return txt;}
     int ID()const{return id;}
+    void rmBack();
+    void rmFront();
+    void setBack(Word* word);
+    void setFront(Word* word);
+    void setPos(QPoint position);
+    QPoint posEnd()const;
+    const Word* Next()const{return next;}
+    const Word* Prev()const{return prev;}
 signals:
 
 public slots:
@@ -27,10 +35,13 @@ private:
     QString txt;
     int X,Y;
     int w = 0,h = 0;
+    int id;
+    int allBlocsWidth = height();
     QFont font;
     void ListUpdate();
     static int currentID;
-    int id;
+    Word* next = NULL;
+    Word* prev = NULL;
 };
 
 #endif // WORD_H

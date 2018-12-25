@@ -17,6 +17,7 @@ public:
     explicit ConstructorForm(QWidget *parent = 0);
     ~ConstructorForm();
     void ListUpdate(int id);
+    void ListConnect(int id);
 
 private slots:
     void on_pushButton_clicked();
@@ -24,6 +25,7 @@ private slots:
 private:
     Ui::ConstructorForm *ui;
     QList<Word*> words;
+    int connectionDistance = 50;
 };
 
 #endif // CONSTRUCTORFORM_H
