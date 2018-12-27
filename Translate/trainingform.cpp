@@ -14,6 +14,8 @@ TrainingForm::TrainingForm(QWidget *parent) : QDialog(parent), ui(new Ui::Traini
     ui->btmNext->setEnabled(false);
     db = QSqlDatabase::addDatabase("QSQLITE");
     db.setDatabaseName("data.db");
+    db.setPassword("sqlite18");
+    db.open();
     //fillDB();
     readAllData();
     fillLisrs();
@@ -39,7 +41,7 @@ void TrainingForm::fillDB()
     QFile file("selfnew.txt");
     if(!file.exists())
         return;
-    if(file.open(QIODevice::ReadOnly) && db.open())
+    if(file.open(QIODevice::ReadOnly) && db.isOpen())
     {
         QTextStream in(&file);
         QString strEn, strRu;
@@ -59,7 +61,7 @@ void TrainingForm::fillDB()
 
 void TrainingForm::readAllData()
 {
-    if(db.open())
+    if(db.isOpen())
     {
         //запрос на выделение всего
         QSqlQuery query = QSqlQuery("SELECT * FROM favorite",db);

@@ -8,6 +8,11 @@ TranslateForm::TranslateForm(QWidget *parent) : QDialog(parent), ui(new Ui::Tran
     //открываем соединение с базой
     db = QSqlDatabase::addDatabase("QSQLITE");
     db.setDatabaseName("data.db");
+    db.setPassword("sqlite18");
+    if(db.open())
+    {
+        qDebug()<<"OK";
+    }
     //заполнить таблицу
     ReadDB();
 }
@@ -50,7 +55,7 @@ void TranslateForm::ReadDB()
     //создаем подключение к БД
     //QSqlDatabase db = QSqlDatabase::addDatabase("QSQLITE");
     //db.setDatabaseName("data.db");
-    if(db.open())
+    if(db.isOpen())
     {
         //запрос на выделение всего
         QSqlQuery query = QSqlQuery("SELECT * FROM favorite",db);
@@ -107,7 +112,7 @@ void TranslateForm::on_btmFavorite_clicked()
         if(TranslateLanguage == "en")
             txt1.swap(txt2);
 
-        if(db.open())
+        if(db.isOpen())
         {
             //если слово уже добавлена предупреждаю и выхожу
             if(!ui->tableWidget->findItems(txt1,0).empty())
@@ -165,7 +170,7 @@ void TranslateForm::on_msgInput_returnPressed()
 void TranslateForm::on_btmRemove_clicked()
 {
     //удаление записи из базы
-    if(db.open())
+    if(db.isOpen())
     {
         QMessageBox msgBox;
         msgBox.setWindowTitle(msgBoxTitle);
