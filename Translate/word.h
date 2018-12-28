@@ -22,6 +22,8 @@ public:
     QPoint posEnd()const;
     const Word* Next()const{return next;}
     const Word* Prev()const{return prev;}
+    QPoint randomPos();
+
 signals:
 
 public slots:

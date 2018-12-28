@@ -4,6 +4,7 @@
 #include <QDialog>
 #include <QSqlDatabase>
 #include <QList>
+#include <QModelIndex>
 
 namespace Ui {
 class TrainingForm;

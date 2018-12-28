@@ -43,7 +43,7 @@
    <string notr="true"/>
   </property>
   <property name="locale">
-   <locale language="Russian" country="Russia"/>
+   <locale language="English" country="UnitedStates"/>
   </property>
   <widget class="QWidget" name="centralWidget">
    <property name="enabled">

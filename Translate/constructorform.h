@@ -4,6 +4,8 @@
 #include <QDialog>
 #include <QList>
 #include "word.h"
+#include <QSqlDatabase>
+#include <QPair>
 
 namespace Ui {
 class ConstructorForm;
@@ -22,10 +24,18 @@ public:
 private slots:
     void on_pushButton_clicked();
 
+    void on_pushButton_3_clicked();
+
 private:
     Ui::ConstructorForm *ui;
     QList<Word*> words;
     int connectionDistance = 50;
+    void readRUSentence();
+    QList<QPair<int,QString>> sentence;
+    QSqlDatabase db;
+    void addWord(QString text);
+    void loadSentence(int n);
+    QStringList getTranslatesById(int id);
 };
 
 #endif // CONSTRUCTORFORM_H

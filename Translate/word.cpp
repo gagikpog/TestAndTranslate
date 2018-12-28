@@ -91,6 +91,12 @@ QPoint Word::posEnd()const
     return QPoint(pos().x()+width(),pos().y());
 }
 
+QPoint Word::randomPos()
+{
+    setPos(QPoint(rand()%(((ConstructorForm*) parent())->width()-100),rand()%(((ConstructorForm*) parent())->height()-50)));
+    return pos();
+}
+
 void Word::paintEvent(QPaintEvent *event)
 {
     int l = 16;

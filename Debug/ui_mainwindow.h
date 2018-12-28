@@ -61,7 +61,7 @@ public:
         font.setWeight(50);
         MainWindow->setFont(font);
         MainWindow->setStyleSheet(QStringLiteral(""));
-        MainWindow->setLocale(QLocale(QLocale::Russian, QLocale::Russia));
+        MainWindow->setLocale(QLocale(QLocale::English, QLocale::UnitedStates));
         centralWidget = new QWidget(MainWindow);
         centralWidget->setObjectName(QStringLiteral("centralWidget"));
         centralWidget->setEnabled(true);

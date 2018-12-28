@@ -62,6 +62,12 @@ public:
 
         frame = new QGroupBox(ConstructorForm);
         frame->setObjectName(QStringLiteral("frame"));
+        QFont font;
+        font.setPointSize(13);
+        frame->setFont(font);
+        frame->setAlignment(Qt::AlignCenter);
+        frame->setFlat(false);
+        frame->setCheckable(false);
 
         verticalLayout->addWidget(frame);
 
@@ -75,8 +81,8 @@ public:
     {
         ConstructorForm->setWindowTitle(QApplication::translate("ConstructorForm", "Dialog", Q_NULLPTR));
         pushButton_2->setText(QApplication::translate("ConstructorForm", "PushButton", Q_NULLPTR));
-        pushButton_3->setText(QApplication::translate("ConstructorForm", "PushButton", Q_NULLPTR));
-        pushButton->setText(QApplication::translate("ConstructorForm", "PushButton", Q_NULLPTR));
+        pushButton_3->setText(QApplication::translate("ConstructorForm", "clear", Q_NULLPTR));
+        pushButton->setText(QApplication::translate("ConstructorForm", "add", Q_NULLPTR));
         label->setText(QApplication::translate("ConstructorForm", "TextLabel", Q_NULLPTR));
         frame->setTitle(QApplication::translate("ConstructorForm", "GroupBox", Q_NULLPTR));
     } // retranslateUi
