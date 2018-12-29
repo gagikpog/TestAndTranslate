@@ -3,6 +3,7 @@
 #include <QtMath>
 #include <QSqlQuery>
 #include <QSqlRecord>
+#include <QMessageBox>
 
 int distance(const QPoint& a,const QPoint& b)
 {
@@ -10,7 +11,6 @@ int distance(const QPoint& a,const QPoint& b)
     int h = a.y()-b.y();
     return qSqrt(w*w + h*h);
 }
-
 
 ConstructorForm::ConstructorForm(QWidget *parent) :QDialog(parent), ui(new Ui::ConstructorForm)
 {
@@ -74,7 +74,30 @@ void ConstructorForm::ListConnect(int id)
 
 void ConstructorForm::on_pushButton_clicked()
 {
+    QString res = getResultSentence();
+    QMessageBox msg(this);
+    if(res == "")
+    {
+        msg.setText("gab");
+        msg.exec();
+        return;
+    }
 
+    QStringList lst = getTranslatesById(sentence.at(sentenceNum).first);
+    for(int i = 0; i < lst.length();i++)
+    {
+        QString str = lst.at(i);
+        str = str.remove(QRegExp("\\W*")).toLower();
+        if(str == res)
+        {
+            msg.setText(sentence.at(sentenceNum).second+"\n"+lst.at(i));
+            msg.exec();
+            on_pushButton_3_clicked();
+            return;
+        }
+    }
+    msg.setText("wrong");
+    msg.exec();
 }
 
 void ConstructorForm::readRUSentence()
@@ -143,7 +166,35 @@ QStringList ConstructorForm::getTranslatesById(int id)
     return res;
 }
 
+QString ConstructorForm::getResultSentence()
+{
+    QString res = "";
+    int start = 0;
+    int count = 0;
+    for(int i = 0;i < words.length();i++)
+    {
+        if(!words.at(i)->Prev())
+        {
+            count++;
+            if(count >= 2)
+                break;
+            start = i;
+        }
+    }
+    if(count == 1)
+    {
+        for(const Word*ptr = words.at(start);ptr;ptr = ptr->Next())
+        {
+            res += ptr->text();
+        }
+    }
+    return res;
+}
+
 void ConstructorForm::on_pushButton_3_clicked()
 {
-    loadSentence(0);
+    sentenceNum++;
+    if(sentenceNum >= sentence.length())
+        sentenceNum = 0;
+    loadSentence(sentenceNum);
 }

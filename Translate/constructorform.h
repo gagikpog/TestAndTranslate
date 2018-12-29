@@ -23,19 +23,19 @@ public:
 
 private slots:
     void on_pushButton_clicked();
-
     void on_pushButton_3_clicked();
-
 private:
     Ui::ConstructorForm *ui;
     QList<Word*> words;
     int connectionDistance = 50;
+    int sentenceNum = 0;
     void readRUSentence();
     QList<QPair<int,QString>> sentence;
     QSqlDatabase db;
     void addWord(QString text);
     void loadSentence(int n);
     QStringList getTranslatesById(int id);
+    QString getResultSentence();
 };
 
 #endif // CONSTRUCTORFORM_H

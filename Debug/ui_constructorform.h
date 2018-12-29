@@ -81,8 +81,8 @@ public:
     {
         ConstructorForm->setWindowTitle(QApplication::translate("ConstructorForm", "Dialog", Q_NULLPTR));
         pushButton_2->setText(QApplication::translate("ConstructorForm", "PushButton", Q_NULLPTR));
-        pushButton_3->setText(QApplication::translate("ConstructorForm", "clear", Q_NULLPTR));
-        pushButton->setText(QApplication::translate("ConstructorForm", "add", Q_NULLPTR));
+        pushButton_3->setText(QApplication::translate("ConstructorForm", "next", Q_NULLPTR));
+        pushButton->setText(QApplication::translate("ConstructorForm", "test", Q_NULLPTR));
         label->setText(QApplication::translate("ConstructorForm", "TextLabel", Q_NULLPTR));
         frame->setTitle(QApplication::translate("ConstructorForm", "GroupBox", Q_NULLPTR));
     } // retranslateUi
