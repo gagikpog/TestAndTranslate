@@ -93,7 +93,7 @@ QPoint Word::posEnd()const
 
 QPoint Word::randomPos()
 {
-    setPos(QPoint(rand()%(((ConstructorForm*) parent())->width()-100),rand()%(((ConstructorForm*) parent())->height()-50)));
+    setPos(QPoint(rand()%(((ConstructorForm*) parent())->width()-100),rand()%(((ConstructorForm*) parent())->height()-100)+25));
     return pos();
 }
 
@@ -211,8 +211,8 @@ void Word::mouseMoveEvent(QMouseEvent *)
 
     if(cousorPos.x() < parentPos.x())
         cousorPos.rx() = parentPos.x();
-    if(cousorPos.y() < parentPos.y())
-        cousorPos.ry() = parentPos.y();
+    if(cousorPos.y() < parentPos.y()+25)
+        cousorPos.ry() = parentPos.y()+25;
     if(cousorPos.x() + allBlocsWidth > prnt->width() + parentPos.x())
         cousorPos.rx() = parentPos.x() + prnt->width() - allBlocsWidth;
     if(cousorPos.y() + height() > prnt->height() + parentPos.y())

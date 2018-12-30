@@ -21,6 +21,11 @@ ConstructorForm::ConstructorForm(QWidget *parent) :QDialog(parent), ui(new Ui::C
     db.setPassword("sqlite18");
     db.open();
     readRUSentence();
+
+    tmr = new QTimer();
+    tmr->setInterval(1000);
+    connect(tmr, SIGNAL(timeout()), this, SLOT(updateTime()));
+    tmr->start();
 }
 
 ConstructorForm::~ConstructorForm()
@@ -72,32 +77,15 @@ void ConstructorForm::ListConnect(int id)
     }
 }
 
-void ConstructorForm::on_pushButton_clicked()
+void ConstructorForm::setInterfaceLanguage(QString lang)
 {
-    QString res = getResultSentence();
-    QMessageBox msg(this);
-    if(res == "")
+    if(lang == "ru")
     {
-        msg.setText("gab");
-        msg.exec();
-        return;
+        ui->btnSkip->setText("Пропустить");
+        ui->btnTest->setText("Проверка");
+        strGab = "Составьте предложение!";
+        strWrong = "Неверно составлено предложение!";
     }
-
-    QStringList lst = getTranslatesById(sentence.at(sentenceNum).first);
-    for(int i = 0; i < lst.length();i++)
-    {
-        QString str = lst.at(i);
-        str = str.remove(QRegExp("\\W*")).toLower();
-        if(str == res)
-        {
-            msg.setText(sentence.at(sentenceNum).second+"\n"+lst.at(i));
-            msg.exec();
-            on_pushButton_3_clicked();
-            return;
-        }
-    }
-    msg.setText("wrong");
-    msg.exec();
 }
 
 void ConstructorForm::readRUSentence()
@@ -146,7 +134,7 @@ void ConstructorForm::loadSentence(int n)
     for(int i = 0; i < lst.length();i++)
     {
         QString s = lst[i];
-        addWord(s.remove(QRegExp("\\W*")));
+        addWord(s.remove(QRegExp("[^\\w\']+")));
     }
 }
 
@@ -191,10 +179,61 @@ QString ConstructorForm::getResultSentence()
     return res;
 }
 
-void ConstructorForm::on_pushButton_3_clicked()
+void ConstructorForm::showStatus()
+{
+    ui->labelStatus->setText(QString::number(right)+" | "+QString::number(wrong));
+}
+
+void ConstructorForm::updateTime()
+{
+    tmr->stop();
+    loadSentence(sentenceNum);
+}
+
+void ConstructorForm::on_btnTest_clicked()
+{
+    QString res = getResultSentence();
+    QMessageBox msg(QMessageBox::NoIcon,"","",QMessageBox::Ok,this,
+        Qt::WindowFlags(Qt::Dialog | Qt::MSWindowsFixedSizeDialogHint | Qt::WindowTitleHint | Qt::WindowSystemMenuHint | Qt::CustomizeWindowHint | Qt::WindowMaximizeButtonHint) & ~Qt::WindowCloseButtonHint);
+    msg.setWindowFlags(Qt::WindowTitleHint | Qt::Dialog | Qt::WindowMaximizeButtonHint | Qt::CustomizeWindowHint);
+    if(res == "")
+    {
+        msg.setText(strGab);
+        msg.exec();
+        return;
+    }
+
+    QStringList lst = getTranslatesById(sentence.at(sentenceNum).first);
+    for(int i = 0; i < lst.length();i++)
+    {
+        QString str = lst.at(i);
+        str = str.remove(QRegExp("[^\\w\']+")).toLower();
+        if(str == res)
+        {
+            msg.setText(sentence.at(sentenceNum).second+"\n\n"+lst.at(i));
+            msg.setFont(QFont(font().family(),15));
+            msg.exec();
+            right++;
+            on_btnSkip_clicked();
+            showStatus();
+            return;
+        }
+    }
+    msg.setText(strWrong);
+    wrong++;
+    msg.exec();
+    showStatus();
+}
+
+void ConstructorForm::on_btnSkip_clicked()
 {
     sentenceNum++;
     if(sentenceNum >= sentence.length())
+    {
         sentenceNum = 0;
+        //end Testing
+        //write mwssage
+        //close();
+    }
     loadSentence(sentenceNum);
 }

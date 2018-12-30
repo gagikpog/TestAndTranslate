@@ -65,8 +65,8 @@ void MainWindow::on_btmTraining_clicked()
 void MainWindow::on_pushButton_clicked()
 {
     ConstructorForm *form = new ConstructorForm();
-    //if(ui->btmLanguage->text() == "EN")
-    //    form->setInterfaceLanguage();
+    if(ui->btmLanguage->text() == "EN")
+        form->setInterfaceLanguage();
     this->hide();
     form->exec();
     this->show();

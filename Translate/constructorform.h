@@ -6,6 +6,8 @@
 #include "word.h"
 #include <QSqlDatabase>
 #include <QPair>
+#include <QTimer>
+#include <QTime>
 
 namespace Ui {
 class ConstructorForm;
@@ -20,10 +22,13 @@ public:
     ~ConstructorForm();
     void ListUpdate(int id);
     void ListConnect(int id);
+    void setInterfaceLanguage(QString lang = "ru");
 
 private slots:
-    void on_pushButton_clicked();
-    void on_pushButton_3_clicked();
+    void updateTime();
+    void on_btnTest_clicked();
+    void on_btnSkip_clicked();
+
 private:
     Ui::ConstructorForm *ui;
     QList<Word*> words;
@@ -36,6 +41,12 @@ private:
     void loadSentence(int n);
     QStringList getTranslatesById(int id);
     QString getResultSentence();
+    void showStatus();
+    QTimer *tmr;
+    int wrong = 0, right = 0;
+    //Strings
+    QString strGab = "Make a sentence!";
+    QString strWrong = "Incorrectly written sentence!";
 };
 
 #endif // CONSTRUCTORFORM_H

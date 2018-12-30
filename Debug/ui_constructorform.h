@@ -15,9 +15,11 @@
 #include <QtWidgets/QButtonGroup>
 #include <QtWidgets/QDialog>
 #include <QtWidgets/QGroupBox>
+#include <QtWidgets/QHBoxLayout>
 #include <QtWidgets/QHeaderView>
 #include <QtWidgets/QLabel>
 #include <QtWidgets/QPushButton>
+#include <QtWidgets/QSpacerItem>
 #include <QtWidgets/QVBoxLayout>
 
 QT_BEGIN_NAMESPACE
@@ -26,44 +28,87 @@ class Ui_ConstructorForm
 {
 public:
     QVBoxLayout *verticalLayout;
-    QPushButton *pushButton_2;
-    QPushButton *pushButton_3;
-    QPushButton *pushButton;
-    QLabel *label;
+    QHBoxLayout *horizontalLayout;
+    QPushButton *btnTest;
+    QPushButton *btnSkip;
+    QSpacerItem *horizontalSpacer;
+    QLabel *labelStatus;
     QGroupBox *frame;
 
     void setupUi(QDialog *ConstructorForm)
     {
         if (ConstructorForm->objectName().isEmpty())
             ConstructorForm->setObjectName(QStringLiteral("ConstructorForm"));
-        ConstructorForm->resize(719, 660);
+        ConstructorForm->resize(719, 592);
+        ConstructorForm->setStyleSheet(QLatin1String("QWidget {\n"
+"background: qradialgradient(cx: 0.3, cy: -0.4,\n"
+"fx: 0.3, fy: -0.4,\n"
+"radius: 1.3, stop: 0 #fff, stop: 1 #ddd);\n"
+"}\n"
+"QPushButton:!enabled {\n"
+"background: qradialgradient(cx: 0.3, cy: -0.4,\n"
+"fx: 0.3, fy: -0.4,\n"
+"radius: 1.3, stop: 0 #fff, stop: 1 #fff);\n"
+"border: 1px solid #bbb\n"
+"}\n"
+"QPushButton {\n"
+"color: #000;\n"
+"border: 1px solid #555;\n"
+"padding: 5px;\n"
+"background: qradialgradient(cx: 0.3, cy: -0.4,\n"
+"fx: 0.3, fy: -0.4,\n"
+"radius: 1.3, stop: 0 #eee, stop: 1 #fff);\n"
+"}\n"
+"QPushButton:hover {\n"
+"background: qradialgradient(cx: 0.3, cy: -0.4,\n"
+"fx: 0.3, fy: -0.4,\n"
+"radius: 1.3, stop: 0 #eee, stop: 1 #ddd);\n"
+"}\n"
+"QPushButton:pressed {\n"
+"background: qradialgradient(cx: 0.4, cy: -0.1,\n"
+"fx: 0.4, fy: -0.1,\n"
+"radius: 1.3, stop: 0 #e5e5e5, stop: 1 #d5d5d5);\n"
+"}"));
         verticalLayout = new QVBoxLayout(ConstructorForm);
         verticalLayout->setObjectName(QStringLiteral("verticalLayout"));
-        pushButton_2 = new QPushButton(ConstructorForm);
-        pushButton_2->setObjectName(QStringLiteral("pushButton_2"));
+        horizontalLayout = new QHBoxLayout();
+        horizontalLayout->setObjectName(QStringLiteral("horizontalLayout"));
+        horizontalLayout->setSizeConstraint(QLayout::SetDefaultConstraint);
+        btnTest = new QPushButton(ConstructorForm);
+        btnTest->setObjectName(QStringLiteral("btnTest"));
+        btnTest->setMinimumSize(QSize(200, 40));
+        QFont font;
+        font.setPointSize(14);
+        btnTest->setFont(font);
 
-        verticalLayout->addWidget(pushButton_2);
+        horizontalLayout->addWidget(btnTest);
 
-        pushButton_3 = new QPushButton(ConstructorForm);
-        pushButton_3->setObjectName(QStringLiteral("pushButton_3"));
+        btnSkip = new QPushButton(ConstructorForm);
+        btnSkip->setObjectName(QStringLiteral("btnSkip"));
+        btnSkip->setMinimumSize(QSize(200, 40));
+        btnSkip->setFont(font);
 
-        verticalLayout->addWidget(pushButton_3);
+        horizontalLayout->addWidget(btnSkip);
 
-        pushButton = new QPushButton(ConstructorForm);
-        pushButton->setObjectName(QStringLiteral("pushButton"));
+        horizontalSpacer = new QSpacerItem(40, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
 
-        verticalLayout->addWidget(pushButton);
+        horizontalLayout->addItem(horizontalSpacer);
 
-        label = new QLabel(ConstructorForm);
-        label->setObjectName(QStringLiteral("label"));
-        label->setMaximumSize(QSize(16777215, 20));
 
-        verticalLayout->addWidget(label);
+        verticalLayout->addLayout(horizontalLayout);
+
+        labelStatus = new QLabel(ConstructorForm);
+        labelStatus->setObjectName(QStringLiteral("labelStatus"));
+        labelStatus->setMaximumSize(QSize(16777215, 20));
+        QFont font1;
+        font1.setPointSize(13);
+        labelStatus->setFont(font1);
+
+        verticalLayout->addWidget(labelStatus);
 
         frame = new QGroupBox(ConstructorForm);
         frame->setObjectName(QStringLiteral("frame"));
-        QFont font;
-        font.setPointSize(13);
+        frame->setMinimumSize(QSize(700, 500));
         frame->setFont(font);
         frame->setAlignment(Qt::AlignCenter);
         frame->setFlat(false);
@@ -80,11 +125,10 @@ public:
     void retranslateUi(QDialog *ConstructorForm)
     {
         ConstructorForm->setWindowTitle(QApplication::translate("ConstructorForm", "Dialog", Q_NULLPTR));
-        pushButton_2->setText(QApplication::translate("ConstructorForm", "PushButton", Q_NULLPTR));
-        pushButton_3->setText(QApplication::translate("ConstructorForm", "next", Q_NULLPTR));
-        pushButton->setText(QApplication::translate("ConstructorForm", "test", Q_NULLPTR));
-        label->setText(QApplication::translate("ConstructorForm", "TextLabel", Q_NULLPTR));
-        frame->setTitle(QApplication::translate("ConstructorForm", "GroupBox", Q_NULLPTR));
+        btnTest->setText(QApplication::translate("ConstructorForm", "Check", Q_NULLPTR));
+        btnSkip->setText(QApplication::translate("ConstructorForm", "Skip", Q_NULLPTR));
+        labelStatus->setText(QString());
+        frame->setTitle(QString());
     } // retranslateUi
 
 };
