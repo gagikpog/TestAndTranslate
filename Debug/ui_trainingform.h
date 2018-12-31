@@ -46,6 +46,7 @@ public:
 "background: qradialgradient(cx: 0.3, cy: -0.4,\n"
 "fx: 0.3, fy: -0.4,\n"
 "radius: 1.3, stop: 0 #fff, stop: 1 #ddd);\n"
+"color: #000;\n"
 "}\n"
 "\n"
 "QPushButton {\n"
@@ -78,7 +79,8 @@ public:
 "radius: 1.3, stop: 0 #fff, stop: 1 #eee);\n"
 "}\n"
 "QLabel{\n"
-"padding: 0px 10px;\n"
+"padding: 0px 10"
+                        "px;\n"
 "}"));
         verticalLayout = new QVBoxLayout(TrainingForm);
         verticalLayout->setObjectName(QStringLiteral("verticalLayout"));

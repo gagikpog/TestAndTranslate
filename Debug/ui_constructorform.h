@@ -44,6 +44,7 @@ public:
 "background: qradialgradient(cx: 0.3, cy: -0.4,\n"
 "fx: 0.3, fy: -0.4,\n"
 "radius: 1.3, stop: 0 #fff, stop: 1 #ddd);\n"
+"color: #000;\n"
 "}\n"
 "QPushButton:!enabled {\n"
 "background: qradialgradient(cx: 0.3, cy: -0.4,\n"

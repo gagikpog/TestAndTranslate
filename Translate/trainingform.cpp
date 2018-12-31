@@ -10,6 +10,7 @@
 TrainingForm::TrainingForm(QWidget *parent) : QDialog(parent), ui(new Ui::TrainingForm)
 {
     ui->setupUi(this);
+    setWindowTitle("Training");
     ui->btmCheck->setEnabled(false);
     ui->btmNext->setEnabled(false);
     db = QSqlDatabase::addDatabase("QSQLITE");
