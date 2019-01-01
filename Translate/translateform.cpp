@@ -39,7 +39,7 @@ void TranslateForm::replyFinished(QNetworkReply* reply)
     if (regex.indexIn(DataAsString) < 0)
     {
         //перевод не найден
-        ui->msgOutput->setText("not translate");
+        ui->msgOutput->setText("No connection");
         return;
     }
     QString res = regex.cap(0);
@@ -211,6 +211,7 @@ void TranslateForm::resizeEvent(QResizeEvent*)
 
 void TranslateForm::setInterfaceLanguage(QString lang)
 {
+    //установить русский язык
     if(lang == "ru")
     {
         ui->btmFavorite->setText("Добавить в избранные");
@@ -229,6 +230,7 @@ void TranslateForm::setInterfaceLanguage(QString lang)
 
 void TranslateForm::on_btmClear_clicked()
 {
+    //очистить поля для ввода
     ui->msgInput->setText("");
     ui->msgOutput->setText("");
 }
