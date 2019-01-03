@@ -41,6 +41,7 @@ public:
     QLineEdit *msgOutput;
     QPushButton *btmClear;
     QTableWidget *tableWidget;
+    QLabel *labelStatus;
 
     void setupUi(QDialog *TranslateForm)
     {
@@ -217,6 +218,14 @@ public:
 
         verticalLayout->addWidget(tableWidget);
 
+        labelStatus = new QLabel(TranslateForm);
+        labelStatus->setObjectName(QStringLiteral("labelStatus"));
+        QFont font3;
+        font3.setPointSize(9);
+        labelStatus->setFont(font3);
+
+        verticalLayout->addWidget(labelStatus);
+
         QWidget::setTabOrder(btmTranslate, btmFavorite);
         QWidget::setTabOrder(btmFavorite, btmRemove);
         QWidget::setTabOrder(btmRemove, btmLanguage);
@@ -246,6 +255,7 @@ public:
         ___qtablewidgetitem->setText(QApplication::translate("TranslateForm", "English", Q_NULLPTR));
         QTableWidgetItem *___qtablewidgetitem1 = tableWidget->horizontalHeaderItem(1);
         ___qtablewidgetitem1->setText(QApplication::translate("TranslateForm", "Russian", Q_NULLPTR));
+        labelStatus->setText(QString());
     } // retranslateUi
 
 };

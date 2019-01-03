@@ -21,8 +21,8 @@ QT_BEGIN_MOC_NAMESPACE
 QT_WARNING_PUSH
 QT_WARNING_DISABLE_DEPRECATED
 struct qt_meta_stringdata_TranslateForm_t {
-    QByteArrayData data[15];
-    char stringdata0[226];
+    QByteArrayData data[18];
+    char stringdata0[269];
 };
 #define QT_MOC_LITERAL(idx, ofs, len) \
     Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
@@ -45,7 +45,10 @@ QT_MOC_LITERAL(10, 153, 20), // "on_btmRemove_clicked"
 QT_MOC_LITERAL(11, 174, 11), // "resizeEvent"
 QT_MOC_LITERAL(12, 186, 13), // "QResizeEvent*"
 QT_MOC_LITERAL(13, 200, 5), // "event"
-QT_MOC_LITERAL(14, 206, 19) // "on_btmClear_clicked"
+QT_MOC_LITERAL(14, 206, 19), // "on_btmClear_clicked"
+QT_MOC_LITERAL(15, 226, 21), // "readTranslateFromFile"
+QT_MOC_LITERAL(16, 248, 16), // "offlineTranslate"
+QT_MOC_LITERAL(17, 265, 3) // "txt"
 
     },
     "TranslateForm\0replyFinished\0\0"
@@ -53,7 +56,9 @@ QT_MOC_LITERAL(14, 206, 19) // "on_btmClear_clicked"
     "on_btmFavorite_clicked\0on_btmTranslate_clicked\0"
     "ReadDB\0on_msgInput_returnPressed\0"
     "on_btmRemove_clicked\0resizeEvent\0"
-    "QResizeEvent*\0event\0on_btmClear_clicked"
+    "QResizeEvent*\0event\0on_btmClear_clicked\0"
+    "readTranslateFromFile\0offlineTranslate\0"
+    "txt"
 };
 #undef QT_MOC_LITERAL
 
@@ -63,7 +68,7 @@ static const uint qt_meta_data_TranslateForm[] = {
        7,       // revision
        0,       // classname
        0,    0, // classinfo
-       9,   14, // methods
+      11,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
@@ -71,15 +76,17 @@ static const uint qt_meta_data_TranslateForm[] = {
        0,       // signalCount
 
  // slots: name, argc, parameters, tag, flags
-       1,    1,   59,    2, 0x08 /* Private */,
-       5,    0,   62,    2, 0x08 /* Private */,
-       6,    0,   63,    2, 0x08 /* Private */,
-       7,    0,   64,    2, 0x08 /* Private */,
-       8,    0,   65,    2, 0x08 /* Private */,
-       9,    0,   66,    2, 0x08 /* Private */,
-      10,    0,   67,    2, 0x08 /* Private */,
-      11,    1,   68,    2, 0x08 /* Private */,
-      14,    0,   71,    2, 0x08 /* Private */,
+       1,    1,   69,    2, 0x08 /* Private */,
+       5,    0,   72,    2, 0x08 /* Private */,
+       6,    0,   73,    2, 0x08 /* Private */,
+       7,    0,   74,    2, 0x08 /* Private */,
+       8,    0,   75,    2, 0x08 /* Private */,
+       9,    0,   76,    2, 0x08 /* Private */,
+      10,    0,   77,    2, 0x08 /* Private */,
+      11,    1,   78,    2, 0x08 /* Private */,
+      14,    0,   81,    2, 0x08 /* Private */,
+      15,    0,   82,    2, 0x08 /* Private */,
+      16,    1,   83,    2, 0x08 /* Private */,
 
  // slots: parameters
     QMetaType::Void, 0x80000000 | 3,    4,
@@ -91,6 +98,8 @@ static const uint qt_meta_data_TranslateForm[] = {
     QMetaType::Void,
     QMetaType::Void, 0x80000000 | 12,   13,
     QMetaType::Void,
+    QMetaType::Void,
+    QMetaType::QString, QMetaType::QString,   17,
 
        0        // eod
 };
@@ -110,6 +119,9 @@ void TranslateForm::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _i
         case 6: _t->on_btmRemove_clicked(); break;
         case 7: _t->resizeEvent((*reinterpret_cast< QResizeEvent*(*)>(_a[1]))); break;
         case 8: _t->on_btmClear_clicked(); break;
+        case 9: _t->readTranslateFromFile(); break;
+        case 10: { QString _r = _t->offlineTranslate((*reinterpret_cast< QString(*)>(_a[1])));
+            if (_a[0]) *reinterpret_cast< QString*>(_a[0]) = std::move(_r); }  break;
         default: ;
         }
     } else if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
@@ -151,13 +163,13 @@ int TranslateForm::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 9)
+        if (_id < 11)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 9;
+        _id -= 11;
     } else if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
-        if (_id < 9)
+        if (_id < 11)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 9;
+        _id -= 11;
     }
     return _id;
 }

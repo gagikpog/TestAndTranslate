@@ -39,7 +39,8 @@ void TranslateForm::replyFinished(QNetworkReply* reply)
     if (regex.indexIn(DataAsString) < 0)
     {
         //перевод не найден
-        ui->msgOutput->setText("No connection");
+        ui->labelStatus->setText("No connection: offline translete");
+        ui->msgOutput->setText(offlineTranslate(ui->msgInput->text().simplified()));
         return;
     }
     QString res = regex.cap(0);
@@ -47,6 +48,7 @@ void TranslateForm::replyFinished(QNetworkReply* reply)
     res = res.right(res.length()-9);
     //вывод результата
     ui->msgOutput->setText(res);
+    ui->labelStatus->setText("");
 }
 
 //процедура читает из таблицы все и выводит на экран
@@ -233,4 +235,74 @@ void TranslateForm::on_btmClear_clicked()
     //очистить поля для ввода
     ui->msgInput->setText("");
     ui->msgOutput->setText("");
+}
+
+void TranslateForm::readTranslateFromFile()
+{
+    QString filename = "ru1.txt";
+
+    if(db.isOpen())
+    {
+        QSqlQuery query = QSqlQuery(db);
+
+        QFile file(filename);
+        QFile fileOut("log.txt");
+        if(!file.exists())
+            return;
+        fileOut.open(QIODevice::WriteOnly);
+        QTextStream out(&fileOut);
+        if(file.open(QIODevice::ReadOnly))
+        {
+            QTextStream in(&file);
+            QString strEn, strRu;
+            int n = 1;
+            QString queryStr = "INSERT INTO RuToEn (ru , en) VALUES";
+            while(!in.atEnd())
+            {
+                if(n% 2 == 0)
+                {
+                    queryStr[queryStr.length()-1] = ';';
+                    if(!query.exec(queryStr))
+                    {
+                        qDebug()<<"Error";
+                        //out<<queryStr<<"\n";
+                        close();
+                    }
+                    queryStr = "INSERT INTO RuToEn (ru , en) VALUES";
+                    qDebug()<<n;
+                }
+                n++;
+
+                in>>strRu;
+                strEn = in.readLine();
+                strRu = strRu.simplified();
+                strEn = strEn.simplified();
+                queryStr += "(\""+strRu+"\",\""+strEn+"\"),";
+
+            }
+            queryStr[queryStr.length()-1] = ';';
+            query.exec(queryStr);
+            qDebug()<<n;
+        }
+    }
+}
+
+QString TranslateForm::offlineTranslate(QString txt)
+{
+    if(db.isOpen())
+    {
+        QString queryStr = "SELECT `en` FROM RuToEn WHERE ru = \"" + txt + "\"";
+        if(TranslateLanguage == "ru")
+        {
+            queryStr = "SELECT `ru` FROM EnToRu ru WHERE en = \"" + txt + "\"";
+        }
+        QSqlQuery query = QSqlQuery(db);
+        query.exec(queryStr);
+
+        if (query.next())
+        {
+            return query.value(0).toString();
+        }
+    }
+    return "Translate not find";
 }

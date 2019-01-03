@@ -318,6 +318,18 @@ QPushButton:pressed{
      </column>
     </widget>
    </item>
+   <item>
+    <widget class="QLabel" name="labelStatus">
+     <property name="font">
+      <font>
+       <pointsize>9</pointsize>
+      </font>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+    </widget>
+   </item>
   </layout>
  </widget>
  <tabstops>

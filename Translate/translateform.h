@@ -39,7 +39,8 @@ private slots:
     void on_btmRemove_clicked();
     void resizeEvent(QResizeEvent* event);
     void on_btmClear_clicked();
-
+    void readTranslateFromFile();
+    QString offlineTranslate(QString txt);
 private:
     Ui::TranslateForm *ui;
     QString TranslateLanguage = "ru";
