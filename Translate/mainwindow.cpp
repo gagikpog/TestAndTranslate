@@ -12,6 +12,11 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent), ui(new Ui::MainWin
     ui->setupUi(this);
     SettingsForm::readSettings();
     setStyle(SettingsForm::StyleFilename);
+    if(SettingsForm::ApplicationLanguage == "ru")
+    {
+        ui->btmLanguage->setText("EN");
+        setInterfaceLanguage("ru");
+    }
 }
 
 MainWindow::~MainWindow()
@@ -36,10 +41,13 @@ void MainWindow::on_btmLanguage_clicked()
     {
         ui->btmLanguage->setText("РУ");
         setInterfaceLanguage("en");
+        SettingsForm::ApplicationLanguage = "en";
     }  else {
         ui->btmLanguage->setText("EN");
-        setInterfaceLanguage();
+        setInterfaceLanguage("ru");
+        SettingsForm::ApplicationLanguage = "ru";
     }
+    SettingsForm::writeLanguage();
 }
 
 void MainWindow::setInterfaceLanguage(QString lang)
@@ -65,7 +73,9 @@ QString MainWindow::loadStyle(QString filename)
         return "";
     file->open(QIODevice::ReadOnly);
     QTextStream* in = new QTextStream(file);
-    return in->readAll();
+    QString res = in->readAll();
+    file->close();
+    return res;
 }
 
 void MainWindow::on_btmTraining_clicked()
@@ -95,8 +105,6 @@ void MainWindow::on_btmSetting_clicked()
     SettingsForm *form = new SettingsForm();
     if(ui->btmLanguage->text() == "EN")
         form->setInterfaceLanguage();
-    form->setStyleSheet(styleSheet());
-    form->setStyleSheet(loadStyle(SettingsForm::StyleFilename));
     this->hide();
     form->exec();
     setStyle(SettingsForm::StyleFilename);

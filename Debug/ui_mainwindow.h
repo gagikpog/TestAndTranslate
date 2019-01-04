@@ -141,37 +141,7 @@ public:
         QBrush brush9(gradient8);
         palette.setBrush(QPalette::Disabled, QPalette::Window, brush9);
         centralWidget->setPalette(palette);
-        centralWidget->setStyleSheet(QLatin1String("QWidget {\n"
-"background: qradialgradient(cx: 0.3, cy: -0.4,\n"
-"fx: 0.3, fy: -0.4,\n"
-"radius: 1.3, stop: 0 #fff, stop: 1 #ddd);\n"
-"color: #000;\n"
-"}\n"
-"QPushButton:!enabled {\n"
-"background: qradialgradient(cx: 0.3, cy: -0.4,\n"
-"fx: 0.3, fy: -0.4,\n"
-"radius: 1.3, stop: 0 #fff, stop: 1 #fff);\n"
-"border: 1px solid #bbb\n"
-"}\n"
-"QPushButton {\n"
-"color: #000;\n"
-"border: 1px solid #555;\n"
-"border-radius:17px;\n"
-"padding: 5px;\n"
-"background: qradialgradient(cx: 0.3, cy: -0.4,\n"
-"fx: 0.3, fy: -0.4,\n"
-"radius: 1.3, stop: 0 #eee, stop: 1 #fff);\n"
-"}\n"
-"QPushButton:hover {\n"
-"background: qradialgradient(cx: 0.3, cy: -0.4,\n"
-"fx: 0.3, fy: -0.4,\n"
-"radius: 1.3, stop: 0 #eee, stop: 1 #ddd);\n"
-"}\n"
-"QPushButton:pressed {\n"
-"background: qradialgradient(cx: 0.4, cy: -0.1,\n"
-"fx: 0.4, fy: -0.1,\n"
-"radius: 1.3, stop: 0 #e5e5e5, stop: 1 #d5d5d5);\n"
-"}"));
+        centralWidget->setStyleSheet(QStringLiteral(""));
         horizontalLayout = new QHBoxLayout(centralWidget);
         horizontalLayout->setSpacing(6);
         horizontalLayout->setContentsMargins(11, 11, 11, 11);

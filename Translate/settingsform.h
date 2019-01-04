@@ -16,18 +16,24 @@ public:
     ~SettingsForm();
     void setInterfaceLanguage(QString lang = "ru");
     static QString StyleFilename;
+    static QString ApplicationLanguage;
     static void readSettings();
+    static void writeLanguage();
 private slots:
     void on_btmStyle_clicked();
     void on_rBtmCustom_clicked(bool checked);
     void on_rBtmLight_clicked(bool checked);
     void on_rBtmDark_clicked(bool checked);
+    void on_rBtmDefoult_clicked(bool checked);
 
 private:
     Ui::SettingsForm *ui;
     void writeSettings();
     void readLocakSettings();
+    void selectRadioBatton(QString check);
     static const QString settingsFilename;
+    QString selectedRadioBtm;
+
 };
 
 #endif // SETTINGSFORM_H

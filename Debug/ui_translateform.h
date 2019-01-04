@@ -48,43 +48,7 @@ public:
         if (TranslateForm->objectName().isEmpty())
             TranslateForm->setObjectName(QStringLiteral("TranslateForm"));
         TranslateForm->resize(634, 736);
-        TranslateForm->setStyleSheet(QLatin1String("QWidget {\n"
-"background: qradialgradient(cx: 0.3, cy: -0.4,\n"
-"fx: 0.3, fy: -0.4,\n"
-"radius: 1.3, stop: 0 #fff, stop: 1 #ddd);\n"
-"color: #000;\n"
-"}\n"
-"QPushButton:!enabled {\n"
-"background: qradialgradient(cx: 0.3, cy: -0.4,\n"
-"fx: 0.3, fy: -0.4,\n"
-"radius: 1.3, stop: 0 #fff, stop: 1 #fff);\n"
-"border: 1px solid #bbb\n"
-"}\n"
-"QPushButton {\n"
-"color: #000;\n"
-"border: 1px solid #555;\n"
-"padding: 5px;\n"
-"background: qradialgradient(cx: 0.3, cy: -0.4,\n"
-"fx: 0.3, fy: -0.4,\n"
-"radius: 1.3, stop: 0 #eee, stop: 1 #fff);\n"
-"}\n"
-"QPushButton:hover {\n"
-"background: qradialgradient(cx: 0.3, cy: -0.4,\n"
-"fx: 0.3, fy: -0.4,\n"
-"radius: 1.3, stop: 0 #eee, stop: 1 #ddd);\n"
-"}\n"
-"QPushButton:pressed {\n"
-"background: qradialgradient(cx: 0.4, cy: -0.1,\n"
-"fx: 0.4, fy: -0.1,\n"
-"radius: 1.3, stop: 0 #e5e5e5, stop: 1 #d5d5d5);\n"
-"}\n"
-"QLineEdit {\n"
-"background: #eee;\n"
-"border: 1px solid #999;\n"
-"}\n"
-"QLabel{\n"
-"padding: 0px 10px;\n"
-"}"));
+        TranslateForm->setStyleSheet(QStringLiteral(""));
         verticalLayout = new QVBoxLayout(TranslateForm);
         verticalLayout->setObjectName(QStringLiteral("verticalLayout"));
         horizontalLayout = new QHBoxLayout();
@@ -130,7 +94,6 @@ public:
         btmLanguage->setMaximumSize(QSize(30, 30));
         btmLanguage->setStyleSheet(QLatin1String("QPushButton{\n"
 "border-radius: 15px;\n"
-"border: 2px solid #555\n"
 "}"));
         btmLanguage->setAutoDefault(false);
 

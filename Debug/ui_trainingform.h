@@ -42,46 +42,7 @@ public:
         if (TrainingForm->objectName().isEmpty())
             TrainingForm->setObjectName(QStringLiteral("TrainingForm"));
         TrainingForm->resize(606, 616);
-        TrainingForm->setStyleSheet(QLatin1String("QWidget {\n"
-"background: qradialgradient(cx: 0.3, cy: -0.4,\n"
-"fx: 0.3, fy: -0.4,\n"
-"radius: 1.3, stop: 0 #fff, stop: 1 #ddd);\n"
-"color: #000;\n"
-"}\n"
-"\n"
-"QPushButton {\n"
-"color: #000;\n"
-"border: 1px solid #555;\n"
-"padding: 5px;\n"
-"background: qradialgradient(cx: 0.3, cy: -0.4,\n"
-"fx: 0.3, fy: -0.4,\n"
-"radius: 1.3, stop: 0 #eee, stop: 1 #fff);\n"
-"}\n"
-"QPushButton:hover {\n"
-"background: qradialgradient(cx: 0.3, cy: -0.4,\n"
-"fx: 0.3, fy: -0.4,\n"
-"radius: 1.3, stop: 0 #eee, stop: 1 #ddd);\n"
-"}\n"
-"QPushButton:!enabled {\n"
-"background: qradialgradient(cx: 0.3, cy: -0.4,\n"
-"fx: 0.3, fy: -0.4,\n"
-"radius: 1.3, stop: 0 #fff, stop: 1 #fff);\n"
-"border: 1px solid #bbb\n"
-"}\n"
-"QPushButton:pressed {\n"
-"background: qradialgradient(cx: 0.4, cy: -0.1,\n"
-"fx: 0.4, fy: -0.1,\n"
-"radius: 1.3, stop: 0 #e5e5e5, stop: 1 #d5d5d5);\n"
-"}\n"
-"QTextEdit{\n"
-"background: qradialgradient(cx: 0.4, cy: -0.1,\n"
-"fx: 0.4, fy: -0.1,\n"
-"radius: 1.3, stop: 0 #fff, stop: 1 #eee);\n"
-"}\n"
-"QLabel{\n"
-"padding: 0px 10"
-                        "px;\n"
-"}"));
+        TrainingForm->setStyleSheet(QStringLiteral(""));
         verticalLayout = new QVBoxLayout(TrainingForm);
         verticalLayout->setObjectName(QStringLiteral("verticalLayout"));
         horizontalLayout_2 = new QHBoxLayout();

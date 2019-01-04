@@ -1,5 +1,6 @@
 #include "translateform.h"
 #include "ui_translateform.h"
+#include <QMessageBox>
 
 TranslateForm::TranslateForm(QWidget *parent) : QDialog(parent), ui(new Ui::TranslateForm)
 {
@@ -137,8 +138,11 @@ void TranslateForm::on_btmFavorite_clicked()
             //обновить таблицу
             ReadDB();
         }
+    }else {
+        QMessageBox *msg= new QMessageBox(this);
+        msg->setText(msgBoxFavorite);
+        msg->exec();
     }
-
 }
 
 void TranslateForm::on_btmTranslate_clicked()
@@ -174,24 +178,24 @@ void TranslateForm::on_btmRemove_clicked()
     //удаление записи из базы
     if(db.isOpen())
     {
-        QMessageBox msgBox;
-        msgBox.setWindowTitle(msgBoxTitle);
+        QMessageBox* msgBox = new QMessageBox(this);
+        msgBox->setWindowTitle(msgBoxTitle);
         //получаю список выделенных ячеек
         QModelIndexList indexList = ui->tableWidget->selectionModel()->selectedIndexes();
         //если ничего не выделено то выходим
         if(indexList.empty())
         {
-            msgBox.setText(msgBoxWarning);
-            msgBox.exec();
+            msgBox->setText(msgBoxWarning);
+            msgBox->exec();
             return;
         }
         //ожидание  подтверждение на удаление
-        msgBox.setText(msgBoxQuestion);
-        msgBox.setStandardButtons(QMessageBox::Yes);
-        msgBox.addButton(QMessageBox::No);
-        msgBox.setDefaultButton(QMessageBox::No);
+        msgBox->setText(msgBoxQuestion);
+        msgBox->setStandardButtons(QMessageBox::Yes);
+        msgBox->addButton(QMessageBox::No);
+        msgBox->setDefaultButton(QMessageBox::No);
         //не удалить
-        if(msgBox.exec() == QMessageBox::No)
+        if(msgBox->exec() == QMessageBox::No)
             return;
         //получить выделенную строку
         QString str =  ui->tableWidget->item(indexList.at(0).row(),0)->text();
@@ -226,6 +230,7 @@ void TranslateForm::setInterfaceLanguage(QString lang)
         msgBoxWarning = "Выберите пожалуйста слово для удаления!";
         msgBoxQuestion = "Вы действительно хотите удалить это слово?";
         msgBoxTitle = "Сообщение";
+        msgBoxFavorite = "Нужно заполнить поля прежде чем добавить в избранные!";
         setWindowTitle("Переводчик");
     }
 }

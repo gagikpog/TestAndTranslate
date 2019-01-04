@@ -481,7 +481,8 @@ word.o: ../Translate/word.cpp ../Translate/word.h \
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o word.o ../Translate/word.cpp
 
 settingsform.o: ../Translate/settingsform.cpp ../Translate/settingsform.h \
-		ui_settingsform.h
+		ui_settingsform.h \
+		../Translate/mainwindow.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o settingsform.o ../Translate/settingsform.cpp
 
 moc_mainwindow.o: moc_mainwindow.cpp 

@@ -47,6 +47,7 @@ private:
     QString msgBoxQuestion = "Do you really want to delete this word?";
     QString msgBoxWarning = "Please select a word to remove!";
     QString msgBoxTitle = "Message";
+    QString msgBoxFavorite = "You need to fill in the fields before adding to favorites!";
     QSqlDatabase db;
 };
 
