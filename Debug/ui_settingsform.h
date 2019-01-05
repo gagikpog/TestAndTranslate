@@ -37,6 +37,7 @@ public:
     QVBoxLayout *verticalLayout_2;
     QSpacerItem *verticalSpacer;
     QPushButton *btmStyle;
+    QPushButton *btmSManager;
 
     void setupUi(QDialog *SettingsForm)
     {
@@ -95,6 +96,9 @@ public:
 
         horizontalLayout->addLayout(verticalLayout_2);
 
+        btmSManager = new QPushButton(SettingsForm);
+        btmSManager->setObjectName(QStringLiteral("btmSManager"));
+        btmSManager->setGeometry(QRect(350, 210, 99, 27));
 
         retranslateUi(SettingsForm);
 
@@ -109,6 +113,7 @@ public:
         rBtmLight->setText(QApplication::translate("SettingsForm", "&Light", Q_NULLPTR));
         rBtmCustom->setText(QApplication::translate("SettingsForm", "Custo&m", Q_NULLPTR));
         btmStyle->setText(QApplication::translate("SettingsForm", "Load Style", Q_NULLPTR));
+        btmSManager->setText(QApplication::translate("SettingsForm", "PushButton", Q_NULLPTR));
     } // retranslateUi
 
 };

@@ -26,6 +26,8 @@ private slots:
     void on_rBtmDark_clicked(bool checked);
     void on_rBtmDefoult_clicked(bool checked);
 
+    void on_btmSManager_clicked();
+
 private:
     Ui::SettingsForm *ui;
     void writeSettings();

@@ -6,6 +6,7 @@
 #include <QFileDialog>
 #include <QDir>
 #include <QDebug>
+#include "sentencemanagerform.h"
 
  QString SettingsForm::StyleFilename = "Styles/dark.qss";
  QString SettingsForm::ApplicationLanguage = "en";
@@ -122,4 +123,12 @@ void SettingsForm::on_rBtmDefoult_clicked(bool )
     setStyleSheet(MainWindow::loadStyle(StyleFilename));
     writeSettings();
     selectedRadioBtm = "defoult";
+}
+
+void SettingsForm::on_btmSManager_clicked()
+{
+    SentenceManagerForm *form = new SentenceManagerForm();
+    //this->hide();
+    form->exec();
+    //this->show();
 }

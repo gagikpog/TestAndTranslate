@@ -1,11 +1,5 @@
 #include "trainingform.h"
 #include "ui_trainingform.h"
-#include <QFile>
-#include <QTextStream>
-#include <QSqlQuery>
-#include <QSqlRecord>
-#include <QDebug>
-#include <algorithm>
 
 TrainingForm::TrainingForm(QWidget *parent) : QDialog(parent), ui(new Ui::TrainingForm)
 {

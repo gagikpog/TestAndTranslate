@@ -3,8 +3,14 @@
 
 #include <QDialog>
 #include <QSqlDatabase>
+#include <QSqlQuery>
+#include <QSqlRecord>
 #include <QList>
 #include <QModelIndex>
+#include <QFile>
+#include <QTextStream>
+#include <QDebug>
+#include <algorithm>
 
 namespace Ui {
 class TrainingForm;
