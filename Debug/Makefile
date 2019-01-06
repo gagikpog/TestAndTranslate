@@ -502,7 +502,7 @@ settingsform.o: ../Translate/settingsform.cpp ../Translate/settingsform.h \
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o settingsform.o ../Translate/settingsform.cpp
 
 sentencemanagerform.o: ../Translate/sentencemanagerform.cpp ../Translate/sentencemanagerform.h \
-		ui_sentencemanager.h
+		ui_sentencemanagerform.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o sentencemanagerform.o ../Translate/sentencemanagerform.cpp
 
 moc_mainwindow.o: moc_mainwindow.cpp 

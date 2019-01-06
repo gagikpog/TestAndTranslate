@@ -1,5 +1,5 @@
-#ifndef SENTENCEMANAGER_H
-#define SENTENCEMANAGER_H
+#ifndef SENTENCEMANAGERFORM_H
+#define SENTENCEMANAGERFORM_H
 
 #include <QDialog>
 #include <QSqlDatabase>
@@ -7,9 +7,13 @@
 #include <QSqlRecord>
 #include <QPair>
 #include <QList>
+#include <QMenu>
+#include <QMessageBox>
+#include <QTreeWidget>
+#include <QDebug>
 
 namespace Ui {
-class SentenceManager;
+class SentenceManagerForm;
 }
 
 class SentenceManagerForm : public QDialog
@@ -19,13 +23,19 @@ class SentenceManagerForm : public QDialog
 public:
     explicit SentenceManagerForm(QWidget *parent = 0);
     ~SentenceManagerForm();
-
 private slots:
-    void on_pushButton_clicked();
+    void readSentence();
+    void prepareMenu(const QPoint & pos );
+    void treeRemove();
+    void treeChange();
+    void treeAdd();
+    void treeAddItem();
+    void on_btmOk_clicked();
 
 private:
-    Ui::SentenceManager *ui;
+    Ui::SentenceManagerForm *ui;
     QSqlDatabase db;
+    QTreeWidgetItem* selectionItem;
 };
 
-#endif // SENTENCEMANAGER_H
+#endif // SENTENCEMANAGERFORM_H
