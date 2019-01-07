@@ -1,5 +1,7 @@
 #include "sentencemanagerform.h"
 #include "ui_sentencemanagerform.h"
+#include "settingsform.h"
+#include  "mainwindow.h"
 
 SentenceManagerForm::SentenceManagerForm(QWidget *parent) : QDialog(parent), ui(new Ui::SentenceManagerForm)
 {
@@ -16,11 +18,30 @@ SentenceManagerForm::SentenceManagerForm(QWidget *parent) : QDialog(parent), ui(
     connect(ui->btmAdd,SIGNAL(clicked()),this,SLOT(treeAdd()));
     connect(ui->btmChange,SIGNAL(clicked()),this,SLOT(treeChange()));
     connect(ui->btmRemove,SIGNAL(clicked()),this,SLOT(treeRemove()));
+
+    setInterfaceLanguage(SettingsForm::ApplicationLanguage);
+    setStyleSheet(MainWindow::loadStyle(SettingsForm::StyleFilename));
 }
 
 SentenceManagerForm::~SentenceManagerForm()
 {
     delete ui;
+}
+
+void SentenceManagerForm::setInterfaceLanguage(QString lang)
+{
+    if(lang == "ru")
+    {
+        strAdd = "&Добавить";
+        strRemove = "&Удалить";
+        strOk = "&ОК";
+        strEdit = "&Редактировать";
+
+        ui->btmAdd->setText(strAdd);
+        ui->btmRemove->setText(strRemove);
+        ui->btmOk->setText(strOk);
+        ui->btmChange->setText(strEdit);
+    }
 }
 
 void SentenceManagerForm::readSentence()
@@ -79,27 +100,36 @@ void SentenceManagerForm::prepareMenu(const QPoint &pos)
 
     selectionItem = tree->itemAt( pos );
 
-    QAction *rmAct = new QAction(tr("Remove"), this);
-    QAction *addAct = new QAction(tr("Add"), this);
-    QAction *chAct = new QAction(tr("Change"), this);
+    QAction *rmAct = new QAction(strRemove, this);
+    QAction *addAct = new QAction(strAdd, this);
+    QAction *editAct = new QAction(strEdit, this);
 
     connect(rmAct, SIGNAL(triggered()), this, SLOT(treeRemove()));
     connect(addAct, SIGNAL(triggered()), this, SLOT(treeAdd()));
-    connect(chAct, SIGNAL(triggered()), this, SLOT(treeChange()));
+    connect(editAct, SIGNAL(triggered()), this, SLOT(treeChange()));
 
     QMenu menu(this);
     menu.addAction(addAct);
     if(selectionItem)
     {
         menu.addAction(rmAct);
-        menu.addAction(chAct);
+        menu.addAction(editAct);
     }
     menu.exec( tree->mapToGlobal(pos) );
 }
 
 void SentenceManagerForm::treeRemove()
 {
-    QMessageBox::information(this,"","treeRemove");
+    QMessageBox* msg = new QMessageBox(this);
+    msg->setStandardButtons(QMessageBox::Yes|QMessageBox::No);
+
+    if(SettingsForm::ApplicationLanguage == "ru")
+    {
+        msg->setButtonText(QMessageBox::Yes,"&Да");
+        msg->setButtonText(QMessageBox::No,"&Нет");
+    }
+    msg->setText("Remove?");
+    msg->exec();
 }
 
 void SentenceManagerForm::treeChange()

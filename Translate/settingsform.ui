@@ -21,8 +21,8 @@
     <rect>
      <x>20</x>
      <y>10</y>
-     <width>218</width>
-     <height>122</height>
+     <width>321</width>
+     <height>131</height>
     </rect>
    </property>
    <layout class="QHBoxLayout" name="horizontalLayout">
@@ -33,6 +33,17 @@
       </property>
       <item>
        <widget class="QRadioButton" name="rBtmDefoult">
+        <property name="minimumSize">
+         <size>
+          <width>100</width>
+          <height>0</height>
+         </size>
+        </property>
+        <property name="font">
+         <font>
+          <pointsize>13</pointsize>
+         </font>
+        </property>
         <property name="text">
          <string>Defo&amp;ult</string>
         </property>
@@ -40,6 +51,12 @@
       </item>
       <item>
        <widget class="QRadioButton" name="rBtmDark">
+        <property name="minimumSize">
+         <size>
+          <width>100</width>
+          <height>0</height>
+         </size>
+        </property>
         <property name="font">
          <font>
           <pointsize>13</pointsize>
@@ -52,6 +69,12 @@
       </item>
       <item>
        <widget class="QRadioButton" name="rBtmLight">
+        <property name="minimumSize">
+         <size>
+          <width>100</width>
+          <height>0</height>
+         </size>
+        </property>
         <property name="font">
          <font>
           <pointsize>13</pointsize>
@@ -64,6 +87,12 @@
       </item>
       <item>
        <widget class="QRadioButton" name="rBtmCustom">
+        <property name="minimumSize">
+         <size>
+          <width>100</width>
+          <height>0</height>
+         </size>
+        </property>
         <property name="font">
          <font>
           <pointsize>13</pointsize>

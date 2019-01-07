@@ -4,6 +4,8 @@
 #include <QSqlQuery>
 #include <QSqlRecord>
 #include <QMessageBox>
+#include "settingsform.h"
+#include "mainwindow.h"
 
 //возвращает расстояние  между двумя точками
 int distance(const QPoint& a,const QPoint& b)
@@ -30,6 +32,9 @@ ConstructorForm::ConstructorForm(QWidget *parent) :QDialog(parent), ui(new Ui::C
     tmr->setInterval(1000);
     connect(tmr, SIGNAL(timeout()), this, SLOT(updateTime()));
     tmr->start();
+
+    setInterfaceLanguage(SettingsForm::ApplicationLanguage);
+    setStyleSheet(MainWindow::loadStyle(SettingsForm::StyleFilename));
 }
 
 ConstructorForm::~ConstructorForm()

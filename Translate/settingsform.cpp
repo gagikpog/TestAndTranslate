@@ -1,4 +1,5 @@
 #include "settingsform.h"
+#include "sentencemanagerform.h"
 #include "ui_settingsform.h"
 #include "mainwindow.h"
 #include <QSettings>
@@ -6,7 +7,6 @@
 #include <QFileDialog>
 #include <QDir>
 #include <QDebug>
-#include "sentencemanagerform.h"
 
  QString SettingsForm::StyleFilename = "Styles/dark.qss";
  QString SettingsForm::ApplicationLanguage = "en";
@@ -18,6 +18,7 @@ SettingsForm::SettingsForm(QWidget *parent) :QDialog(parent), ui(new Ui::Setting
     ui->setupUi(this);
     readLocakSettings();
     setStyleSheet(MainWindow::loadStyle(StyleFilename));
+    setInterfaceLanguage(ApplicationLanguage);
 }
 
 SettingsForm::~SettingsForm()
@@ -29,20 +30,24 @@ void SettingsForm::setInterfaceLanguage(QString lang)
 {
     if(lang == "ru")
     {
-
+        ui->rBtmDark->setText("Темный");
+        ui->rBtmLight->setText("Светлая");
+        ui->rBtmCustom->setText("Другой");
+        ui->rBtmDefoult->setText("По умолчанию");
+        ui->btmStyle->setText("Загрузить стиль");
     }
 }
 
 void SettingsForm::readSettings()
 {
-    QSettings settings(settingsFilename, QSettings::NativeFormat);
+    QSettings settings(settingsFilename, QSettings::IniFormat);
     StyleFilename = settings.value("styleFile", "").toString();
     ApplicationLanguage = settings.value("language", "").toString();
 }
 
 void SettingsForm::writeLanguage()
 {
-    QSettings settings(settingsFilename, QSettings::NativeFormat);
+    QSettings settings(settingsFilename, QSettings::IniFormat);
     settings.setValue("language", ApplicationLanguage);
 }
 
@@ -71,14 +76,14 @@ void SettingsForm::writeSettings()
     if(ui->rBtmDefoult->isChecked())
         check = "defoult";
 
-    QSettings settings(settingsFilename, QSettings::NativeFormat);
+    QSettings settings(settingsFilename, QSettings::IniFormat);
     settings.setValue("styleFile", StyleFilename);
     settings.setValue("checkbux",check );
 }
 
 void SettingsForm::readLocakSettings()
 {
-    QSettings settings(settingsFilename, QSettings::NativeFormat);
+    QSettings settings(settingsFilename, QSettings::IniFormat);
     selectRadioBatton(settings.value("checkbux", "").toString());
 }
 

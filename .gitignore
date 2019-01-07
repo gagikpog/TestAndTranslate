@@ -1,3 +1,4 @@
 Debug/*.o
 Debug/ui_*.*
 Debug/moc_*.*
+Debug/Translate

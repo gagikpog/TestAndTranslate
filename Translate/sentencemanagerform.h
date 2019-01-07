@@ -23,6 +23,7 @@ class SentenceManagerForm : public QDialog
 public:
     explicit SentenceManagerForm(QWidget *parent = 0);
     ~SentenceManagerForm();
+    void setInterfaceLanguage(QString lang);
 private slots:
     void readSentence();
     void prepareMenu(const QPoint & pos );
@@ -36,6 +37,11 @@ private:
     Ui::SentenceManagerForm *ui;
     QSqlDatabase db;
     QTreeWidgetItem* selectionItem;
+    //str
+    QString strRemove = "&Remove";
+    QString strAdd = "&Add";
+    QString strEdit = "&Edit";
+    QString strOk = "&OK";
 };
 
 #endif // SENTENCEMANAGERFORM_H

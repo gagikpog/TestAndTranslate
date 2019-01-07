@@ -1,6 +1,7 @@
 #include "translateform.h"
 #include "ui_translateform.h"
-#include <QMessageBox>
+#include "mainwindow.h"
+#include "settingsform.h"
 
 TranslateForm::TranslateForm(QWidget *parent) : QDialog(parent), ui(new Ui::TranslateForm)
 {
@@ -10,12 +11,12 @@ TranslateForm::TranslateForm(QWidget *parent) : QDialog(parent), ui(new Ui::Tran
     db = QSqlDatabase::addDatabase("QSQLITE");
     db.setDatabaseName("data.db");
     db.setPassword("sqlite18");
-    if(db.open())
-    {
-        qDebug()<<"OK";
-    }
+    db.open();
     //заполнить таблицу
     ReadDB();
+
+    setInterfaceLanguage(SettingsForm::ApplicationLanguage);
+    setStyleSheet(MainWindow::loadStyle(SettingsForm::StyleFilename));
 }
 
 TranslateForm::~TranslateForm()

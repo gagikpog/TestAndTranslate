@@ -1,5 +1,7 @@
 #include "trainingform.h"
 #include "ui_trainingform.h"
+#include "mainwindow.h"
+#include "settingsform.h"
 
 TrainingForm::TrainingForm(QWidget *parent) : QDialog(parent), ui(new Ui::TrainingForm)
 {
@@ -17,6 +19,9 @@ TrainingForm::TrainingForm(QWidget *parent) : QDialog(parent), ui(new Ui::Traini
     readAllData();
     //вывести первый тест
     fillLisrs();
+
+    setInterfaceLanguage(SettingsForm::ApplicationLanguage);
+    setStyleSheet(MainWindow::loadStyle(SettingsForm::StyleFilename));
 }
 
 TrainingForm::~TrainingForm()

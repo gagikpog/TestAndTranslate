@@ -16,9 +16,14 @@
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>
     <widget class="QTreeWidget" name="treeWidget">
+     <property name="font">
+      <font>
+       <pointsize>13</pointsize>
+      </font>
+     </property>
      <column>
       <property name="text">
-       <string notr="true">1</string>
+       <string notr="true"/>
       </property>
      </column>
     </widget>
@@ -47,7 +52,7 @@
         </size>
        </property>
        <property name="text">
-        <string>Change</string>
+        <string>&amp;Edit</string>
        </property>
       </widget>
      </item>
@@ -60,7 +65,7 @@
         </size>
        </property>
        <property name="text">
-        <string>Add</string>
+        <string>&amp;Add</string>
        </property>
       </widget>
      </item>
@@ -73,7 +78,7 @@
         </size>
        </property>
        <property name="text">
-        <string>Remove</string>
+        <string>&amp;Remove</string>
        </property>
       </widget>
      </item>
@@ -86,7 +91,7 @@
         </size>
        </property>
        <property name="text">
-        <string>OK</string>
+        <string>&amp;OK</string>
        </property>
       </widget>
      </item>
