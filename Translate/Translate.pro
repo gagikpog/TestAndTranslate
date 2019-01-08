@@ -33,7 +33,8 @@ SOURCES += \
     constructorform.cpp \
     word.cpp \
     settingsform.cpp \
-    sentencemanagerform.cpp
+    sentencemanagerform.cpp \
+    readerform.cpp
 
 HEADERS += \
         mainwindow.h \
@@ -42,7 +43,8 @@ HEADERS += \
     constructorform.h \
     word.h \
     settingsform.h \
-    sentencemanagerform.h
+    sentencemanagerform.h \
+    readerform.h
 
 FORMS += \
         mainwindow.ui \
@@ -50,4 +52,5 @@ FORMS += \
     trainingform.ui \
     constructorform.ui \
     settingsform.ui \
-    sentencemanagerform.ui
+    sentencemanagerform.ui \
+    readerform.ui

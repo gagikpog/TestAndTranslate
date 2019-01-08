@@ -57,13 +57,15 @@ SOURCES       = ../Translate/main.cpp \
 		../Translate/constructorform.cpp \
 		../Translate/word.cpp \
 		../Translate/settingsform.cpp \
-		../Translate/sentencemanagerform.cpp moc_mainwindow.cpp \
+		../Translate/sentencemanagerform.cpp \
+		../Translate/readerform.cpp moc_mainwindow.cpp \
 		moc_translateform.cpp \
 		moc_trainingform.cpp \
 		moc_constructorform.cpp \
 		moc_word.cpp \
 		moc_settingsform.cpp \
-		moc_sentencemanagerform.cpp
+		moc_sentencemanagerform.cpp \
+		moc_readerform.cpp
 OBJECTS       = main.o \
 		mainwindow.o \
 		translateform.o \
@@ -72,13 +74,15 @@ OBJECTS       = main.o \
 		word.o \
 		settingsform.o \
 		sentencemanagerform.o \
+		readerform.o \
 		moc_mainwindow.o \
 		moc_translateform.o \
 		moc_trainingform.o \
 		moc_constructorform.o \
 		moc_word.o \
 		moc_settingsform.o \
-		moc_sentencemanagerform.o
+		moc_sentencemanagerform.o \
+		moc_readerform.o
 DIST          = /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/spec_pre.prf \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/common/unix.conf \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/common/linux.conf \
@@ -159,14 +163,16 @@ DIST          = /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/spec_pre.prf \
 		../Translate/constructorform.h \
 		../Translate/word.h \
 		../Translate/settingsform.h \
-		../Translate/sentencemanagerform.h ../Translate/main.cpp \
+		../Translate/sentencemanagerform.h \
+		../Translate/readerform.h ../Translate/main.cpp \
 		../Translate/mainwindow.cpp \
 		../Translate/translateform.cpp \
 		../Translate/trainingform.cpp \
 		../Translate/constructorform.cpp \
 		../Translate/word.cpp \
 		../Translate/settingsform.cpp \
-		../Translate/sentencemanagerform.cpp
+		../Translate/sentencemanagerform.cpp \
+		../Translate/readerform.cpp
 QMAKE_TARGET  = Translate
 DESTDIR       = 
 TARGET        = Translate
@@ -175,7 +181,7 @@ TARGET        = Translate
 first: all
 ####### Build rules
 
-$(TARGET): ui_mainwindow.h ui_translateform.h ui_trainingform.h ui_constructorform.h ui_settingsform.h ui_sentencemanagerform.h $(OBJECTS)  
+$(TARGET): ui_mainwindow.h ui_translateform.h ui_trainingform.h ui_constructorform.h ui_settingsform.h ui_sentencemanagerform.h ui_readerform.h $(OBJECTS)  
 	$(LINK) $(LFLAGS) -o $(TARGET) $(OBJECTS) $(OBJCOMP) $(LIBS)
 
 Makefile: ../Translate/Translate.pro /usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++/qmake.conf /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/spec_pre.prf \
@@ -354,9 +360,9 @@ distdir: FORCE
 	@test -d $(DISTDIR) || mkdir -p $(DISTDIR)
 	$(COPY_FILE) --parents $(DIST) $(DISTDIR)/
 	$(COPY_FILE) --parents /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/data/dummy.cpp $(DISTDIR)/
-	$(COPY_FILE) --parents ../Translate/mainwindow.h ../Translate/translateform.h ../Translate/trainingform.h ../Translate/constructorform.h ../Translate/word.h ../Translate/settingsform.h ../Translate/sentencemanagerform.h $(DISTDIR)/
-	$(COPY_FILE) --parents ../Translate/main.cpp ../Translate/mainwindow.cpp ../Translate/translateform.cpp ../Translate/trainingform.cpp ../Translate/constructorform.cpp ../Translate/word.cpp ../Translate/settingsform.cpp ../Translate/sentencemanagerform.cpp $(DISTDIR)/
-	$(COPY_FILE) --parents ../Translate/mainwindow.ui ../Translate/translateform.ui ../Translate/trainingform.ui ../Translate/constructorform.ui ../Translate/settingsform.ui ../Translate/sentencemanagerform.ui $(DISTDIR)/
+	$(COPY_FILE) --parents ../Translate/mainwindow.h ../Translate/translateform.h ../Translate/trainingform.h ../Translate/constructorform.h ../Translate/word.h ../Translate/settingsform.h ../Translate/sentencemanagerform.h ../Translate/readerform.h $(DISTDIR)/
+	$(COPY_FILE) --parents ../Translate/main.cpp ../Translate/mainwindow.cpp ../Translate/translateform.cpp ../Translate/trainingform.cpp ../Translate/constructorform.cpp ../Translate/word.cpp ../Translate/settingsform.cpp ../Translate/sentencemanagerform.cpp ../Translate/readerform.cpp $(DISTDIR)/
+	$(COPY_FILE) --parents ../Translate/mainwindow.ui ../Translate/translateform.ui ../Translate/trainingform.ui ../Translate/constructorform.ui ../Translate/settingsform.ui ../Translate/sentencemanagerform.ui ../Translate/readerform.ui $(DISTDIR)/
 
 
 clean: compiler_clean 
@@ -388,9 +394,9 @@ compiler_moc_predefs_clean:
 moc_predefs.h: /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/data/dummy.cpp
 	g++ -pipe -g -Wall -W -dM -E -o moc_predefs.h /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/data/dummy.cpp
 
-compiler_moc_header_make_all: moc_mainwindow.cpp moc_translateform.cpp moc_trainingform.cpp moc_constructorform.cpp moc_word.cpp moc_settingsform.cpp moc_sentencemanagerform.cpp
+compiler_moc_header_make_all: moc_mainwindow.cpp moc_translateform.cpp moc_trainingform.cpp moc_constructorform.cpp moc_word.cpp moc_settingsform.cpp moc_sentencemanagerform.cpp moc_readerform.cpp
 compiler_moc_header_clean:
-	-$(DEL_FILE) moc_mainwindow.cpp moc_translateform.cpp moc_trainingform.cpp moc_constructorform.cpp moc_word.cpp moc_settingsform.cpp moc_sentencemanagerform.cpp
+	-$(DEL_FILE) moc_mainwindow.cpp moc_translateform.cpp moc_trainingform.cpp moc_constructorform.cpp moc_word.cpp moc_settingsform.cpp moc_sentencemanagerform.cpp moc_readerform.cpp
 moc_mainwindow.cpp: ../Translate/mainwindow.h \
 		moc_predefs.h \
 		/usr/lib/qt5/bin/moc
@@ -427,11 +433,16 @@ moc_sentencemanagerform.cpp: ../Translate/sentencemanagerform.h \
 		/usr/lib/qt5/bin/moc
 	/usr/lib/qt5/bin/moc $(DEFINES) --include ./moc_predefs.h -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++ -I/home/gagik/Documents/QT/Translate/Translate -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtWidgets -I/usr/include/x86_64-linux-gnu/qt5/QtGui -I/usr/include/x86_64-linux-gnu/qt5/QtNetwork -I/usr/include/x86_64-linux-gnu/qt5/QtSql -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I. -I/usr/include/c++/7 -I/usr/include/x86_64-linux-gnu/c++/7 -I/usr/include/c++/7/backward -I/usr/lib/gcc/x86_64-linux-gnu/7/include -I/usr/local/include -I/usr/lib/gcc/x86_64-linux-gnu/7/include-fixed -I/usr/include/x86_64-linux-gnu -I/usr/include ../Translate/sentencemanagerform.h -o moc_sentencemanagerform.cpp
 
+moc_readerform.cpp: ../Translate/readerform.h \
+		moc_predefs.h \
+		/usr/lib/qt5/bin/moc
+	/usr/lib/qt5/bin/moc $(DEFINES) --include ./moc_predefs.h -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++ -I/home/gagik/Documents/QT/Translate/Translate -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtWidgets -I/usr/include/x86_64-linux-gnu/qt5/QtGui -I/usr/include/x86_64-linux-gnu/qt5/QtNetwork -I/usr/include/x86_64-linux-gnu/qt5/QtSql -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I. -I/usr/include/c++/7 -I/usr/include/x86_64-linux-gnu/c++/7 -I/usr/include/c++/7/backward -I/usr/lib/gcc/x86_64-linux-gnu/7/include -I/usr/local/include -I/usr/lib/gcc/x86_64-linux-gnu/7/include-fixed -I/usr/include/x86_64-linux-gnu -I/usr/include ../Translate/readerform.h -o moc_readerform.cpp
+
 compiler_moc_source_make_all:
 compiler_moc_source_clean:
-compiler_uic_make_all: ui_mainwindow.h ui_translateform.h ui_trainingform.h ui_constructorform.h ui_settingsform.h ui_sentencemanagerform.h
+compiler_uic_make_all: ui_mainwindow.h ui_translateform.h ui_trainingform.h ui_constructorform.h ui_settingsform.h ui_sentencemanagerform.h ui_readerform.h
 compiler_uic_clean:
-	-$(DEL_FILE) ui_mainwindow.h ui_translateform.h ui_trainingform.h ui_constructorform.h ui_settingsform.h ui_sentencemanagerform.h
+	-$(DEL_FILE) ui_mainwindow.h ui_translateform.h ui_trainingform.h ui_constructorform.h ui_settingsform.h ui_sentencemanagerform.h ui_readerform.h
 ui_mainwindow.h: ../Translate/mainwindow.ui \
 		/usr/lib/qt5/bin/uic
 	/usr/lib/qt5/bin/uic ../Translate/mainwindow.ui -o ui_mainwindow.h
@@ -456,6 +467,10 @@ ui_sentencemanagerform.h: ../Translate/sentencemanagerform.ui \
 		/usr/lib/qt5/bin/uic
 	/usr/lib/qt5/bin/uic ../Translate/sentencemanagerform.ui -o ui_sentencemanagerform.h
 
+ui_readerform.h: ../Translate/readerform.ui \
+		/usr/lib/qt5/bin/uic
+	/usr/lib/qt5/bin/uic ../Translate/readerform.ui -o ui_readerform.h
+
 compiler_yacc_decl_make_all:
 compiler_yacc_decl_clean:
 compiler_yacc_impl_make_all:
@@ -479,16 +494,22 @@ mainwindow.o: ../Translate/mainwindow.cpp ../Translate/mainwindow.h \
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o mainwindow.o ../Translate/mainwindow.cpp
 
 translateform.o: ../Translate/translateform.cpp ../Translate/translateform.h \
-		ui_translateform.h
+		ui_translateform.h \
+		../Translate/mainwindow.h \
+		../Translate/settingsform.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o translateform.o ../Translate/translateform.cpp
 
 trainingform.o: ../Translate/trainingform.cpp ../Translate/trainingform.h \
-		ui_trainingform.h
+		ui_trainingform.h \
+		../Translate/mainwindow.h \
+		../Translate/settingsform.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o trainingform.o ../Translate/trainingform.cpp
 
 constructorform.o: ../Translate/constructorform.cpp ../Translate/constructorform.h \
 		../Translate/word.h \
-		ui_constructorform.h
+		ui_constructorform.h \
+		../Translate/settingsform.h \
+		../Translate/mainwindow.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o constructorform.o ../Translate/constructorform.cpp
 
 word.o: ../Translate/word.cpp ../Translate/word.h \
@@ -496,14 +517,20 @@ word.o: ../Translate/word.cpp ../Translate/word.h \
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o word.o ../Translate/word.cpp
 
 settingsform.o: ../Translate/settingsform.cpp ../Translate/settingsform.h \
+		../Translate/sentencemanagerform.h \
 		ui_settingsform.h \
-		../Translate/mainwindow.h \
-		../Translate/sentencemanagerform.h
+		../Translate/mainwindow.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o settingsform.o ../Translate/settingsform.cpp
 
 sentencemanagerform.o: ../Translate/sentencemanagerform.cpp ../Translate/sentencemanagerform.h \
-		ui_sentencemanagerform.h
+		ui_sentencemanagerform.h \
+		../Translate/settingsform.h \
+		../Translate/mainwindow.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o sentencemanagerform.o ../Translate/sentencemanagerform.cpp
+
+readerform.o: ../Translate/readerform.cpp ../Translate/readerform.h \
+		ui_readerform.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o readerform.o ../Translate/readerform.cpp
 
 moc_mainwindow.o: moc_mainwindow.cpp 
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_mainwindow.o moc_mainwindow.cpp
@@ -525,6 +552,9 @@ moc_settingsform.o: moc_settingsform.cpp
 
 moc_sentencemanagerform.o: moc_sentencemanagerform.cpp 
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_sentencemanagerform.o moc_sentencemanagerform.cpp
+
+moc_readerform.o: moc_readerform.cpp 
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_readerform.o moc_readerform.cpp
 
 ####### Install
 

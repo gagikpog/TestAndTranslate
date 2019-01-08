@@ -30,10 +30,10 @@ private slots:
     void treeRemove();
     void treeChange();
     void treeAdd();
-    void treeAddItem();
     void on_btmOk_clicked();
 
 private:
+    bool eventFilter(QObject *watched, QEvent *event);
     Ui::SentenceManagerForm *ui;
     QSqlDatabase db;
     QTreeWidgetItem* selectionItem;
@@ -42,6 +42,7 @@ private:
     QString strAdd = "&Add";
     QString strEdit = "&Edit";
     QString strOk = "&OK";
+
 };
 
 #endif // SENTENCEMANAGERFORM_H

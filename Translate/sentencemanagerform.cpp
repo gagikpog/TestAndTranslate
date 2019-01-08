@@ -1,7 +1,8 @@
 #include "sentencemanagerform.h"
 #include "ui_sentencemanagerform.h"
 #include "settingsform.h"
-#include  "mainwindow.h"
+#include "mainwindow.h"
+#include "readerform.h"
 
 SentenceManagerForm::SentenceManagerForm(QWidget *parent) : QDialog(parent), ui(new Ui::SentenceManagerForm)
 {
@@ -21,6 +22,7 @@ SentenceManagerForm::SentenceManagerForm(QWidget *parent) : QDialog(parent), ui(
 
     setInterfaceLanguage(SettingsForm::ApplicationLanguage);
     setStyleSheet(MainWindow::loadStyle(SettingsForm::StyleFilename));
+    ui->treeWidget->viewport()->installEventFilter(this);
 }
 
 SentenceManagerForm::~SentenceManagerForm()
@@ -49,7 +51,9 @@ void SentenceManagerForm::readSentence()
     if(!db.isOpen())
         return;
     ui->treeWidget->clear();
-    ui->treeWidget->setColumnCount(1);
+    ui->treeWidget->setColumnCount(3);
+    ui->treeWidget->hideColumn(1);
+    ui->treeWidget->hideColumn(2);
 
     QString strQuery = "SELECT * FROM sentenceRU";
     QSqlQuery* query = new QSqlQuery(strQuery,db);
@@ -65,33 +69,22 @@ void SentenceManagerForm::readSentence()
     for(int i = 0;i < lst.length();i++)
     {
         QTreeWidgetItem *itm_ = new QTreeWidgetItem();
-        QString str = lst.at(i).second;
-        itm_->setText(0, str);
-        strQuery = "SELECT sentence FROM sentenceEN WHERE id = " + QString::number(lst.at(i).first);
+        itm_->setText(0, lst.at(i).second);
+        itm_->setText(1,QString::number(lst.at(i).first));
+        strQuery = "SELECT sentence, key FROM sentenceEN WHERE id = " + QString::number(lst.at(i).first);
         if(q->exec(strQuery))
         {
            for(int j = 0;q->next();j++)
            {
                QTreeWidgetItem* cItm = new QTreeWidgetItem();
-               cItm->setText(j,q->value("sentence").toString());
+               cItm->setText(0, q->value("sentence").toString());
+               cItm->setText(1, q->value("key").toString());
+               cItm->setText(2, QString::number(lst.at(i).first));
                itm_->addChild(cItm);
            }
            ui->treeWidget->addTopLevelItem(itm_);
         }
     }
-
-    //itm->setBackgroundColor(0, Qt::red);
-    //itm->setTextColor(0, QColor(255,255,255,255));
-
-/*
-    QTreeWidgetItem *itm = new QTreeWidgetItem();
-    itm->setText(0, "Столбец №1");
-    ui->treeWidget->addTopLevelItem(itm);
-
-    QTreeWidgetItem *child = new QTreeWidgetItem();
-    child->setText(0,"text");
-    itm->addChild(child);
-    //*/
 }
 
 void SentenceManagerForm::prepareMenu(const QPoint &pos)
@@ -120,6 +113,8 @@ void SentenceManagerForm::prepareMenu(const QPoint &pos)
 
 void SentenceManagerForm::treeRemove()
 {
+    if(ui->treeWidget->selectedItems().isEmpty())
+        return;
     QMessageBox* msg = new QMessageBox(this);
     msg->setStandardButtons(QMessageBox::Yes|QMessageBox::No);
 
@@ -128,27 +123,86 @@ void SentenceManagerForm::treeRemove()
         msg->setButtonText(QMessageBox::Yes,"&Да");
         msg->setButtonText(QMessageBox::No,"&Нет");
     }
-    msg->setText("Remove?");
-    msg->exec();
+    msg->setText("Are you remover this sentence?\n"+ui->treeWidget->currentItem()->text(0));
+    if(msg->exec() == QMessageBox::Yes)
+    {
+        QTreeWidgetItem* itm = ui->treeWidget->currentItem();
+        int key = itm->text(1).toInt();
+        QSqlQuery* query = new  QSqlQuery(db);
+        int err = 0;
+        if(itm->text(2) == "")
+        {
+            QString strQuery = "DELETE FROM sentenceEN WHERE id = " + QString::number(key);
+            if(!query->exec(strQuery))
+                err++;
+            strQuery = "DELETE FROM sentenceRU WHERE key = " + QString::number(key);
+            if(!query->exec(strQuery))
+                err++;
+        }else {
+            QString strQuery = "DELETE FROM sentenceEN WHERE key = " + QString::number(key);
+            if(!query->exec(strQuery))
+                err++;
+        }
+        if(err == 0)
+            delete itm;
+    }
 }
 
 void SentenceManagerForm::treeChange()
 {
-    QMessageBox::information(this,"","treeChange");
+    if(ui->treeWidget->selectedItems().isEmpty())
+        return;
+    QTreeWidgetItem * itm = ui->treeWidget->currentItem();
+    ReaderForm* form = new ReaderForm(this);
+    form->setText(itm->text(0));
+    form->exec();
+    if(form->isChanged())
+    {
+        QSqlQuery* query = new QSqlQuery(db);
+        QString strQuery = "UPDATE ";
+        if(itm->text(2) == "")
+        {
+            strQuery += "sentenceRU SET sentence = \"" + form->Text() + "\" WHERE key = " + itm->text(1);
+        } else {
+            strQuery += "sentenceEN SET sentence = \"" + form->Text() + "\" WHERE key = " + itm->text(1);
+        }
+        if(query->exec(strQuery))
+            itm->setText(0,form->Text());
+    }
 }
 
 void SentenceManagerForm::treeAdd()
 {
-    QMessageBox::information(this,"","treeAdd");
+    ReaderForm* form = new ReaderForm(this);
+    form->exec();
+    if(form->isChanged())
+    {
+        form->Text();
+        if(ui->treeWidget->selectedItems().isEmpty())
+        {
 
-}
-
-void SentenceManagerForm::treeAddItem()
-{
-    QMessageBox::information(this,"","treeAddItem");
+        }else{
+            QTreeWidgetItem* itm = ui->treeWidget->currentItem();
+        }
+    }
 }
 
 void SentenceManagerForm::on_btmOk_clicked()
 {
     close();
+}
+
+bool SentenceManagerForm::eventFilter(QObject *watched, QEvent *event)
+{
+    if (watched == ui->treeWidget->viewport() && event->type() == QEvent::MouseButtonRelease) {
+        QMouseEvent *me = static_cast <QMouseEvent *> (event);
+
+        QModelIndex index = ui->treeWidget->indexAt(me->pos());
+
+        if (!index.isValid()) {
+            ui->treeWidget->clearSelection();
+        }
+        return true;
+    }
+    return QDialog::eventFilter(watched, event);
 }
