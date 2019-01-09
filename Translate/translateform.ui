@@ -10,6 +10,11 @@
     <height>736</height>
    </rect>
   </property>
+  <property name="font">
+   <font>
+    <pointsize>13</pointsize>
+   </font>
+  </property>
   <property name="windowTitle">
    <string>Dialog</string>
   </property>
@@ -30,11 +35,6 @@
          <height>45</height>
         </size>
        </property>
-       <property name="font">
-        <font>
-         <pointsize>14</pointsize>
-        </font>
-       </property>
        <property name="text">
         <string>&amp;Translate</string>
        </property>
@@ -48,11 +48,6 @@
          <height>45</height>
         </size>
        </property>
-       <property name="font">
-        <font>
-         <pointsize>14</pointsize>
-        </font>
-       </property>
        <property name="text">
         <string>&amp;Add to Favorites</string>
        </property>
@@ -65,11 +60,6 @@
          <width>150</width>
          <height>45</height>
         </size>
-       </property>
-       <property name="font">
-        <font>
-         <pointsize>14</pointsize>
-        </font>
        </property>
        <property name="text">
         <string>&amp;Remove</string>
@@ -103,6 +93,11 @@
          <width>30</width>
          <height>30</height>
         </size>
+       </property>
+       <property name="font">
+        <font>
+         <pointsize>13</pointsize>
+        </font>
        </property>
        <property name="styleSheet">
         <string notr="true">QPushButton{
@@ -163,9 +158,7 @@ border-radius: 15px;
        </property>
        <property name="font">
         <font>
-         <pointsize>14</pointsize>
-         <weight>50</weight>
-         <bold>false</bold>
+         <pointsize>13</pointsize>
         </font>
        </property>
        <property name="styleSheet">
@@ -197,11 +190,6 @@ QPushButton:pressed{
        <width>0</width>
        <height>300</height>
       </size>
-     </property>
-     <property name="font">
-      <font>
-       <pointsize>12</pointsize>
-      </font>
      </property>
      <property name="acceptDrops">
       <bool>false</bool>

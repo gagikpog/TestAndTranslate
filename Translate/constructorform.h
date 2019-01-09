@@ -3,11 +3,15 @@
 
 #include <QDialog>
 #include <QList>
-#include "word.h"
 #include <QSqlDatabase>
 #include <QPair>
 #include <QTimer>
 #include <QTime>
+#include <QtMath>
+#include <QSqlQuery>
+#include <QSqlRecord>
+#include <QMessageBox>
+#include "word.h"
 
 namespace Ui {
 class ConstructorForm;

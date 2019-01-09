@@ -1,9 +1,5 @@
 #include "constructorform.h"
 #include "ui_constructorform.h"
-#include <QtMath>
-#include <QSqlQuery>
-#include <QSqlRecord>
-#include <QMessageBox>
 #include "settingsform.h"
 #include "mainwindow.h"
 
@@ -111,8 +107,8 @@ void ConstructorForm::setInterfaceLanguage(QString lang)
     //установить русский язык
     if(lang == "ru")
     {
-        ui->btnSkip->setText("Пропустить");
-        ui->btnTest->setText("Проверка");
+        ui->btnSkip->setText("П&ропустить");
+        ui->btnTest->setText("&Проверка");
         strGab = "Составьте предложение!";
         strWrong = "Неверно составлено предложение!";
     }

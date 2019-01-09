@@ -7,13 +7,13 @@
     <x>0</x>
     <y>0</y>
     <width>500</width>
-    <height>313</height>
+    <height>200</height>
    </rect>
   </property>
   <property name="maximumSize">
    <size>
     <width>520</width>
-    <height>16777215</height>
+    <height>200</height>
    </size>
   </property>
   <property name="font">
@@ -65,7 +65,7 @@
         </size>
        </property>
        <property name="text">
-        <string>Cancel</string>
+        <string>&amp;Cancel</string>
        </property>
       </widget>
      </item>
@@ -78,7 +78,7 @@
         </size>
        </property>
        <property name="text">
-        <string>OK</string>
+        <string>&amp;Save</string>
        </property>
       </widget>
      </item>

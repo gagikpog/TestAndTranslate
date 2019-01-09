@@ -30,7 +30,6 @@ private slots:
     void treeRemove();
     void treeChange();
     void treeAdd();
-    void on_btmOk_clicked();
 
 private:
     bool eventFilter(QObject *watched, QEvent *event);
@@ -42,7 +41,8 @@ private:
     QString strAdd = "&Add";
     QString strEdit = "&Edit";
     QString strOk = "&OK";
-
+    QString strReload = "Re&load";
+    QString msgDelete = "Do you want to delete this offer?";
 };
 
 #endif // SENTENCEMANAGERFORM_H

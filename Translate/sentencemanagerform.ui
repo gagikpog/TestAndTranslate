@@ -10,17 +10,29 @@
     <height>597</height>
    </rect>
   </property>
+  <property name="font">
+   <font>
+    <pointsize>13</pointsize>
+   </font>
+  </property>
   <property name="windowTitle">
    <string>Dialog</string>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>
     <widget class="QTreeWidget" name="treeWidget">
-     <property name="font">
-      <font>
-       <pointsize>13</pointsize>
-      </font>
+     <property name="minimumSize">
+      <size>
+       <width>0</width>
+       <height>400</height>
+      </size>
      </property>
+     <property name="showDropIndicator" stdset="0">
+      <bool>true</bool>
+     </property>
+     <attribute name="headerVisible">
+      <bool>false</bool>
+     </attribute>
      <column>
       <property name="text">
        <string notr="true"/>
@@ -42,6 +54,22 @@
         </size>
        </property>
       </spacer>
+     </item>
+     <item>
+      <widget class="QPushButton" name="btmReload">
+       <property name="minimumSize">
+        <size>
+         <width>120</width>
+         <height>40</height>
+        </size>
+       </property>
+       <property name="text">
+        <string>Re&amp;load</string>
+       </property>
+       <property name="autoDefault">
+        <bool>false</bool>
+       </property>
+      </widget>
      </item>
      <item>
       <widget class="QPushButton" name="btmChange">
@@ -67,6 +95,9 @@
        <property name="text">
         <string>&amp;Add</string>
        </property>
+       <property name="autoDefault">
+        <bool>false</bool>
+       </property>
       </widget>
      </item>
      <item>
@@ -79,6 +110,9 @@
        </property>
        <property name="text">
         <string>&amp;Remove</string>
+       </property>
+       <property name="autoDefault">
+        <bool>false</bool>
        </property>
       </widget>
      </item>
@@ -93,12 +127,40 @@
        <property name="text">
         <string>&amp;OK</string>
        </property>
+       <property name="autoDefault">
+        <bool>false</bool>
+       </property>
       </widget>
      </item>
     </layout>
    </item>
   </layout>
  </widget>
+ <tabstops>
+  <tabstop>btmOk</tabstop>
+  <tabstop>btmRemove</tabstop>
+  <tabstop>btmAdd</tabstop>
+  <tabstop>btmChange</tabstop>
+  <tabstop>btmReload</tabstop>
+  <tabstop>treeWidget</tabstop>
+ </tabstops>
  <resources/>
- <connections/>
+ <connections>
+  <connection>
+   <sender>btmOk</sender>
+   <signal>clicked()</signal>
+   <receiver>SentenceManagerForm</receiver>
+   <slot>close()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>669</x>
+     <y>575</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>32</x>
+     <y>553</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
 </ui>

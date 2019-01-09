@@ -10,6 +10,11 @@
     <height>616</height>
    </rect>
   </property>
+  <property name="font">
+   <font>
+    <pointsize>13</pointsize>
+   </font>
+  </property>
   <property name="windowTitle">
    <string>Dialog</string>
   </property>
@@ -27,11 +32,6 @@
          <height>40</height>
         </size>
        </property>
-       <property name="font">
-        <font>
-         <pointsize>14</pointsize>
-        </font>
-       </property>
        <property name="text">
         <string>Check</string>
        </property>
@@ -44,11 +44,6 @@
          <width>150</width>
          <height>40</height>
         </size>
-       </property>
-       <property name="font">
-        <font>
-         <pointsize>14</pointsize>
-        </font>
        </property>
        <property name="text">
         <string>Next</string>
@@ -80,11 +75,6 @@
          <height>300</height>
         </size>
        </property>
-       <property name="font">
-        <font>
-         <pointsize>12</pointsize>
-        </font>
-       </property>
       </widget>
      </item>
      <item>
@@ -94,11 +84,6 @@
          <width>200</width>
          <height>300</height>
         </size>
-       </property>
-       <property name="font">
-        <font>
-         <pointsize>12</pointsize>
-        </font>
        </property>
        <property name="wordWrap">
         <bool>true</bool>

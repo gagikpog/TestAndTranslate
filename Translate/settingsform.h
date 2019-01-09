@@ -34,7 +34,8 @@ private:
     void readLocakSettings();
     void selectRadioBatton(QString check);
     static const QString settingsFilename;
-    QString selectedRadioBtm;
+    QString selectedRadioBtm = "Styles/defoult";
+    QString customStyleFile = "";
 
 };
 

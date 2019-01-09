@@ -16,6 +16,7 @@
 SettingsForm::SettingsForm(QWidget *parent) :QDialog(parent), ui(new Ui::SettingsForm)
 {
     ui->setupUi(this);
+    setWindowTitle("Settings");
     readLocakSettings();
     setStyleSheet(MainWindow::loadStyle(StyleFilename));
     setInterfaceLanguage(ApplicationLanguage);
@@ -35,6 +36,7 @@ void SettingsForm::setInterfaceLanguage(QString lang)
         ui->rBtmCustom->setText("Другой");
         ui->rBtmDefoult->setText("По умолчанию");
         ui->btmStyle->setText("Загрузить стиль");
+        setWindowTitle("Настройки");
     }
 }
 
@@ -42,7 +44,7 @@ void SettingsForm::readSettings()
 {
     QSettings settings(settingsFilename, QSettings::IniFormat);
     StyleFilename = settings.value("styleFile", "").toString();
-    ApplicationLanguage = settings.value("language", "").toString();
+    ApplicationLanguage = settings.value("language", "en").toString();
 }
 
 void SettingsForm::writeLanguage()
@@ -59,6 +61,7 @@ void SettingsForm::on_btmStyle_clicked()
     {
         StyleFilename = res;
         setStyleSheet(MainWindow::loadStyle(StyleFilename));
+        customStyleFile = res;
         writeSettings();
         selectedRadioBtm = "custom";
     }else {
@@ -79,12 +82,15 @@ void SettingsForm::writeSettings()
     QSettings settings(settingsFilename, QSettings::IniFormat);
     settings.setValue("styleFile", StyleFilename);
     settings.setValue("checkbux",check );
+    settings.setValue("customStyleFile",customStyleFile);
+
 }
 
 void SettingsForm::readLocakSettings()
 {
     QSettings settings(settingsFilename, QSettings::IniFormat);
     selectRadioBatton(settings.value("checkbux", "").toString());
+    customStyleFile = settings.value("customStyleFile", "").toString();
 }
 
 void SettingsForm::selectRadioBatton(QString check)
@@ -100,7 +106,13 @@ void SettingsForm::selectRadioBatton(QString check)
 void SettingsForm::on_rBtmCustom_clicked(bool checked)
 {
     ui->btmStyle->setEnabled(checked);
-    on_btmStyle_clicked();
+    if(!QFile::exists(customStyleFile)){
+        on_btmStyle_clicked();
+    }else{
+        StyleFilename = customStyleFile;
+        setStyleSheet(MainWindow::loadStyle(StyleFilename));
+        writeSettings();
+    }
 }
 
 void SettingsForm::on_rBtmLight_clicked(bool )
@@ -108,8 +120,8 @@ void SettingsForm::on_rBtmLight_clicked(bool )
     ui->btmStyle->setEnabled(false);
     StyleFilename = "Styles/light.qss";
     setStyleSheet(MainWindow::loadStyle(StyleFilename));
-    writeSettings();
     selectedRadioBtm = "light";
+    writeSettings();
 }
 
 void SettingsForm::on_rBtmDark_clicked(bool )
@@ -117,8 +129,8 @@ void SettingsForm::on_rBtmDark_clicked(bool )
     ui->btmStyle->setEnabled(false);
     StyleFilename = "Styles/dark.qss";
     setStyleSheet(MainWindow::loadStyle(StyleFilename));
-    writeSettings();
     selectedRadioBtm = "dark";
+    writeSettings();
 }
 
 void SettingsForm::on_rBtmDefoult_clicked(bool )
@@ -126,8 +138,8 @@ void SettingsForm::on_rBtmDefoult_clicked(bool )
     ui->btmStyle->setEnabled(false);
     StyleFilename = "";
     setStyleSheet(MainWindow::loadStyle(StyleFilename));
-    writeSettings();
     selectedRadioBtm = "defoult";
+    writeSettings();
 }
 
 void SettingsForm::on_btmSManager_clicked()

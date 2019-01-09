@@ -1,11 +1,22 @@
 #include "readerform.h"
 #include "ui_readerform.h"
+#include "settingsform.h"
 
-ReaderForm::ReaderForm(QWidget *parent) :
-    QDialog(parent),
-    ui(new Ui::ReaderForm)
+ReaderForm::ReaderForm(QWidget *parent) : QDialog(parent), ui(new Ui::ReaderForm)
 {
     ui->setupUi(this);
+    setWindowTitle("Editor");
+    setInterfaceLanguage(SettingsForm::ApplicationLanguage);
+}
+
+void ReaderForm::setInterfaceLanguage(QString lang)
+{
+    if(lang == "ru")
+    {
+        ui->btmCancel->setText("&Отмена");
+        ui->btmOk->setText("&Сохранить");
+        setWindowTitle("Редактор");
+    }
 }
 
 void ReaderForm::setText(QString txt)
