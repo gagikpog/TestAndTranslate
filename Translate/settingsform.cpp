@@ -2,15 +2,13 @@
 #include "sentencemanagerform.h"
 #include "ui_settingsform.h"
 #include "mainwindow.h"
-#include <QSettings>
-#include <QMessageBox>
-#include <QFileDialog>
-#include <QDir>
-#include <QDebug>
 
- QString SettingsForm::StyleFilename = "Styles/dark.qss";
- QString SettingsForm::ApplicationLanguage = "en";
- const QString SettingsForm::settingsFilename = "settings.ini";
+QString SettingsForm::StyleFilename = "Styles/dark.qss";
+QString SettingsForm::ApplicationLanguage = "en";
+QString SettingsForm::StylesStr = "";
+const QString SettingsForm::settingsFilename = "settings.ini";
+
+QFont SettingsForm::font;
 
 
 SettingsForm::SettingsForm(QWidget *parent) :QDialog(parent), ui(new Ui::SettingsForm)
@@ -18,8 +16,9 @@ SettingsForm::SettingsForm(QWidget *parent) :QDialog(parent), ui(new Ui::Setting
     ui->setupUi(this);
     setWindowTitle("Settings");
     readLocakSettings();
-    setStyleSheet(MainWindow::loadStyle(StyleFilename));
+    setStyleSheet(getStyles());
     setInterfaceLanguage(ApplicationLanguage);
+    ui->fontComboBox->setCurrentFont(font);
 }
 
 SettingsForm::~SettingsForm()
@@ -45,12 +44,20 @@ void SettingsForm::readSettings()
     QSettings settings(settingsFilename, QSettings::IniFormat);
     StyleFilename = settings.value("styleFile", "").toString();
     ApplicationLanguage = settings.value("language", "en").toString();
+    font.setFamily(settings.value("font", "Ubuntu").toString());
+
+    StylesStr = loadStyle(StyleFilename);
 }
 
 void SettingsForm::writeLanguage()
 {
     QSettings settings(settingsFilename, QSettings::IniFormat);
     settings.setValue("language", ApplicationLanguage);
+}
+
+QString SettingsForm::getStyles()
+{
+    return StylesStr + "QWidget{font-family: \"" + font.family() + "\";}";
 }
 
 void SettingsForm::on_btmStyle_clicked()
@@ -60,7 +67,8 @@ void SettingsForm::on_btmStyle_clicked()
     if(res != "")
     {
         StyleFilename = res;
-        setStyleSheet(MainWindow::loadStyle(StyleFilename));
+        StylesStr = loadStyle(StyleFilename);
+        setStyleSheet(getStyles());
         customStyleFile = res;
         writeSettings();
         selectedRadioBtm = "custom";
@@ -83,7 +91,7 @@ void SettingsForm::writeSettings()
     settings.setValue("styleFile", StyleFilename);
     settings.setValue("checkbux",check );
     settings.setValue("customStyleFile",customStyleFile);
-
+    settings.setValue("font",font.family());
 }
 
 void SettingsForm::readLocakSettings()
@@ -110,7 +118,8 @@ void SettingsForm::on_rBtmCustom_clicked(bool checked)
         on_btmStyle_clicked();
     }else{
         StyleFilename = customStyleFile;
-        setStyleSheet(MainWindow::loadStyle(StyleFilename));
+        StylesStr = loadStyle(StyleFilename);
+        setStyleSheet(getStyles());
         writeSettings();
     }
 }
@@ -119,7 +128,8 @@ void SettingsForm::on_rBtmLight_clicked(bool )
 {
     ui->btmStyle->setEnabled(false);
     StyleFilename = "Styles/light.qss";
-    setStyleSheet(MainWindow::loadStyle(StyleFilename));
+    StylesStr = loadStyle(StyleFilename);
+    setStyleSheet(getStyles());
     selectedRadioBtm = "light";
     writeSettings();
 }
@@ -128,7 +138,8 @@ void SettingsForm::on_rBtmDark_clicked(bool )
 {
     ui->btmStyle->setEnabled(false);
     StyleFilename = "Styles/dark.qss";
-    setStyleSheet(MainWindow::loadStyle(StyleFilename));
+    StylesStr = loadStyle(StyleFilename);
+    setStyleSheet(getStyles());
     selectedRadioBtm = "dark";
     writeSettings();
 }
@@ -137,7 +148,8 @@ void SettingsForm::on_rBtmDefoult_clicked(bool )
 {
     ui->btmStyle->setEnabled(false);
     StyleFilename = "";
-    setStyleSheet(MainWindow::loadStyle(StyleFilename));
+    StylesStr = "";
+    setStyleSheet(getStyles());
     selectedRadioBtm = "defoult";
     writeSettings();
 }
@@ -148,4 +160,23 @@ void SettingsForm::on_btmSManager_clicked()
     //this->hide();
     form->exec();
     //this->show();
+}
+
+void SettingsForm::on_fontComboBox_currentFontChanged(const QFont &f)
+{
+    font = f;
+    writeSettings();
+    setStyleSheet(getStyles());
+}
+
+QString SettingsForm::loadStyle(QString filename)
+{
+    QFile* file = new QFile(filename);
+    if(!file->exists())
+        return "";
+    file->open(QIODevice::ReadOnly);
+    QTextStream* in = new QTextStream(file);
+    QString res = in->readAll();
+    file->close();
+    return res;
 }

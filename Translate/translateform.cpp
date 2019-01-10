@@ -16,7 +16,7 @@ TranslateForm::TranslateForm(QWidget *parent) : QDialog(parent), ui(new Ui::Tran
     ReadDB();
 
     setInterfaceLanguage(SettingsForm::ApplicationLanguage);
-    setStyleSheet(MainWindow::loadStyle(SettingsForm::StyleFilename));
+    setStyleSheet(SettingsForm::getStyles());
 }
 
 TranslateForm::~TranslateForm()

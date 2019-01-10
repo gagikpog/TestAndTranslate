@@ -15,7 +15,6 @@ public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
     void setInterfaceLanguage(QString lang= "ru");
-    static QString loadStyle(QString filename);
 private slots:
     void on_btmTranslate_clicked();
     void on_btmLanguage_clicked();

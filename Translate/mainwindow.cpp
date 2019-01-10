@@ -11,7 +11,7 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent), ui(new Ui::MainWin
 {
     ui->setupUi(this);
     SettingsForm::readSettings();
-    ui->centralWidget->setStyleSheet(loadStyle(SettingsForm::StyleFilename));
+    ui->centralWidget->setStyleSheet(SettingsForm::getStyles());
     if(SettingsForm::ApplicationLanguage == "ru")
     {
         ui->btmLanguage->setText("&EN");
@@ -63,17 +63,7 @@ void MainWindow::setInterfaceLanguage(QString lang)
     }
 }
 
-QString MainWindow::loadStyle(QString filename)
-{
-    QFile* file = new QFile(filename);
-    if(!file->exists())
-        return "";
-    file->open(QIODevice::ReadOnly);
-    QTextStream* in = new QTextStream(file);
-    QString res = in->readAll();
-    file->close();
-    return res;
-}
+
 
 void MainWindow::on_btmTraining_clicked()
 {
@@ -96,6 +86,6 @@ void MainWindow::on_btmSetting_clicked()
     SettingsForm *form = new SettingsForm();
     this->hide();
     form->exec();
-    ui->centralWidget->setStyleSheet(loadStyle(SettingsForm::StyleFilename));
+    ui->centralWidget->setStyleSheet(SettingsForm::getStyles());
     this->show();
 }

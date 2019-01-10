@@ -21,7 +21,7 @@ TrainingForm::TrainingForm(QWidget *parent) : QDialog(parent), ui(new Ui::Traini
     fillLisrs();
 
     setInterfaceLanguage(SettingsForm::ApplicationLanguage);
-    setStyleSheet(MainWindow::loadStyle(SettingsForm::StyleFilename));
+    setStyleSheet(SettingsForm::getStyles());
 }
 
 TrainingForm::~TrainingForm()

@@ -24,7 +24,7 @@ SentenceManagerForm::SentenceManagerForm(QWidget *parent) : QDialog(parent), ui(
     connect(ui->btmReload,SIGNAL(clicked()),this,SLOT(readSentence()));
 
     setInterfaceLanguage(SettingsForm::ApplicationLanguage);
-    setStyleSheet(MainWindow::loadStyle(SettingsForm::StyleFilename));
+    setStyleSheet(SettingsForm::getStyles());
     ui->treeWidget->viewport()->installEventFilter(this);
 }
 

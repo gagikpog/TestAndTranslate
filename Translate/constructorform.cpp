@@ -30,7 +30,7 @@ ConstructorForm::ConstructorForm(QWidget *parent) :QDialog(parent), ui(new Ui::C
     tmr->start();
 
     setInterfaceLanguage(SettingsForm::ApplicationLanguage);
-    setStyleSheet(MainWindow::loadStyle(SettingsForm::StyleFilename));
+    setStyleSheet(SettingsForm::getStyles());
 }
 
 ConstructorForm::~ConstructorForm()
