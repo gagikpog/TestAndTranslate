@@ -35,6 +35,9 @@ ConstructorForm::ConstructorForm(QWidget *parent) :QDialog(parent), ui(new Ui::C
 
 ConstructorForm::~ConstructorForm()
 {
+    //закрываю соединение
+    db.close();
+    db.removeDatabase("data.db");
     delete ui;
 }
 

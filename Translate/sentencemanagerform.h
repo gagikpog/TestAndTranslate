@@ -35,7 +35,6 @@ private:
     bool eventFilter(QObject *watched, QEvent *event);
     Ui::SentenceManagerForm *ui;
     QSqlDatabase db;
-    QTreeWidgetItem* selectionItem;
     //str
     QString strRemove = "&Remove";
     QString strAdd = "&Add";

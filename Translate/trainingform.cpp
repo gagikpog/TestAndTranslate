@@ -26,6 +26,9 @@ TrainingForm::TrainingForm(QWidget *parent) : QDialog(parent), ui(new Ui::Traini
 
 TrainingForm::~TrainingForm()
 {
+    //закрываю соединение
+    db.close();
+    db.removeDatabase("data.db");
     delete ui;
 }
 
@@ -200,7 +203,6 @@ void TrainingForm::changeReatingBD(QString enWord,int val)
     {
         qDebug()<<"error DB UPDATE";
     }
-
 }
 
 void TrainingForm::on_btmNext_clicked()

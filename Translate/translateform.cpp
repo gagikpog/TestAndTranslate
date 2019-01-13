@@ -14,8 +14,9 @@ TranslateForm::TranslateForm(QWidget *parent) : QDialog(parent), ui(new Ui::Tran
     db.open();
     //заполнить таблицу
     ReadDB();
-
+    //задать язык интерфейса
     setInterfaceLanguage(SettingsForm::ApplicationLanguage);
+    //задать CSS стили окну
     setStyleSheet(SettingsForm::getStyles());
 }
 
