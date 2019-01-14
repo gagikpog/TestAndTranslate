@@ -2,6 +2,7 @@
 #include "ui_constructorform.h"
 #include "settingsform.h"
 #include "mainwindow.h"
+#include "linefeed.h"
 
 //возвращает расстояние  между двумя точками
 int distance(const QPoint& a,const QPoint& b)
@@ -87,7 +88,7 @@ void ConstructorForm::ListConnect(int id)
         if(words.at(i)->ID() == id)
             continue;
         //рассчитать расстояние
-        int dTemp = distance(wPtrB->pos(),words.at(i)->posEnd());
+        int dTemp = distance(wPtrB->posBegin(),words.at(i)->posEnd());
         //если оно меньше минимального
         if (dTemp < dMin)
         {
@@ -302,4 +303,16 @@ void ConstructorForm::on_btnSkip_clicked()
     }
     //вывести следующее предложение
     loadSentence(sentenceNum);
+}
+
+void ConstructorForm::on_btnLineFeed_clicked()
+{
+    //создать новый объект
+    LineFeed* feed = new LineFeed(ui->frame);
+    //добавить в лист
+    words.append(feed);
+    //задать позицию
+    //feed->setText("");
+    feed->randomPos();
+    feed->show();
 }

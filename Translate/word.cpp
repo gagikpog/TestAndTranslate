@@ -124,6 +124,11 @@ QPoint Word::posEnd()const
     return QPoint(pos().x()+width(),pos().y());
 }
 
+QPoint Word::posBegin() const
+{
+    return pos();
+}
+
 QPoint Word::randomPos()
 {
     //задается рандомная позиция в пределах родительского контейнера

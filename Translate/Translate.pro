@@ -34,7 +34,8 @@ SOURCES += \
     word.cpp \
     settingsform.cpp \
     sentencemanagerform.cpp \
-    readerform.cpp
+    readerform.cpp \
+    linefeed.cpp
 
 HEADERS += \
         mainwindow.h \
@@ -44,7 +45,8 @@ HEADERS += \
     word.h \
     settingsform.h \
     sentencemanagerform.h \
-    readerform.h
+    readerform.h \
+    linefeed.h
 
 FORMS += \
         mainwindow.ui \

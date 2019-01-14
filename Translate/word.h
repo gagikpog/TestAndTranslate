@@ -19,7 +19,8 @@ public:
     void setBack(Word* word);
     void setFront(Word* word);
     void setPos(QPoint position);
-    QPoint posEnd()const;
+    virtual QPoint posEnd()const;
+    virtual QPoint posBegin()const;
     const Word* Next()const{return next;}
     const Word* Prev()const{return prev;}
     QPoint randomPos();
@@ -33,17 +34,17 @@ protected:
     void mousePressEvent(QMouseEvent *eventPress);
     void mouseReleaseEvent(QMouseEvent *releaseEvent);
     void mouseMoveEvent(QMouseEvent *eventMove);
+    Word* next = NULL;
+    Word* prev = NULL;
+    int allBlocsWidth = height();
+    void ListUpdate();
 private:
     QString txt;
     int X,Y;
     int w = 0,h = 0;
     int id;
-    int allBlocsWidth = height();
     QFont font;
-    void ListUpdate();
     static int currentID;
-    Word* next = NULL;
-    Word* prev = NULL;
 };
 
 #endif // WORD_H

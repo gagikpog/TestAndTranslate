@@ -33,6 +33,8 @@ private slots:
     void on_btnTest_clicked();
     void on_btnSkip_clicked();
 
+    void on_btnLineFeed_clicked();
+
 private:
     Ui::ConstructorForm *ui;
     QList<Word*> words;
