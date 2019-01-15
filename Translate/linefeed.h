@@ -6,6 +6,10 @@
 #include <QPoint>
 #include <QRect>
 
+enum moveStatus{
+    None,Begin,End
+};
+
 class LineFeed : public Word
 {
 public:
@@ -24,8 +28,10 @@ protected:
     QPoint tailPos;
     QPoint tailSize;
 private:
+    void setPosG(QPoint position,int w,int h);
     void Init();
-
+    moveStatus move = moveStatus::None;
+    QPoint cursorPos;
 };
 
 #endif // LINEFEED_H

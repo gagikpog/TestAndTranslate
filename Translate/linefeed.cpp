@@ -1,5 +1,6 @@
 #include "linefeed.h"
 #include "constructorform.h"
+#include <QVector>
 
 LineFeed::LineFeed()
 {
@@ -23,7 +24,7 @@ QPoint LineFeed::posEnd() const
 
 QPoint LineFeed::posBegin() const
 {
-    return headPos;
+    return QPoint(headPos.x()+pos().x(),headPos.y()+pos().y());
 }
 
 
@@ -45,6 +46,7 @@ void LineFeed::paintEvent(QPaintEvent* paint)
     painter.setRenderHint(QPainter::Antialiasing);
     //задается цвета отрисовки
     painter.setPen(penCol);
+    painter.drawRect(paint->rect());
     painter.setBrush(brushCol);
 
     //объект с помощью которого рисуем полигонами
@@ -93,7 +95,7 @@ void LineFeed::paintEvent(QPaintEvent* paint)
         //задаю толщину линий 3px
         painter.setPen(QPen(brushCol,3));
         //рисую линию
-        painter.drawLine(QPoint(0,3),QPoint(0,height()-3));
+        painter.drawLine(QPoint(headPos.x(),headPos.y() + 3),QPoint(headPos.x(),headPos.y() + headSize.y() - 3));
         //задаю толщину линий 1px
         painter.setPen(QPen(penCol,1));
     }
@@ -142,15 +144,54 @@ void LineFeed::paintEvent(QPaintEvent* paint)
         painter2.setPen(penCol);
     }
     painter2.drawPolygon(polygonMain2);
-    //painter2.drawRect(paint->rect());
+    //line
+    QPainter painterLine(this);
+    painterLine.setPen(Qt::black);
+    QVector<QPoint> points;
+    points.append(QPoint(headPos.x()+headSize.x(),headPos.y()+headSize.y()*0.5));
+    points.append(QPoint(headPos.x()+headSize.x()+50,headPos.y()+headSize.y()*0.5));
+
+    points.append(QPoint(headPos.x()+headSize.x()+50,headPos.y()+headSize.y()*0.5));
+    points.append(QPoint(headPos.x()+headSize.x()+50,(headPos.y()+tailPos.y()+headSize.y())*0.5));
+
+    points.append(QPoint(headPos.x()+headSize.x()+50,(headPos.y()+tailPos.y()+headSize.y())*0.5));
+    points.append(QPoint(tailPos.x()-50,(headPos.y()+tailPos.y()+headSize.y())*0.5));
+
+    points.append(QPoint(tailPos.x()-50,(headPos.y()+tailPos.y()+headSize.y())*0.5));
+    points.append(QPoint(tailPos.x()-50,tailPos.y()+tailSize.y()*0.5));
+
+    points.append(QPoint(tailPos.x()-50,tailPos.y()+tailSize.y()*0.5));
+    points.append(QPoint(tailPos.x(),tailPos.y()+tailSize.y()*0.5));
+    painterLine.drawLines(points);
+    for(int i = 0;i<points.length();i++)
+        points[i] = QPoint(points[i].x()+1,points[i].y()+1);
+    painterLine.setPen(Qt::white);
+    painterLine.drawLines(points);
 }
 
 void LineFeed::mousePressEvent(QMouseEvent *eventPress)
 {
+    QPoint p = eventPress->pos();
+    cursorPos = eventPress->pos();
 
+    const Word* ptr = this;
+    for(;ptr->Next();ptr = ptr->Next());
+    allBlocsWidth = ptr->posEnd().x() - pos().x();
+
+    if(p.x()>headPos.x() && p.x()<headPos.x()+headSize.x() && p.y()>headPos.y()&&p.y()<headPos.y()+headSize.y())
+    {
+        move = moveStatus::Begin;
+        return;
+    }
+    if(p.x()>tailPos.x() && p.x()<tailPos.x()+tailSize.x() && p.y()>tailPos.y()&&p.y()<tailPos.y()+tailSize.y())
+    {
+        move = moveStatus::End;
+        return;
+    }
+    move = moveStatus::None;
 }
 
-void LineFeed::mouseReleaseEvent(QMouseEvent *releaseEvent)
+void LineFeed::mouseReleaseEvent(QMouseEvent *)
 {
     //событие при отжатии мыши
     //перерисовать все объекты
@@ -159,7 +200,63 @@ void LineFeed::mouseReleaseEvent(QMouseEvent *releaseEvent)
 
 void LineFeed::mouseMoveEvent(QMouseEvent *eventMove)
 {
+    if(move == moveStatus::Begin)
+    {
+        //позиция курсора
+        QPoint point = QCursor::pos();
+        //позиция родительского контейнера
+        QGroupBox* prnt = ((QGroupBox*)parent());
+        QPoint parentPos = parentWidget()->mapToGlobal(QPoint(0,0));
+        //сдвигаю на позицию при нажатии
+        point.rx() -= cursorPos.x();
+        point.ry() -= cursorPos.y();
 
+        //проверка чтоб не выходила за левый край
+        if(point.x() < parentPos.x())
+            point.rx() = parentPos.x();
+        //проверка чтоб не выходила за верхний край
+        if(point.y() < parentPos.y()+25)
+            point.ry() = parentPos.y()+25;
+        //проверка чтоб не выходила за правый край
+        if(point.x() + allBlocsWidth > prnt->width() + parentPos.x())
+            point.rx() = parentPos.x() + prnt->width() - allBlocsWidth;
+        //проверка чтоб не выходила за нижний край
+        if(point.y() + height() > prnt->height() + parentPos.y())
+            point.ry() = parentPos.y() + prnt->height() - height();
+
+        //переместить объект
+        //move(parentWidget()->mapFromGlobal(point));
+        QPoint p = parentWidget()->mapFromGlobal(point);
+        int dx = p.x()-pos().x();
+        int dy = p.y()-pos().y();
+        tailPos.rx() -= dx;
+        tailPos.ry() -= dy;
+        setPosG(p,width()-dx,height()-dy);
+        //setGeometry();
+        //если спереди есть объект то отсоединить его
+        if(prev)
+            prev->rmBack();
+    }
+    if(move == moveStatus::End)
+    {
+
+    }
+}
+
+void LineFeed::setPosG(QPoint position,int w,int h)
+{
+    //задается позиция
+    setGeometry(position.x(),position.y(),w,h);
+    //если сзади есть объект то он смещается вместе с ним
+    if(next)
+    {
+        //задать позицию
+        QPoint  p = posEnd();
+        next->setPos(p);
+    }  else {
+        //иначе этот объект последний в цепочке и нужно перерисовать все объекты
+        ListUpdate();
+    }
 }
 
 void LineFeed::Init()
@@ -171,3 +268,4 @@ void LineFeed::Init()
     tailSize = headSize;
     setGeometry(pos().x(),pos().y(),140,pixelsHigh*2+20);
 }
+

@@ -111,7 +111,8 @@ void Word::setPos(QPoint position)
     if(next)
     {
         //задать позицию
-        next->setPos(posEnd());
+        QPoint  p = posEnd();
+        next->setPos(p);
     }  else {
         //иначе этот объект последний в цепочке и нужно перерисовать все объекты
         ListUpdate();
