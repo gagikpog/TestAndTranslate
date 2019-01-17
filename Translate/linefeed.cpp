@@ -1,6 +1,7 @@
 #include "linefeed.h"
 #include "constructorform.h"
 #include <QVector>
+#include <QDebug>
 
 LineFeed::LineFeed()
 {
@@ -172,7 +173,6 @@ void LineFeed::paintEvent(QPaintEvent* paint)
 void LineFeed::mousePressEvent(QMouseEvent *eventPress)
 {
     QPoint p = eventPress->pos();
-    cursorPos = eventPress->pos();
 
     const Word* ptr = this;
     for(;ptr->Next();ptr = ptr->Next());
@@ -180,11 +180,13 @@ void LineFeed::mousePressEvent(QMouseEvent *eventPress)
 
     if(p.x()>headPos.x() && p.x()<headPos.x()+headSize.x() && p.y()>headPos.y()&&p.y()<headPos.y()+headSize.y())
     {
+        cursorPos = eventPress->pos();
         move = moveStatus::Begin;
         return;
     }
     if(p.x()>tailPos.x() && p.x()<tailPos.x()+tailSize.x() && p.y()>tailPos.y()&&p.y()<tailPos.y()+tailSize.y())
     {
+        cursorPos = eventPress->pos()-tailPos;
         move = moveStatus::End;
         return;
     }
@@ -211,6 +213,8 @@ void LineFeed::mouseMoveEvent(QMouseEvent *eventMove)
         point.rx() -= cursorPos.x();
         point.ry() -= cursorPos.y();
 
+        allBlocsWidth = 0;
+
         //проверка чтоб не выходила за левый край
         if(point.x() < parentPos.x())
             point.rx() = parentPos.x();
@@ -232,6 +236,7 @@ void LineFeed::mouseMoveEvent(QMouseEvent *eventMove)
         tailPos.rx() -= dx;
         tailPos.ry() -= dy;
         setPosG(p,width()-dx,height()-dy);
+        //setPos(p);
         //setGeometry();
         //если спереди есть объект то отсоединить его
         if(prev)
@@ -239,7 +244,39 @@ void LineFeed::mouseMoveEvent(QMouseEvent *eventMove)
     }
     if(move == moveStatus::End)
     {
+        QPoint point = QCursor::pos();
+        //позиция родительского контейнера
+        QGroupBox* prnt = ((QGroupBox*)parent());
+        QPoint parentPos = parentWidget()->mapToGlobal(QPoint(0,0));
+        //сдвигаю на позицию при нажатии
+        point.rx() -= cursorPos.x();
+        point.ry() -= cursorPos.y();
 
+        //проверка чтоб не выходила за левый край
+        if(point.x() < parentPos.x())
+            point.rx() = parentPos.x();
+        //проверка чтоб не выходила за верхний край
+        if(point.y() < parentPos.y()+25)
+            point.ry() = parentPos.y()+25;
+        //проверка чтоб не выходила за правый край
+        if(point.x() + allBlocsWidth > prnt->width() + parentPos.x())
+            point.rx() = parentPos.x() + prnt->width() - allBlocsWidth;
+        //проверка чтоб не выходила за нижний край
+        if(point.y() + tailSize.y() > prnt->height() + parentPos.y())
+            point.ry() = parentPos.y() + prnt->height() - tailSize.y();
+
+        //переместить объект
+        //move(parentWidget()->mapFromGlobal(point));
+        //QPoint p = parentWidget()->mapFromGlobal(point);
+        //int dx = p.x()-pos().x();
+        //int dy = p.y()-pos().y();
+        //tailPos.rx() -= dx;
+        //tailPos.ry() -= dy;
+        //qDebug()<< point.x()<<" "<<point.y();
+        tailPos = point-parentPos-pos();
+        //setPosG(p,width()-dx,height()-dy);
+        setPos(pos());
+        repaint();
     }
 }
 
