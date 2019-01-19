@@ -32,6 +32,7 @@ ConstructorForm::ConstructorForm(QWidget *parent) :QDialog(parent), ui(new Ui::C
 
     setInterfaceLanguage(SettingsForm::ApplicationLanguage);
     setStyleSheet(SettingsForm::getStyles());
+    ui->btnLineFeed->setVisible(false);
 }
 
 ConstructorForm::~ConstructorForm()
@@ -88,7 +89,6 @@ void ConstructorForm::ListConnect(int id)
         if(words.at(i)->ID() == id)
             continue;
         //рассчитать расстояние
-        QPoint p = words.at(i)->posEnd();
         int dTemp = distance(wPtrB->posBegin(),words.at(i)->posEnd());
         //если оно меньше минимального
         if (dTemp < dMin)

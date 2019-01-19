@@ -175,17 +175,19 @@ void LineFeed::mousePressEvent(QMouseEvent *eventPress)
     QPoint p = eventPress->pos();
 
     const Word* ptr = this;
-    for(;ptr->Next();ptr = ptr->Next());
-    allBlocsWidth = ptr->posEnd().x() - pos().x();
 
     if(p.x()>headPos.x() && p.x()<headPos.x()+headSize.x() && p.y()>headPos.y()&&p.y()<headPos.y()+headSize.y())
     {
+        for(;ptr->Next();ptr = ptr->Next());
+        allBlocsWidth = ptr->posEnd().x() - pos().x();
         cursorPos = eventPress->pos();
         move = moveStatus::Begin;
         return;
     }
     if(p.x()>tailPos.x() && p.x()<tailPos.x()+tailSize.x() && p.y()>tailPos.y()&&p.y()<tailPos.y()+tailSize.y())
     {
+        for(;ptr->Next();ptr = ptr->Next());
+        allBlocsWidth = ptr->posEnd().x() - pos().x();
         cursorPos = eventPress->pos()-tailPos;
         move = moveStatus::End;
         return;
@@ -212,8 +214,6 @@ void LineFeed::mouseMoveEvent(QMouseEvent *eventMove)
         //сдвигаю на позицию при нажатии
         point.rx() -= cursorPos.x();
         point.ry() -= cursorPos.y();
-
-        allBlocsWidth = 0;
 
         //проверка чтоб не выходила за левый край
         if(point.x() < parentPos.x())
@@ -252,6 +252,7 @@ void LineFeed::mouseMoveEvent(QMouseEvent *eventMove)
         point.rx() -= cursorPos.x();
         point.ry() -= cursorPos.y();
 
+        allBlocsWidth = 0;
         //проверка чтоб не выходила за левый край
         if(point.x() < parentPos.x())
             point.rx() = parentPos.x();
