@@ -3,6 +3,8 @@
 #include "settingsform.h"
 #include "mainwindow.h"
 #include "linefeed.h"
+#include "loggingcategories.h"
+#include <QSqlError>
 
 //возвращает расстояние  между двумя точками
 int distance(const QPoint& a,const QPoint& b)
@@ -20,7 +22,10 @@ ConstructorForm::ConstructorForm(QWidget *parent) :QDialog(parent), ui(new Ui::C
     db = QSqlDatabase::addDatabase("QSQLITE");
     db.setDatabaseName("data.db");
     db.setPassword("sqlite18");
-    db.open();
+    if(!db.open()){
+        qDebug(logDebug())<<"ConstructorForm:DB open error>";
+        qDebug(logDebug())<<"\t\t"<<db.lastError().text();
+    }else qDebug(logDebug())<<"ConstructorForm:DB opened";
     //читает из БД все русские предложения
     readRUSentence();
 
@@ -132,6 +137,14 @@ void ConstructorForm::readRUSentence()
         //по очереди вывожу все
         while (query.next())
             sentence.append(qMakePair(query.value(keyNo).toInt(),query.value(sentenceNo).toString()));
+        if(sentence.isEmpty())
+        {
+            ui->btnSkip->setEnabled(false);
+            ui->btnTest->setEnabled(false);
+            qDebug(logDebug())<<"ConstructorForm: sentence is empty";
+        }
+    }else {
+        qDebug(logDebug())<<"ConstructorForm: DB not opened";
     }
 }
 

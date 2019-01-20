@@ -2,3 +2,4 @@ Debug/*.o
 Debug/ui_*.*
 Debug/moc_*.*
 Debug/Translate
+Debug/logging.log

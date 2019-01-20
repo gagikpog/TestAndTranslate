@@ -59,7 +59,8 @@ SOURCES       = ../Translate/main.cpp \
 		../Translate/settingsform.cpp \
 		../Translate/sentencemanagerform.cpp \
 		../Translate/readerform.cpp \
-		../Translate/linefeed.cpp moc_mainwindow.cpp \
+		../Translate/linefeed.cpp \
+		../Translate/loggingcategories.cpp moc_mainwindow.cpp \
 		moc_translateform.cpp \
 		moc_trainingform.cpp \
 		moc_constructorform.cpp \
@@ -77,6 +78,7 @@ OBJECTS       = main.o \
 		sentencemanagerform.o \
 		readerform.o \
 		linefeed.o \
+		loggingcategories.o \
 		moc_mainwindow.o \
 		moc_translateform.o \
 		moc_trainingform.o \
@@ -167,7 +169,8 @@ DIST          = /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/spec_pre.prf \
 		../Translate/settingsform.h \
 		../Translate/sentencemanagerform.h \
 		../Translate/readerform.h \
-		../Translate/linefeed.h ../Translate/main.cpp \
+		../Translate/linefeed.h \
+		../Translate/loggingcategories.h ../Translate/main.cpp \
 		../Translate/mainwindow.cpp \
 		../Translate/translateform.cpp \
 		../Translate/trainingform.cpp \
@@ -176,7 +179,8 @@ DIST          = /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/spec_pre.prf \
 		../Translate/settingsform.cpp \
 		../Translate/sentencemanagerform.cpp \
 		../Translate/readerform.cpp \
-		../Translate/linefeed.cpp
+		../Translate/linefeed.cpp \
+		../Translate/loggingcategories.cpp
 QMAKE_TARGET  = Translate
 DESTDIR       = 
 TARGET        = Translate
@@ -364,8 +368,8 @@ distdir: FORCE
 	@test -d $(DISTDIR) || mkdir -p $(DISTDIR)
 	$(COPY_FILE) --parents $(DIST) $(DISTDIR)/
 	$(COPY_FILE) --parents /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/data/dummy.cpp $(DISTDIR)/
-	$(COPY_FILE) --parents ../Translate/mainwindow.h ../Translate/translateform.h ../Translate/trainingform.h ../Translate/constructorform.h ../Translate/word.h ../Translate/settingsform.h ../Translate/sentencemanagerform.h ../Translate/readerform.h ../Translate/linefeed.h $(DISTDIR)/
-	$(COPY_FILE) --parents ../Translate/main.cpp ../Translate/mainwindow.cpp ../Translate/translateform.cpp ../Translate/trainingform.cpp ../Translate/constructorform.cpp ../Translate/word.cpp ../Translate/settingsform.cpp ../Translate/sentencemanagerform.cpp ../Translate/readerform.cpp ../Translate/linefeed.cpp $(DISTDIR)/
+	$(COPY_FILE) --parents ../Translate/mainwindow.h ../Translate/translateform.h ../Translate/trainingform.h ../Translate/constructorform.h ../Translate/word.h ../Translate/settingsform.h ../Translate/sentencemanagerform.h ../Translate/readerform.h ../Translate/linefeed.h ../Translate/loggingcategories.h $(DISTDIR)/
+	$(COPY_FILE) --parents ../Translate/main.cpp ../Translate/mainwindow.cpp ../Translate/translateform.cpp ../Translate/trainingform.cpp ../Translate/constructorform.cpp ../Translate/word.cpp ../Translate/settingsform.cpp ../Translate/sentencemanagerform.cpp ../Translate/readerform.cpp ../Translate/linefeed.cpp ../Translate/loggingcategories.cpp $(DISTDIR)/
 	$(COPY_FILE) --parents ../Translate/mainwindow.ui ../Translate/translateform.ui ../Translate/trainingform.ui ../Translate/constructorform.ui ../Translate/settingsform.ui ../Translate/sentencemanagerform.ui ../Translate/readerform.ui $(DISTDIR)/
 
 
@@ -485,7 +489,8 @@ compiler_clean: compiler_moc_predefs_clean compiler_moc_header_clean compiler_ui
 
 ####### Compile
 
-main.o: ../Translate/main.cpp ../Translate/mainwindow.h
+main.o: ../Translate/main.cpp ../Translate/mainwindow.h \
+		../Translate/loggingcategories.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o main.o ../Translate/main.cpp
 
 mainwindow.o: ../Translate/mainwindow.cpp ../Translate/mainwindow.h \
@@ -513,7 +518,8 @@ constructorform.o: ../Translate/constructorform.cpp ../Translate/constructorform
 		../Translate/word.h \
 		ui_constructorform.h \
 		../Translate/settingsform.h \
-		../Translate/mainwindow.h
+		../Translate/mainwindow.h \
+		../Translate/linefeed.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o constructorform.o ../Translate/constructorform.cpp
 
 word.o: ../Translate/word.cpp ../Translate/word.h \
@@ -539,8 +545,12 @@ readerform.o: ../Translate/readerform.cpp ../Translate/readerform.h \
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o readerform.o ../Translate/readerform.cpp
 
 linefeed.o: ../Translate/linefeed.cpp ../Translate/linefeed.h \
-		../Translate/word.h
+		../Translate/word.h \
+		../Translate/constructorform.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o linefeed.o ../Translate/linefeed.cpp
+
+loggingcategories.o: ../Translate/loggingcategories.cpp ../Translate/loggingcategories.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o loggingcategories.o ../Translate/loggingcategories.cpp
 
 moc_mainwindow.o: moc_mainwindow.cpp 
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_mainwindow.o moc_mainwindow.cpp
