@@ -3,6 +3,7 @@
 #include "settingsform.h"
 #include "mainwindow.h"
 #include "readerform.h"
+#include "loggingcategories.h"
 
 SentenceManagerForm::SentenceManagerForm(QWidget *parent) : QDialog(parent), ui(new Ui::SentenceManagerForm)
 {
@@ -11,7 +12,10 @@ SentenceManagerForm::SentenceManagerForm(QWidget *parent) : QDialog(parent), ui(
     db = QSqlDatabase::addDatabase("QSQLITE");
     db.setDatabaseName("data.db");
     db.setPassword("sqlite18");
-    db.open();
+    if(!db.open()){
+        qDebug(logDebug())<<"SentenceManagerForm: DB open error>";
+        qDebug(logDebug())<<"\t\t"<<db.lastError().text();
+    }else qDebug(logDebug())<<"SentenceManagerForm: DB opened";
     //задать заголовок окна
     setWindowTitle("Task Editor");
     //Это свойство содержит информацию о том, как виджет отображает контекстное меню.
@@ -66,7 +70,10 @@ void SentenceManagerForm::readSentence()
 {
     //проверка, открыта ли база
     if(!db.isOpen())
+    {
+        qDebug(logDebug())<<"SentenceManagerForm: DB not opened";
         return;
+    }
     //удалить содержимое виджета
     ui->treeWidget->clear();
     //количество колонок три
@@ -86,7 +93,10 @@ void SentenceManagerForm::readSentence()
         //загрузка предложений
         lst.append(qMakePair(query->value("key").toInt(),query->value("sentence").toString()));
     }
-
+    if(lst.isEmpty())
+    {
+        qDebug(logDebug())<<"SentenceManagerForm: query result is empty";
+    }
     //объект запросов для английских предложений
     QSqlQuery* q = new QSqlQuery(db);
     for(int i = 0;i < lst.length();i++)
@@ -113,6 +123,8 @@ void SentenceManagerForm::readSentence()
            }
            //добавить на виджет
            ui->treeWidget->addTopLevelItem(itm);
+        }else {
+            qDebug(logDebug())<<"SentenceManagerForm: query result is empty";
         }
     }
 }
@@ -188,6 +200,8 @@ void SentenceManagerForm::treeRemove()
         //если в БД все успешно удалено то удаляем запись из дерева
         if(err == 0)
             delete itm;
+        else qDebug(logDebug())<<"SentenceManagerForm: failed to delete the sentence";
+
     }
 }
 
@@ -219,6 +233,7 @@ void SentenceManagerForm::treeChange()
         //если в БД удачно изменено то меняем в дереве
         if(query->exec(strQuery))
             itm->setText(0,form->Text());
+        else qDebug(logDebug())<<"SentenceManagerForm: failed to change the sentence";
     }
 }
 
@@ -254,6 +269,8 @@ void SentenceManagerForm::treeAdd()
                         itm->setText(0,form->Text());
                         itm->setText(1,key);
                         ui->treeWidget->addTopLevelItem(itm);
+                    }else {
+                        qDebug(logDebug())<<"SentenceManagerForm: failed to add the sentence";
                     }
                 }
             }
@@ -283,6 +300,8 @@ void SentenceManagerForm::treeAdd()
                         cItm->setText(1,key);
                         cItm->setText(2,itm->text(1));
                         itm->addChild(cItm);
+                    }else {
+                        qDebug(logDebug())<<"SentenceManagerForm: failed to add the sentence";
                     }
                 }
             }

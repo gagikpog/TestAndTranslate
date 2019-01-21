@@ -2,6 +2,7 @@
 #include "ui_trainingform.h"
 #include "mainwindow.h"
 #include "settingsform.h"
+#include "loggingcategories.h"
 
 TrainingForm::TrainingForm(QWidget *parent) : QDialog(parent), ui(new Ui::TrainingForm)
 {
@@ -14,7 +15,10 @@ TrainingForm::TrainingForm(QWidget *parent) : QDialog(parent), ui(new Ui::Traini
     db = QSqlDatabase::addDatabase("QSQLITE");
     db.setDatabaseName("data.db");
     db.setPassword("sqlite18");
-    db.open();
+    if(!db.open()){
+        qDebug(logDebug())<<"TrainingForm: DB open error>";
+        qDebug(logDebug())<<"\t\t"<<db.lastError().text();
+    }else qDebug(logDebug())<<"TrainingForm: DB opened";
     //считать все данные
     readAllData();
     //вывести первый тест
@@ -82,6 +86,8 @@ void TrainingForm::readAllData()
             data.append(ssint(query.value(enNo).toString(),query.value(ruNo).toString(),query.value(raNo).toInt()));
         //сортирую все данные по рейтингу
         std::sort(data.begin(),data.end(),[](ssint&a,ssint&b){return a.rating<b.rating;});
+    }else {
+        qDebug(logDebug())<<"TrainingForm: DB not opened";
     }
 }
 
@@ -201,7 +207,7 @@ void TrainingForm::changeReatingBD(QString enWord,int val)
     QSqlQuery query = QSqlQuery(db);
     if(!query.exec(queryStr))
     {
-        qDebug()<<"error DB UPDATE";
+        qDebug(logDebug())<<"error DB UPDATE";
     }
 }
 

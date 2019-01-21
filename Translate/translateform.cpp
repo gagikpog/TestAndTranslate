@@ -2,6 +2,7 @@
 #include "ui_translateform.h"
 #include "mainwindow.h"
 #include "settingsform.h"
+#include "loggingcategories.h"
 
 TranslateForm::TranslateForm(QWidget *parent) : QDialog(parent), ui(new Ui::TranslateForm)
 {
@@ -11,7 +12,10 @@ TranslateForm::TranslateForm(QWidget *parent) : QDialog(parent), ui(new Ui::Tran
     db = QSqlDatabase::addDatabase("QSQLITE");
     db.setDatabaseName("data.db");
     db.setPassword("sqlite18");
-    db.open();
+    if(!db.open()){
+        qDebug(logDebug())<<"TranslateForm: DB open error>";
+        qDebug(logDebug())<<"\t\t"<<db.lastError().text();
+    }else qDebug(logDebug())<<"TranslateForm: DB opened";
     //заполнить таблицу
     ReadDB();
     //задать язык интерфейса
@@ -82,6 +86,8 @@ void TranslateForm::ReadDB()
             ui->tableWidget->setItem(i-1,0,itemEN);
             ui->tableWidget->setItem(i-1,1,itemRU);
         }
+    }else {
+        qDebug(logDebug())<<"TranslateForm: DB not opened";
     }
 }
 
@@ -136,6 +142,8 @@ void TranslateForm::on_btmFavorite_clicked()
                 //если слово успешно добавлена очистить поля
                 ui->msgInput->setText("");
                 ui->msgOutput->setText("");
+            }else {
+                qDebug(logDebug())<<"TranslateForm: favorite word insert error";
             }
             //обновить таблицу
             ReadDB();
@@ -205,9 +213,14 @@ void TranslateForm::on_btmRemove_clicked()
         QString queryStr = "DELETE FROM favorite WHERE enText='"+str+"';";
         //выполнить запрос
         QSqlQuery query = QSqlQuery(db);
-        query.exec(queryStr);
+        if(!query.exec(queryStr))
+        {
+            qDebug(logDebug())<<"TranslateForm: fovorite wod delelte error";
+        }
         //обновить таблицу
         ReadDB();
+    }else {
+        qDebug(logDebug())<<"TranslateForm: DB not opened";
     }
 }
 
@@ -271,12 +284,10 @@ void TranslateForm::readTranslateFromFile()
                     queryStr[queryStr.length()-1] = ';';
                     if(!query.exec(queryStr))
                     {
-                        qDebug()<<"Error";
-                        //out<<queryStr<<"\n";
+                        qDebug(logDebug())<<"TranslateForm: translate reader error";
                         close();
                     }
                     queryStr = "INSERT INTO RuToEn (ru , en) VALUES";
-                    qDebug()<<n;
                 }
                 n++;
 
@@ -288,9 +299,13 @@ void TranslateForm::readTranslateFromFile()
 
             }
             queryStr[queryStr.length()-1] = ';';
-            query.exec(queryStr);
-            qDebug()<<n;
+            if(!query.exec(queryStr))
+            {
+                qDebug(logDebug())<<"TranslateForm: translate reader error";
+            }
         }
+    }else {
+        qDebug(logDebug())<<"TranslateForm: DB not opened";
     }
 }
 
@@ -309,7 +324,11 @@ QString TranslateForm::offlineTranslate(QString txt)
         if (query.next())
         {
             return query.value(0).toString();
+        }else {
+            qDebug(logDebug())<<"TranslateForm: offline translate error";
         }
+    }else {
+        qDebug(logDebug())<<"TranslateForm: DB not opened";
     }
     return "Translate not find";
 }
