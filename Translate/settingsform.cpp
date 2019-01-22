@@ -3,7 +3,7 @@
 #include "ui_settingsform.h"
 #include "mainwindow.h"
 
-QString SettingsForm::StyleFilename = "Styles/dark.qss";
+QString SettingsForm::StyleFilename = ":/Styles/dark.qss";
 QString SettingsForm::ApplicationLanguage = "en";
 QString SettingsForm::StylesStr = "";
 const QString SettingsForm::settingsFilename = "settings.ini";
@@ -127,7 +127,7 @@ void SettingsForm::on_rBtmCustom_clicked(bool checked)
 void SettingsForm::on_rBtmLight_clicked(bool )
 {
     ui->btmStyle->setEnabled(false);
-    StyleFilename = "Styles/light.qss";
+    StyleFilename = ":/Styles/light.qss";
     StylesStr = loadStyle(StyleFilename);
     setStyleSheet(getStyles());
     selectedRadioBtm = "light";
@@ -137,7 +137,7 @@ void SettingsForm::on_rBtmLight_clicked(bool )
 void SettingsForm::on_rBtmDark_clicked(bool )
 {
     ui->btmStyle->setEnabled(false);
-    StyleFilename = "Styles/dark.qss";
+    StyleFilename = ":/Styles/dark.qss";
     StylesStr = loadStyle(StyleFilename);
     setStyleSheet(getStyles());
     selectedRadioBtm = "dark";

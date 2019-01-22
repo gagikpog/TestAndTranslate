@@ -202,7 +202,7 @@ void LineFeed::mouseReleaseEvent(QMouseEvent *)
     ((ConstructorForm*)(parent()->parent()))->ListConnect(ID());
 }
 
-void LineFeed::mouseMoveEvent(QMouseEvent *eventMove)
+void LineFeed::mouseMoveEvent(QMouseEvent *)
 {
     if(move == moveStatus::Begin)
     {

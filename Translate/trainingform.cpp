@@ -3,6 +3,7 @@
 #include "mainwindow.h"
 #include "settingsform.h"
 #include "loggingcategories.h"
+#include <QSqlError>
 
 TrainingForm::TrainingForm(QWidget *parent) : QDialog(parent), ui(new Ui::TrainingForm)
 {

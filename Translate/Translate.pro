@@ -58,3 +58,6 @@ FORMS += \
     settingsform.ui \
     sentencemanagerform.ui \
     readerform.ui
+
+RESOURCES += \
+    resourses.qrc

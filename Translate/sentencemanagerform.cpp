@@ -4,6 +4,7 @@
 #include "mainwindow.h"
 #include "readerform.h"
 #include "loggingcategories.h"
+#include <QSqlError>
 
 SentenceManagerForm::SentenceManagerForm(QWidget *parent) : QDialog(parent), ui(new Ui::SentenceManagerForm)
 {

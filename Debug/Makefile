@@ -60,7 +60,8 @@ SOURCES       = ../Translate/main.cpp \
 		../Translate/sentencemanagerform.cpp \
 		../Translate/readerform.cpp \
 		../Translate/linefeed.cpp \
-		../Translate/loggingcategories.cpp moc_mainwindow.cpp \
+		../Translate/loggingcategories.cpp qrc_resourses.cpp \
+		moc_mainwindow.cpp \
 		moc_translateform.cpp \
 		moc_trainingform.cpp \
 		moc_constructorform.cpp \
@@ -79,6 +80,7 @@ OBJECTS       = main.o \
 		readerform.o \
 		linefeed.o \
 		loggingcategories.o \
+		qrc_resourses.o \
 		moc_mainwindow.o \
 		moc_translateform.o \
 		moc_trainingform.o \
@@ -267,6 +269,7 @@ Makefile: ../Translate/Translate.pro /usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/yacc.prf \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/lex.prf \
 		../Translate/Translate.pro \
+		../Translate/resourses.qrc \
 		/usr/lib/x86_64-linux-gnu/libQt5Widgets.prl \
 		/usr/lib/x86_64-linux-gnu/libQt5Gui.prl \
 		/usr/lib/x86_64-linux-gnu/libQt5Network.prl \
@@ -348,6 +351,7 @@ Makefile: ../Translate/Translate.pro /usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux
 /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/yacc.prf:
 /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/lex.prf:
 ../Translate/Translate.pro:
+../Translate/resourses.qrc:
 /usr/lib/x86_64-linux-gnu/libQt5Widgets.prl:
 /usr/lib/x86_64-linux-gnu/libQt5Gui.prl:
 /usr/lib/x86_64-linux-gnu/libQt5Network.prl:
@@ -367,6 +371,7 @@ dist: distdir FORCE
 distdir: FORCE
 	@test -d $(DISTDIR) || mkdir -p $(DISTDIR)
 	$(COPY_FILE) --parents $(DIST) $(DISTDIR)/
+	$(COPY_FILE) --parents ../Translate/resourses.qrc $(DISTDIR)/
 	$(COPY_FILE) --parents /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/data/dummy.cpp $(DISTDIR)/
 	$(COPY_FILE) --parents ../Translate/mainwindow.h ../Translate/translateform.h ../Translate/trainingform.h ../Translate/constructorform.h ../Translate/word.h ../Translate/settingsform.h ../Translate/sentencemanagerform.h ../Translate/readerform.h ../Translate/linefeed.h ../Translate/loggingcategories.h $(DISTDIR)/
 	$(COPY_FILE) --parents ../Translate/main.cpp ../Translate/mainwindow.cpp ../Translate/translateform.cpp ../Translate/trainingform.cpp ../Translate/constructorform.cpp ../Translate/word.cpp ../Translate/settingsform.cpp ../Translate/sentencemanagerform.cpp ../Translate/readerform.cpp ../Translate/linefeed.cpp ../Translate/loggingcategories.cpp $(DISTDIR)/
@@ -394,8 +399,15 @@ check: first
 
 benchmark: first
 
-compiler_rcc_make_all:
+compiler_rcc_make_all: qrc_resourses.cpp
 compiler_rcc_clean:
+	-$(DEL_FILE) qrc_resourses.cpp
+qrc_resourses.cpp: ../Translate/resourses.qrc \
+		/usr/lib/qt5/bin/rcc \
+		../Translate/dark.qss \
+		../Translate/light.qss
+	/usr/lib/qt5/bin/rcc -name resourses ../Translate/resourses.qrc -o qrc_resourses.cpp
+
 compiler_moc_predefs_make_all: moc_predefs.h
 compiler_moc_predefs_clean:
 	-$(DEL_FILE) moc_predefs.h
@@ -485,7 +497,7 @@ compiler_yacc_impl_make_all:
 compiler_yacc_impl_clean:
 compiler_lex_make_all:
 compiler_lex_clean:
-compiler_clean: compiler_moc_predefs_clean compiler_moc_header_clean compiler_uic_clean 
+compiler_clean: compiler_rcc_clean compiler_moc_predefs_clean compiler_moc_header_clean compiler_uic_clean 
 
 ####### Compile
 
@@ -505,13 +517,15 @@ mainwindow.o: ../Translate/mainwindow.cpp ../Translate/mainwindow.h \
 translateform.o: ../Translate/translateform.cpp ../Translate/translateform.h \
 		ui_translateform.h \
 		../Translate/mainwindow.h \
-		../Translate/settingsform.h
+		../Translate/settingsform.h \
+		../Translate/loggingcategories.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o translateform.o ../Translate/translateform.cpp
 
 trainingform.o: ../Translate/trainingform.cpp ../Translate/trainingform.h \
 		ui_trainingform.h \
 		../Translate/mainwindow.h \
-		../Translate/settingsform.h
+		../Translate/settingsform.h \
+		../Translate/loggingcategories.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o trainingform.o ../Translate/trainingform.cpp
 
 constructorform.o: ../Translate/constructorform.cpp ../Translate/constructorform.h \
@@ -519,7 +533,8 @@ constructorform.o: ../Translate/constructorform.cpp ../Translate/constructorform
 		ui_constructorform.h \
 		../Translate/settingsform.h \
 		../Translate/mainwindow.h \
-		../Translate/linefeed.h
+		../Translate/linefeed.h \
+		../Translate/loggingcategories.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o constructorform.o ../Translate/constructorform.cpp
 
 word.o: ../Translate/word.cpp ../Translate/word.h \
@@ -536,7 +551,8 @@ sentencemanagerform.o: ../Translate/sentencemanagerform.cpp ../Translate/sentenc
 		ui_sentencemanagerform.h \
 		../Translate/settingsform.h \
 		../Translate/mainwindow.h \
-		../Translate/readerform.h
+		../Translate/readerform.h \
+		../Translate/loggingcategories.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o sentencemanagerform.o ../Translate/sentencemanagerform.cpp
 
 readerform.o: ../Translate/readerform.cpp ../Translate/readerform.h \
@@ -551,6 +567,9 @@ linefeed.o: ../Translate/linefeed.cpp ../Translate/linefeed.h \
 
 loggingcategories.o: ../Translate/loggingcategories.cpp ../Translate/loggingcategories.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o loggingcategories.o ../Translate/loggingcategories.cpp
+
+qrc_resourses.o: qrc_resourses.cpp 
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o qrc_resourses.o qrc_resourses.cpp
 
 moc_mainwindow.o: moc_mainwindow.cpp 
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_mainwindow.o moc_mainwindow.cpp
