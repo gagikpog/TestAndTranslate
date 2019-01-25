@@ -3,15 +3,20 @@
 #include "mainwindow.h"
 #include "settingsform.h"
 #include "loggingcategories.h"
-#include <QSqlError>
+#include "header.h"
 
 TranslateForm::TranslateForm(QWidget *parent) : QDialog(parent), ui(new Ui::TranslateForm)
 {
     ui->setupUi(this);
     setWindowTitle("Translator");
     //открываем соединение с базой
+#ifndef QODBC_DATABASE
     db = QSqlDatabase::addDatabase("QSQLITE");
     db.setDatabaseName("data.db");
+#else
+    QSqlDatabase db = QSqlDatabase::addDatabase("QODBC");
+    db.setDatabaseName("DRIVER={Microsoft Access Driver (*.mdb)};FIL={MS Access};DBQ=data.mdb;");
+#endif
     db.setPassword("sqlite18");
     if(!db.open()){
         qDebug(logDebug())<<"TranslateForm: DB open error>";
@@ -63,32 +68,32 @@ void TranslateForm::replyFinished(QNetworkReply* reply)
 void TranslateForm::ReadDB()
 {
     //создаем подключение к БД
-    //QSqlDatabase db = QSqlDatabase::addDatabase("QSQLITE");
-    //db.setDatabaseName("data.db");
-    if(db.isOpen())
+#ifndef QODBC_DATABASE
+    if(!db.isOpen())
     {
-        //запрос на выделение всего
-        QSqlQuery query = QSqlQuery("SELECT * FROM favorite",db);
-        //получаю номера колонок
-        int enNo = query.record().indexOf("enText");
-        int ruNo = query.record().indexOf("ruText");
-        //int raNo = query.record().indexOf("rating");
-       //по очереди вывожу все
-        int i = 0;
-        while (query.next())
-        {
-            i++;
-            //добавить строку в таблице
-            ui->tableWidget->setRowCount(i);
-            //создаю колонку
-            QTableWidgetItem *itemEN = new QTableWidgetItem (query.value(enNo).toString());
-            QTableWidgetItem *itemRU = new QTableWidgetItem (query.value(ruNo).toString());
-            //добавляю его в таблицу
-            ui->tableWidget->setItem(i-1,0,itemEN);
-            ui->tableWidget->setItem(i-1,1,itemRU);
-        }
-    }else {
         qDebug(logDebug())<<"TranslateForm: DB not opened";
+        return;
+    }
+#endif
+    //запрос на выделение всего
+    QSqlQuery query = QSqlQuery("SELECT * FROM favorite",db);
+    //получаю номера колонок
+    int enNo = query.record().indexOf("enText");
+    int ruNo = query.record().indexOf("ruText");
+    //int raNo = query.record().indexOf("rating");
+    //по очереди вывожу все
+    int i = 0;
+    while (query.next())
+    {
+        i++;
+        //добавить строку в таблице
+        ui->tableWidget->setRowCount(i);
+        //создаю колонку
+        QTableWidgetItem *itemEN = new QTableWidgetItem (query.value(enNo).toString());
+        QTableWidgetItem *itemRU = new QTableWidgetItem (query.value(ruNo).toString());
+        //добавляю его в таблицу
+        ui->tableWidget->setItem(i-1,0,itemEN);
+        ui->tableWidget->setItem(i-1,1,itemRU);
     }
 }
 
@@ -123,32 +128,35 @@ void TranslateForm::on_btmFavorite_clicked()
         //если с русского на английский меняем местами слова
         if(TranslateLanguage == "en")
             txt1.swap(txt2);
-
-        if(db.isOpen())
+#ifndef QODBC_DATABASE
+        if(!db.isOpen())
         {
-            //если слово уже добавлена предупреждаю и выхожу
-            if(!ui->tableWidget->findItems(txt1,0).empty())
-            {
-                QMessageBox msgBox;
-                msgBox.setText("The word has already been added");
-                msgBox.exec();
-                return;
-            }
-            //запрос на добавления
-            QString queryStr = "INSERT INTO favorite (enText , ruText) VALUES('"+txt1+"','"+txt2+"');";
-            //
-            QSqlQuery query = QSqlQuery(db);
-            if(query.exec(queryStr))
-            {
-                //если слово успешно добавлена очистить поля
-                ui->msgInput->setText("");
-                ui->msgOutput->setText("");
-            }else {
-                qDebug(logDebug())<<"TranslateForm: favorite word insert error";
-            }
-            //обновить таблицу
-            ReadDB();
+            qDebug(logDebug())<<"TranslateForm: DB not opened";
+            return;
         }
+#endif
+        //если слово уже добавлена предупреждаю и выхожу
+        if(!ui->tableWidget->findItems(txt1,0).empty())
+        {
+            QMessageBox msgBox;
+            msgBox.setText("The word has already been added");
+            msgBox.exec();
+            return;
+        }
+        //запрос на добавления
+        QString queryStr = "INSERT INTO favorite (enText , ruText) VALUES('"+txt1+"','"+txt2+"');";
+        //
+        QSqlQuery query = QSqlQuery(db);
+        if(query.exec(queryStr))
+        {
+            //если слово успешно добавлена очистить поля
+            ui->msgInput->setText("");
+            ui->msgOutput->setText("");
+        }else {
+            qDebug(logDebug())<<"TranslateForm: favorite word insert error";
+        }
+        //обновить таблицу
+        ReadDB();
     }else {
         QMessageBox *msg= new QMessageBox(this);
         msg->setText(msgBoxFavorite);
@@ -186,43 +194,45 @@ void TranslateForm::on_msgInput_returnPressed()
 
 void TranslateForm::on_btmRemove_clicked()
 {
-    //удаление записи из базы
-    if(db.isOpen())
+#ifndef QODBC_DATABASE
+    if(!db.isOpen())
     {
-        QMessageBox* msgBox = new QMessageBox(this);
-        msgBox->setWindowTitle(msgBoxTitle);
-        //получаю список выделенных ячеек
-        QModelIndexList indexList = ui->tableWidget->selectionModel()->selectedIndexes();
-        //если ничего не выделено то выходим
-        if(indexList.empty())
-        {
-            msgBox->setText(msgBoxWarning);
-            msgBox->exec();
-            return;
-        }
-        //ожидание  подтверждение на удаление
-        msgBox->setText(msgBoxQuestion);
-        msgBox->setStandardButtons(QMessageBox::Yes);
-        msgBox->addButton(QMessageBox::No);
-        msgBox->setDefaultButton(QMessageBox::No);
-        //не удалить
-        if(msgBox->exec() == QMessageBox::No)
-            return;
-        //получить выделенную строку
-        QString str =  ui->tableWidget->item(indexList.at(0).row(),0)->text();
-        //запрос на удаление
-        QString queryStr = "DELETE FROM favorite WHERE enText='"+str+"';";
-        //выполнить запрос
-        QSqlQuery query = QSqlQuery(db);
-        if(!query.exec(queryStr))
-        {
-            qDebug(logDebug())<<"TranslateForm: fovorite wod delelte error";
-        }
-        //обновить таблицу
-        ReadDB();
-    }else {
         qDebug(logDebug())<<"TranslateForm: DB not opened";
+        return;
     }
+#endif
+    //удаление записи из базы
+    QMessageBox* msgBox = new QMessageBox(this);
+    msgBox->setWindowTitle(msgBoxTitle);
+    //получаю список выделенных ячеек
+    QModelIndexList indexList = ui->tableWidget->selectionModel()->selectedIndexes();
+    //если ничего не выделено то выходим
+    if(indexList.empty())
+    {
+        msgBox->setText(msgBoxWarning);
+        msgBox->exec();
+        return;
+    }
+    //ожидание  подтверждение на удаление
+    msgBox->setText(msgBoxQuestion);
+    msgBox->setStandardButtons(QMessageBox::Yes);
+    msgBox->addButton(QMessageBox::No);
+    msgBox->setDefaultButton(QMessageBox::No);
+    //не удалить
+    if(msgBox->exec() == QMessageBox::No)
+        return;
+    //получить выделенную строку
+    QString str =  ui->tableWidget->item(indexList.at(0).row(),0)->text();
+    //запрос на удаление
+    QString queryStr = "DELETE FROM favorite WHERE enText='"+str+"';";
+    //выполнить запрос
+    QSqlQuery query = QSqlQuery(db);
+    if(!query.exec(queryStr))
+    {
+        qDebug(logDebug())<<"TranslateForm: fovorite wod delelte error";
+    }
+    //обновить таблицу
+    ReadDB();
 }
 
 void TranslateForm::resizeEvent(QResizeEvent*)
@@ -261,75 +271,78 @@ void TranslateForm::on_btmClear_clicked()
 void TranslateForm::readTranslateFromFile()
 {
     QString filename = "ru1.txt";
-
-    if(db.isOpen())
+#ifndef QODBC_DATABASE
+    if(!db.isOpen())
     {
-        QSqlQuery query = QSqlQuery(db);
-
-        QFile file(filename);
-        QFile fileOut("log.txt");
-        if(!file.exists())
-            return;
-        fileOut.open(QIODevice::WriteOnly);
-        QTextStream out(&fileOut);
-        if(file.open(QIODevice::ReadOnly))
-        {
-            QTextStream in(&file);
-            QString strEn, strRu;
-            int n = 1;
-            QString queryStr = "INSERT INTO RuToEn (ru , en) VALUES";
-            while(!in.atEnd())
-            {
-                if(n% 2 == 0)
-                {
-                    queryStr[queryStr.length()-1] = ';';
-                    if(!query.exec(queryStr))
-                    {
-                        qDebug(logDebug())<<"TranslateForm: translate reader error";
-                        close();
-                    }
-                    queryStr = "INSERT INTO RuToEn (ru , en) VALUES";
-                }
-                n++;
-
-                in>>strRu;
-                strEn = in.readLine();
-                strRu = strRu.simplified();
-                strEn = strEn.simplified();
-                queryStr += "(\""+strRu+"\",\""+strEn+"\"),";
-
-            }
-            queryStr[queryStr.length()-1] = ';';
-            if(!query.exec(queryStr))
-            {
-                qDebug(logDebug())<<"TranslateForm: translate reader error";
-            }
-        }
-    }else {
         qDebug(logDebug())<<"TranslateForm: DB not opened";
+        return;
+    }
+#endif
+
+    QSqlQuery query = QSqlQuery(db);
+    QFile file(filename);
+    QFile fileOut("log.txt");
+    if(!file.exists())
+        return;
+    fileOut.open(QIODevice::WriteOnly);
+    QTextStream out(&fileOut);
+    if(file.open(QIODevice::ReadOnly))
+    {
+        QTextStream in(&file);
+        QString strEn, strRu;
+        int n = 1;
+        QString queryStr = "INSERT INTO RuToEn (ru , en) VALUES";
+        while(!in.atEnd())
+        {
+            if(n% 2 == 0)
+            {
+                queryStr[queryStr.length()-1] = ';';
+                if(!query.exec(queryStr))
+                {
+                    qDebug(logDebug())<<"TranslateForm: translate reader error";
+                    close();
+                }
+                queryStr = "INSERT INTO RuToEn (ru , en) VALUES";
+            }
+            n++;
+
+            in>>strRu;
+            strEn = in.readLine();
+            strRu = strRu.simplified();
+            strEn = strEn.simplified();
+            queryStr += "(\""+strRu+"\",\""+strEn+"\"),";
+        }
+        queryStr[queryStr.length()-1] = ';';
+        if(!query.exec(queryStr))
+        {
+            qDebug(logDebug())<<"TranslateForm: translate reader error";
+        }
     }
 }
 
 QString TranslateForm::offlineTranslate(QString txt)
 {
-    if(db.isOpen())
+#ifndef QODBC_DATABASE
+    if(!db.isOpen())
     {
-        QString queryStr = "SELECT `en` FROM RuToEn WHERE ru = \"" + txt + "\"";
-        if(TranslateLanguage == "ru")
-        {
-            queryStr = "SELECT `ru` FROM EnToRu ru WHERE en = \"" + txt + "\"";
-        }
-        QSqlQuery query = QSqlQuery(db);
-        query.exec(queryStr);
-
-        if (query.next())
-        {
-            return query.value(0).toString();
-        }else {
-            qDebug(logDebug())<<"TranslateForm: offline translate error";
-        }
-    }else {
         qDebug(logDebug())<<"TranslateForm: DB not opened";
+        return "Translate not find";
+    }
+#endif
+
+    QString queryStr = "SELECT `en` FROM RuToEn WHERE ru = \"" + txt + "\"";
+    if(TranslateLanguage == "ru")
+    {
+        queryStr = "SELECT `ru` FROM EnToRu ru WHERE en = \"" + txt + "\"";
+    }
+    QSqlQuery query = QSqlQuery(db);
+    query.exec(queryStr);
+
+    if (query.next())
+    {
+        return query.value(0).toString();
+    }else {
+        qDebug(logDebug())<<"TranslateForm: offline translate error";
     }
     return "Translate not find";
 }

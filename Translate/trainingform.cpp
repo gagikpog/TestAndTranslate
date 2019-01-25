@@ -3,7 +3,7 @@
 #include "mainwindow.h"
 #include "settingsform.h"
 #include "loggingcategories.h"
-#include <QSqlError>
+#include "header.h"
 
 TrainingForm::TrainingForm(QWidget *parent) : QDialog(parent), ui(new Ui::TrainingForm)
 {
@@ -13,8 +13,13 @@ TrainingForm::TrainingForm(QWidget *parent) : QDialog(parent), ui(new Ui::Traini
     ui->btmCheck->setEnabled(false);
     ui->btmNext->setEnabled(false);
     //подключаемся к БД
+#ifndef QODBC_DATABASE
     db = QSqlDatabase::addDatabase("QSQLITE");
     db.setDatabaseName("data.db");
+#else
+    QSqlDatabase db = QSqlDatabase::addDatabase("QODBC");
+    db.setDatabaseName("DRIVER={Microsoft Access Driver (*.mdb)};FIL={MS Access};DBQ=data.mdb;");
+#endif
     db.setPassword("sqlite18");
     if(!db.open()){
         qDebug(logDebug())<<"TrainingForm: DB open error>";
@@ -54,7 +59,11 @@ void TrainingForm::fillDB()
     QFile file("selfnew.txt");
     if(!file.exists())
         return;
-    if(file.open(QIODevice::ReadOnly) && db.isOpen())
+#ifndef QODBC_DATABASE
+    if(!db.isOpen())
+        return;
+#endif
+    if(file.open(QIODevice::ReadOnly))
     {
         QTextStream in(&file);
         QString strEn, strRu;
@@ -74,22 +83,24 @@ void TrainingForm::fillDB()
 
 void TrainingForm::readAllData()
 {
-    if(db.isOpen())
+#ifndef QODBC_DATABASE
+    if(!db.isOpen())
     {
-        //запрос на выделение всего
-        QSqlQuery query = QSqlQuery("SELECT * FROM favorite",db);
-        //получаю номера колонок
-        int enNo = query.record().indexOf("enText");
-        int ruNo = query.record().indexOf("ruText");
-        int raNo = query.record().indexOf("rating");
-        //по очереди вывожу все
-        while (query.next())
-            data.append(ssint(query.value(enNo).toString(),query.value(ruNo).toString(),query.value(raNo).toInt()));
-        //сортирую все данные по рейтингу
-        std::sort(data.begin(),data.end(),[](ssint&a,ssint&b){return a.rating<b.rating;});
-    }else {
         qDebug(logDebug())<<"TrainingForm: DB not opened";
+        return;
     }
+#endif
+    //запрос на выделение всего
+    QSqlQuery query = QSqlQuery("SELECT * FROM favorite",db);
+    //получаю номера колонок
+    int enNo = query.record().indexOf("enText");
+    int ruNo = query.record().indexOf("ruText");
+    int raNo = query.record().indexOf("rating");
+    //по очереди вывожу все
+    while (query.next())
+        data.append(ssint(query.value(enNo).toString(),query.value(ruNo).toString(),query.value(raNo).toInt()));
+    //сортирую все данные по рейтингу
+    std::sort(data.begin(),data.end(),[](ssint&a,ssint&b){return a.rating<b.rating;});
 }
 
 void TrainingForm::fillLisrs()

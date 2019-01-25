@@ -48,7 +48,8 @@ HEADERS += \
     sentencemanagerform.h \
     readerform.h \
     linefeed.h \
-    loggingcategories.h
+    loggingcategories.h \
+    header.h
 
 FORMS += \
         mainwindow.ui \

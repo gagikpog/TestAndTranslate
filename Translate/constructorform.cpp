@@ -4,7 +4,7 @@
 #include "mainwindow.h"
 #include "linefeed.h"
 #include "loggingcategories.h"
-#include <QSqlError>
+#include "header.h"
 
 //возвращает расстояние  между двумя точками
 int distance(const QPoint& a,const QPoint& b)
@@ -19,8 +19,13 @@ ConstructorForm::ConstructorForm(QWidget *parent) :QDialog(parent), ui(new Ui::C
     ui->setupUi(this);
     srand(time(NULL));
     //подключается к БД
+#ifndef QODBC_DATABASE
     db = QSqlDatabase::addDatabase("QSQLITE");
     db.setDatabaseName("data.db");
+#else
+    QSqlDatabase db = QSqlDatabase::addDatabase("QODBC");
+    db.setDatabaseName("DRIVER={Microsoft Access Driver (*.mdb)};FIL={MS Access};DBQ=data.mdb;");
+#endif
     db.setPassword("sqlite18");
     if(!db.open()){
         qDebug(logDebug())<<"ConstructorForm:DB open error>";
@@ -126,25 +131,27 @@ void ConstructorForm::setInterfaceLanguage(QString lang)
 
 void ConstructorForm::readRUSentence()
 {
-    if(db.isOpen())
+#ifndef QODBC_DATABASE
+    if(!db.isOpen())
     {
-        sentence.clear();
-        //запрос на выделение всего
-        QSqlQuery query = QSqlQuery("SELECT * FROM sentenceRU",db);
-        //получаю номера колонок
-        int keyNo = query.record().indexOf("key");
-        int sentenceNo = query.record().indexOf("sentence");
-        //по очереди вывожу все
-        while (query.next())
-            sentence.append(qMakePair(query.value(keyNo).toInt(),query.value(sentenceNo).toString()));
-        if(sentence.isEmpty())
-        {
-            ui->btnSkip->setEnabled(false);
-            ui->btnTest->setEnabled(false);
-            qDebug(logDebug())<<"ConstructorForm: sentence is empty";
-        }
-    }else {
         qDebug(logDebug())<<"ConstructorForm: DB not opened";
+        return;
+    }
+#endif
+    sentence.clear();
+    //запрос на выделение всего
+    QSqlQuery query = QSqlQuery("SELECT * FROM sentenceRU",db);
+    //получаю номера колонок
+    int keyNo = query.record().indexOf("key");
+    int sentenceNo = query.record().indexOf("sentence");
+    //по очереди вывожу все
+    while (query.next())
+        sentence.append(qMakePair(query.value(keyNo).toInt(),query.value(sentenceNo).toString()));
+    if(sentence.isEmpty())
+    {
+        ui->btnSkip->setEnabled(false);
+        ui->btnTest->setEnabled(false);
+        qDebug(logDebug())<<"ConstructorForm: sentence is empty";
     }
 }
 
@@ -197,16 +204,22 @@ void ConstructorForm::loadSentence(int n)
 QStringList ConstructorForm::getTranslatesById(int id)
 {
     QStringList res;
-    if(db.isOpen())
+
+#ifndef QODBC_DATABASE
+    if(!db.isOpen())
     {
-        //запрос на выделение всего
-        QSqlQuery query = QSqlQuery("SELECT * FROM sentenceEN WHERE id = " + QString::number(id)+";",db);
-        //получаю номера колонок
-        int sentenceNo = query.record().indexOf("sentence");
-        //по очереди вывожу все
-        while (query.next())
-            res.append(query.value(sentenceNo).toString());
+        return res;
     }
+#endif
+
+    //запрос на выделение всего
+    QSqlQuery query = QSqlQuery("SELECT * FROM sentenceEN WHERE id = " + QString::number(id)+";",db);
+    //получаю номера колонок
+    int sentenceNo = query.record().indexOf("sentence");
+    //по очереди вывожу все
+    while (query.next())
+        res.append(query.value(sentenceNo).toString());
+
     return res;
 }
 

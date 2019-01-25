@@ -4,15 +4,21 @@
 #include "mainwindow.h"
 #include "readerform.h"
 #include "loggingcategories.h"
-#include <QSqlError>
+#include "header.h"
 
 SentenceManagerForm::SentenceManagerForm(QWidget *parent) : QDialog(parent), ui(new Ui::SentenceManagerForm)
 {
     ui->setupUi(this);
     //подключаемся к БД
+#ifndef QODBC_DATABASE
     db = QSqlDatabase::addDatabase("QSQLITE");
     db.setDatabaseName("data.db");
+#else
+    QSqlDatabase db = QSqlDatabase::addDatabase("QODBC");
+    db.setDatabaseName("DRIVER={Microsoft Access Driver (*.mdb)};FIL={MS Access};DBQ=data.mdb;");
+#endif
     db.setPassword("sqlite18");
+
     if(!db.open()){
         qDebug(logDebug())<<"SentenceManagerForm: DB open error>";
         qDebug(logDebug())<<"\t\t"<<db.lastError().text();
@@ -69,12 +75,14 @@ void SentenceManagerForm::setInterfaceLanguage(QString lang)
 
 void SentenceManagerForm::readSentence()
 {
+#ifndef QODBC_DATABASE
     //проверка, открыта ли база
     if(!db.isOpen())
     {
         qDebug(logDebug())<<"SentenceManagerForm: DB not opened";
         return;
     }
+#endif
     //удалить содержимое виджета
     ui->treeWidget->clear();
     //количество колонок три

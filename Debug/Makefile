@@ -172,7 +172,8 @@ DIST          = /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/spec_pre.prf \
 		../Translate/sentencemanagerform.h \
 		../Translate/readerform.h \
 		../Translate/linefeed.h \
-		../Translate/loggingcategories.h ../Translate/main.cpp \
+		../Translate/loggingcategories.h \
+		../Translate/header.h ../Translate/main.cpp \
 		../Translate/mainwindow.cpp \
 		../Translate/translateform.cpp \
 		../Translate/trainingform.cpp \
@@ -373,7 +374,7 @@ distdir: FORCE
 	$(COPY_FILE) --parents $(DIST) $(DISTDIR)/
 	$(COPY_FILE) --parents ../Translate/resourses.qrc $(DISTDIR)/
 	$(COPY_FILE) --parents /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/data/dummy.cpp $(DISTDIR)/
-	$(COPY_FILE) --parents ../Translate/mainwindow.h ../Translate/translateform.h ../Translate/trainingform.h ../Translate/constructorform.h ../Translate/word.h ../Translate/settingsform.h ../Translate/sentencemanagerform.h ../Translate/readerform.h ../Translate/linefeed.h ../Translate/loggingcategories.h $(DISTDIR)/
+	$(COPY_FILE) --parents ../Translate/mainwindow.h ../Translate/translateform.h ../Translate/trainingform.h ../Translate/constructorform.h ../Translate/word.h ../Translate/settingsform.h ../Translate/sentencemanagerform.h ../Translate/readerform.h ../Translate/linefeed.h ../Translate/loggingcategories.h ../Translate/header.h $(DISTDIR)/
 	$(COPY_FILE) --parents ../Translate/main.cpp ../Translate/mainwindow.cpp ../Translate/translateform.cpp ../Translate/trainingform.cpp ../Translate/constructorform.cpp ../Translate/word.cpp ../Translate/settingsform.cpp ../Translate/sentencemanagerform.cpp ../Translate/readerform.cpp ../Translate/linefeed.cpp ../Translate/loggingcategories.cpp $(DISTDIR)/
 	$(COPY_FILE) --parents ../Translate/mainwindow.ui ../Translate/translateform.ui ../Translate/trainingform.ui ../Translate/constructorform.ui ../Translate/settingsform.ui ../Translate/sentencemanagerform.ui ../Translate/readerform.ui $(DISTDIR)/
 
