@@ -8,6 +8,7 @@
 TrainingForm::TrainingForm(QWidget *parent) : QDialog(parent), ui(new Ui::TrainingForm)
 {
     ui->setupUi(this);
+    listLineCount = SettingsForm::WordsCount;
     setWindowTitle("Training");
     //деактивировать кнопки
     ui->btmCheck->setEnabled(false);

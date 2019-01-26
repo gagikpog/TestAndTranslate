@@ -32,7 +32,6 @@ private slots:
     void updateTime();
     void on_btnTest_clicked();
     void on_btnSkip_clicked();
-
     void on_btnLineFeed_clicked();
 
 private:

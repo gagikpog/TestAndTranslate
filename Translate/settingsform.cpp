@@ -5,6 +5,7 @@
 
 QString SettingsForm::StyleFilename = ":/Styles/dark.qss";
 QString SettingsForm::ApplicationLanguage = "en";
+int SettingsForm::WordsCount = 8;
 QString SettingsForm::StylesStr = "";
 const QString SettingsForm::settingsFilename = "settings.ini";
 
@@ -19,6 +20,7 @@ SettingsForm::SettingsForm(QWidget *parent) :QDialog(parent), ui(new Ui::Setting
     setStyleSheet(getStyles());
     setInterfaceLanguage(ApplicationLanguage);
     ui->fontComboBox->setCurrentFont(font);
+    ui->spinBox->setValue(WordsCount);
 }
 
 SettingsForm::~SettingsForm()
@@ -35,6 +37,7 @@ void SettingsForm::setInterfaceLanguage(QString lang)
         ui->rBtmCustom->setText("Другой");
         ui->rBtmDefoult->setText("По умолчанию");
         ui->btmStyle->setText("Загрузить стиль");
+        ui->labelWord->setText("Количество слов");
         setWindowTitle("Настройки");
     }
 }
@@ -45,6 +48,7 @@ void SettingsForm::readSettings()
     StyleFilename = settings.value("styleFile", "").toString();
     ApplicationLanguage = settings.value("language", "en").toString();
     font.setFamily(settings.value("font", "Ubuntu").toString());
+    WordsCount = settings.value("wordsCount","8").toInt();
 
     StylesStr = loadStyle(StyleFilename);
 }
@@ -92,6 +96,7 @@ void SettingsForm::writeSettings()
     settings.setValue("checkbux",check );
     settings.setValue("customStyleFile",customStyleFile);
     settings.setValue("font",font.family());
+    settings.setValue("wordsCount",WordsCount);
 }
 
 void SettingsForm::readLocakSettings()
@@ -179,4 +184,10 @@ QString SettingsForm::loadStyle(QString filename)
     QString res = in->readAll();
     file->close();
     return res;
+}
+
+void SettingsForm::on_spinBox_editingFinished()
+{
+    WordsCount = ui->spinBox->value();
+    writeSettings();
 }

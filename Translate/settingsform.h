@@ -21,6 +21,7 @@ public:
     ~SettingsForm();
     void setInterfaceLanguage(QString lang = "ru");
     static QString ApplicationLanguage;
+    static int WordsCount;
     static void readSettings();
     static void writeLanguage();
     static QString getStyles();
@@ -30,10 +31,10 @@ private slots:
     void on_rBtmLight_clicked(bool checked);
     void on_rBtmDark_clicked(bool checked);
     void on_rBtmDefoult_clicked(bool checked);
-
     void on_btmSManager_clicked();
-
     void on_fontComboBox_currentFontChanged(const QFont &f);
+
+    void on_spinBox_editingFinished();
 
 private:
     Ui::SettingsForm *ui;
