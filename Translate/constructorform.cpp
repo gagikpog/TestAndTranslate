@@ -43,6 +43,8 @@ ConstructorForm::ConstructorForm(QWidget *parent) :QDialog(parent), ui(new Ui::C
     setInterfaceLanguage(SettingsForm::ApplicationLanguage);
     setStyleSheet(SettingsForm::getStyles());
     ui->btnLineFeed->setVisible(false);
+    ui->btnSkip->setEnabled(false);
+    ui->btnTest->setEnabled(false);
 }
 
 ConstructorForm::~ConstructorForm()
@@ -168,16 +170,16 @@ void ConstructorForm::addWord(QString txt)
     word->show();
 }
 
-void ConstructorForm::loadSentence(int n)
+bool ConstructorForm::loadSentence(int n)
 {
     //если не существует такого предложения то выход
     if(n < 0 || n >= sentence.length())
-        return;
+        return false;
     //получаем предложение
     QStringList strs = getTranslatesById(sentence.at(n).first);
     //если не удалось получить выходим
     if(strs.isEmpty())
-        return;
+        return false;
     //удаляем все предыдущие слова из формы
     for(int i = 0; i<words.length();i++)
         delete words[i];
@@ -199,6 +201,7 @@ void ConstructorForm::loadSentence(int n)
         //убираем символы и пробелы
         addWord(s.remove(QRegExp("[^\\w\']+")));
     }
+    return true;
 }
 
 QStringList ConstructorForm::getTranslatesById(int id)
@@ -265,7 +268,11 @@ void ConstructorForm::updateTime()
     //остановить таймер
     tmr->stop();
     //загрузить первое предложение
-    loadSentence(sentenceNum);
+    if(loadSentence(sentenceNum))
+    {
+        ui->btnSkip->setEnabled(true);
+        ui->btnTest->setEnabled(true);
+    }
 }
 
 void ConstructorForm::on_btnTest_clicked()

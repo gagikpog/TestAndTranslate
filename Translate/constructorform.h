@@ -43,7 +43,7 @@ private:
     QList<QPair<int,QString>> sentence;
     QSqlDatabase db;
     void addWord(QString text);
-    void loadSentence(int n);
+    bool loadSentence(int n);
     QStringList getTranslatesById(int id);
     QString getResultSentence();
     void showStatus();

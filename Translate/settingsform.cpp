@@ -74,8 +74,8 @@ void SettingsForm::on_btmStyle_clicked()
         StylesStr = loadStyle(StyleFilename);
         setStyleSheet(getStyles());
         customStyleFile = res;
-        writeSettings();
         selectedRadioBtm = "custom";
+        writeSettings();
     }else {
         selectRadioBatton(selectedRadioBtm);
     }

@@ -1,5 +1,5 @@
 Debug/*.o
-Debug/ui_*.*
-Debug/moc_*.*
+Debug/*.h
+Debug/*.cpp
 Debug/Translate
-Debug/logging.log
+*.log
