@@ -3,6 +3,7 @@
 #include "ui_settingsform.h"
 #include "mainwindow.h"
 
+QString SettingsForm::DatabaseName = "data.db";
 QString SettingsForm::StyleFilename = ":/Styles/dark.qss";
 QString SettingsForm::ApplicationLanguage = "en";
 int SettingsForm::WordsCount = 8;

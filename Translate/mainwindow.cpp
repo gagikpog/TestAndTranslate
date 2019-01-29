@@ -55,15 +55,15 @@ void MainWindow::setInterfaceLanguage(QString lang)
         ui->btmSetting->setText("&Настройки");
         ui->btmTraining->setText("&Тренировка");
         ui->btmTranslate->setText("&Переводчик");
+        ui->btmPuzzle->setText("П&азл");
     }else {
         ui->btmExit->setText("&Close");
         ui->btmSetting->setText("&Settings");
         ui->btmTraining->setText("Training");
         ui->btmTranslate->setText("&Translate");
+        ui->btmPuzzle->setText("&Puzzle");
     }
 }
-
-
 
 void MainWindow::on_btmTraining_clicked()
 {
@@ -73,19 +73,19 @@ void MainWindow::on_btmTraining_clicked()
     this->show();
 }
 
-void MainWindow::on_pushButton_clicked()
-{
-    ConstructorForm *form = new ConstructorForm();
-    this->hide();
-    form->exec();
-    this->show();
-}
-
 void MainWindow::on_btmSetting_clicked()
 {
     SettingsForm *form = new SettingsForm();
     this->hide();
     form->exec();
     ui->centralWidget->setStyleSheet(SettingsForm::getStyles());
+    this->show();
+}
+
+void MainWindow::on_btmPuzzle_clicked()
+{
+    ConstructorForm *form = new ConstructorForm();
+    this->hide();
+    form->exec();
     this->show();
 }

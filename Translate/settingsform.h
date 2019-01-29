@@ -20,6 +20,7 @@ public:
     explicit SettingsForm(QWidget *parent = 0);
     ~SettingsForm();
     void setInterfaceLanguage(QString lang = "ru");
+    static QString DatabaseName;
     static QString ApplicationLanguage;
     static int WordsCount;
     static void readSettings();

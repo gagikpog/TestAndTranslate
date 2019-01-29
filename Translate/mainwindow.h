@@ -19,8 +19,9 @@ private slots:
     void on_btmTranslate_clicked();
     void on_btmLanguage_clicked();
     void on_btmTraining_clicked();
-    void on_pushButton_clicked();
     void on_btmSetting_clicked();
+    void on_btmPuzzle_clicked();
+
 private:
     Ui::MainWindow *ui;
 };

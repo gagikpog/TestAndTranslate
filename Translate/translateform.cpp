@@ -34,7 +34,7 @@ TranslateForm::~TranslateForm()
 {
     //закрываю соединение
     db.close();
-    db.removeDatabase("data.db");
+    db.removeDatabase(db.databaseName());
     delete ui;
 }
 

@@ -17,6 +17,7 @@ int distance(const QPoint& a,const QPoint& b)
 ConstructorForm::ConstructorForm(QWidget *parent) :QDialog(parent), ui(new Ui::ConstructorForm)
 {
     ui->setupUi(this);
+    setWindowTitle("Puzzle");
     srand(time(NULL));
     //подключается к БД
 #ifndef QODBC_DATABASE
@@ -51,7 +52,7 @@ ConstructorForm::~ConstructorForm()
 {
     //закрываю соединение
     db.close();
-    db.removeDatabase("data.db");
+    db.removeDatabase(db.databaseName());
     delete ui;
 }
 
@@ -128,6 +129,7 @@ void ConstructorForm::setInterfaceLanguage(QString lang)
         ui->btnTest->setText("&Проверка");
         strGab = "Составьте предложение!";
         strWrong = "Неверно составлено предложение!";
+        setWindowTitle("Пазл");
     }
 }
 

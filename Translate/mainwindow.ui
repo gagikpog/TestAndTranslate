@@ -420,7 +420,7 @@
        </spacer>
       </item>
       <item>
-       <widget class="QPushButton" name="pushButton">
+       <widget class="QPushButton" name="btmPuzzle">
         <property name="minimumSize">
          <size>
           <width>300</width>
@@ -448,7 +448,7 @@
          <string notr="true"/>
         </property>
         <property name="text">
-         <string>PushButton</string>
+         <string>&amp;Puzzle</string>
         </property>
        </widget>
       </item>
@@ -481,7 +481,7 @@
          <string notr="true"/>
         </property>
         <property name="text">
-         <string>Training</string>
+         <string>T&amp;raining</string>
         </property>
        </widget>
       </item>
@@ -614,7 +614,7 @@
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <tabstops>
-  <tabstop>pushButton</tabstop>
+  <tabstop>btmPuzzle</tabstop>
   <tabstop>btmTraining</tabstop>
   <tabstop>btmTranslate</tabstop>
   <tabstop>btmSetting</tabstop>

@@ -39,7 +39,7 @@ TrainingForm::~TrainingForm()
 {
     //закрываю соединение
     db.close();
-    db.removeDatabase("data.db");
+    db.removeDatabase(db.databaseName());
     delete ui;
 }
 

@@ -48,7 +48,7 @@ SentenceManagerForm::~SentenceManagerForm()
 {
     //закрываю соединение
     db.close();
-    db.removeDatabase("data.db");
+    db.removeDatabase(db.databaseName());
     delete ui;
 }
 
@@ -134,6 +134,7 @@ void SentenceManagerForm::readSentence()
            ui->treeWidget->addTopLevelItem(itm);
         }else {
             qDebug(logDebug())<<"SentenceManagerForm: query result is empty";
+            qDebug(logDebug())<<"\t\t"<<query->lastError().text();
         }
     }
 }
@@ -207,9 +208,12 @@ void SentenceManagerForm::treeRemove()
                 err++;
         }
         //если в БД все успешно удалено то удаляем запись из дерева
-        if(err == 0)
+        if(err == 0){
             delete itm;
-        else qDebug(logDebug())<<"SentenceManagerForm: failed to delete the sentence";
+        } else{
+            qDebug(logDebug())<<"SentenceManagerForm: failed to delete the sentence";
+            qDebug(logDebug())<<"\t\t"<<query->lastError().text();
+        }
 
     }
 }
@@ -240,9 +244,12 @@ void SentenceManagerForm::treeChange()
             strQuery += "sentenceEN SET sentence = \"" + form->Text() + "\" WHERE key = " + itm->text(1);
         }
         //если в БД удачно изменено то меняем в дереве
-        if(query->exec(strQuery))
+        if(query->exec(strQuery)){
             itm->setText(0,form->Text());
-        else qDebug(logDebug())<<"SentenceManagerForm: failed to change the sentence";
+        } else {
+            qDebug(logDebug())<<"SentenceManagerForm: failed to change the sentence";
+            qDebug(logDebug())<<"\t\t"<<query->lastError().text();
+        }
     }
 }
 
@@ -279,9 +286,16 @@ void SentenceManagerForm::treeAdd()
                         itm->setText(1,key);
                         ui->treeWidget->addTopLevelItem(itm);
                     }else {
-                        qDebug(logDebug())<<"SentenceManagerForm: failed to add the sentence";
+                        qDebug(logDebug())<<"SentenceManagerForm: unable to select added item";
+                        qDebug(logDebug())<<"\t\t"<<query->lastError().text();
                     }
+                }else {
+                    qDebug(logDebug())<<"SentenceManagerForm: failed to 'select' the sentence after 'insert'";
+                    qDebug(logDebug())<<"\t\t"<<query->lastError().text();
                 }
+            }else {
+                qDebug(logDebug())<<"SentenceManagerForm: failed to add the sentence";
+                qDebug(logDebug())<<"\t\t"<<query->lastError().text();
             }
         }else{
             //иначе нужно добавить не в корень а в дочернюю часть
@@ -310,9 +324,16 @@ void SentenceManagerForm::treeAdd()
                         cItm->setText(2,itm->text(1));
                         itm->addChild(cItm);
                     }else {
-                        qDebug(logDebug())<<"SentenceManagerForm: failed to add the sentence";
+                        qDebug(logDebug())<<"SentenceManagerForm: unable to select added item";
+                        qDebug(logDebug())<<"\t\t"<<query->lastError().text();
                     }
+                }else {
+                    qDebug(logDebug())<<"SentenceManagerForm: failed to 'select' the sentence after 'insert'";
+                    qDebug(logDebug())<<"\t\t"<<query->lastError().text();
                 }
+            }else {
+                qDebug(logDebug())<<"SentenceManagerForm: failed to add the sentence";
+                qDebug(logDebug())<<"\t\t"<<query->lastError().text();
             }
         }
     }
