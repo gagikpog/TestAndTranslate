@@ -6,6 +6,7 @@
 #include "settingsform.h"
 #include <QTextStream>
 #include <QFile>
+#include "authenticationform.h"
 
 MainWindow::MainWindow(QWidget *parent): QMainWindow(parent), ui(new Ui::MainWindow)
 {
@@ -67,10 +68,15 @@ void MainWindow::setInterfaceLanguage(QString lang)
 
 void MainWindow::on_btmTraining_clicked()
 {
-    TrainingForm *trForm = new TrainingForm();
-    this->hide();
-    trForm->exec();
-    this->show();
+    AuthenticationForm* f = new AuthenticationForm();
+    f->exec();
+    if(f->isAuth())
+    {
+        TrainingForm *trForm = new TrainingForm();
+        this->hide();
+        trForm->exec();
+        this->show();
+    }
 }
 
 void MainWindow::on_btmSetting_clicked()
@@ -84,8 +90,13 @@ void MainWindow::on_btmSetting_clicked()
 
 void MainWindow::on_btmPuzzle_clicked()
 {
-    ConstructorForm *form = new ConstructorForm();
-    this->hide();
-    form->exec();
-    this->show();
+    AuthenticationForm* f = new AuthenticationForm();
+    f->exec();
+    if(f->isAuth())
+    {
+        ConstructorForm *form = new ConstructorForm();
+        this->hide();
+        form->exec();
+        this->show();
+    }
 }
