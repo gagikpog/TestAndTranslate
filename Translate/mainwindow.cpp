@@ -9,6 +9,7 @@
 #include <QJsonDocument>
 #include <QJsonObject>
 #include "authenticationform.h"
+#include "loggingcategories.h"
 
 QString MainWindow::User;
 
@@ -26,7 +27,6 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent), ui(new Ui::MainWin
     tmr->setInterval(500);
     connect(tmr, SIGNAL(timeout()), this, SLOT(UserAuth()));
     tmr->start();
-
 }
 
 MainWindow::~MainWindow()
@@ -66,12 +66,16 @@ void MainWindow::setInterfaceLanguage(QString lang)
         ui->btmTraining->setText("&Тренировка");
         ui->btmTranslate->setText("&Переводчик");
         ui->btmPuzzle->setText("П&азл");
+        if(User.isEmpty())
+            ui->lblUser->setText("<a href=\"whatever\">Гость</a>");
     }else {
         ui->btmExit->setText("&Close");
         ui->btmSetting->setText("&Settings");
         ui->btmTraining->setText("Training");
         ui->btmTranslate->setText("&Translate");
         ui->btmPuzzle->setText("&Puzzle");
+        if(User.isEmpty())
+            ui->lblUser->setText("<a href=\"whatever\">Visitor</a>");
     }
 }
 
@@ -104,10 +108,10 @@ void MainWindow::on_btmPuzzle_clicked()
     this->show();
 }
 
-bool MainWindow::UserAuth()
+bool MainWindow::UserAuth(bool fo)
 {
     tmr->stop();
-    if(!User.isEmpty())
+    if(!User.isEmpty() && !fo)
         return true;
 
     AuthenticationForm* f = new AuthenticationForm();
@@ -115,10 +119,17 @@ bool MainWindow::UserAuth()
     if(f->isAuth())
     {
         User = f->getAuthData();
-        QJsonObject root = QJsonDocument::fromJson(QByteArray(User.toUtf8(),1000)).object();
-        ui->lblUser->setText(root.value("name").toString()+" "+root.value("sname").toString());
+        qDebug(logDebug())<<"MainWindow: username";
+        qDebug(logDebug())<<"\t"<<User;
+        QJsonObject root = QJsonDocument::fromJson(User.toUtf8()).object();
+        ui->lblUser->setText("<a href=\"whatever\">"+root.value("name").toString()+" "+root.value("sname").toString()+"</a>");
     } else {
         return false;
     }
     return true;
+}
+
+void MainWindow::on_lblUser_linkActivated(const QString &)
+{
+    UserAuth(true);
 }

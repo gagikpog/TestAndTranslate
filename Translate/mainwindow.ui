@@ -593,8 +593,11 @@
       </item>
       <item>
        <widget class="QLabel" name="lblUser">
+        <property name="cursor">
+         <cursorShape>PointingHandCursor</cursorShape>
+        </property>
         <property name="text">
-         <string/>
+         <string>&lt;a href=&quot;whatever&quot;&gt;Visitor&lt;/a&gt;</string>
         </property>
        </widget>
       </item>

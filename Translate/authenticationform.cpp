@@ -40,7 +40,7 @@ void AuthenticationForm::setInterfaceLanguage(QString lang)
 
 QString AuthenticationForm::getAuthData()
 {
-    return "{ 'name': '"+ui->editName->text()+"', 'sname': '"+ui->editSName->text()+"','group': '"+ui->editGroup->text()+"' }";
+    return "{ \"name\": \""+ui->editName->text()+"\", \"sname\": \""+ui->editSName->text()+"\", \"group\": \""+ui->editGroup->text()+"\" }";
 }
 
 void AuthenticationForm::on_btmSingIn_clicked()
