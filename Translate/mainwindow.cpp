@@ -6,7 +6,11 @@
 #include "settingsform.h"
 #include <QTextStream>
 #include <QFile>
+#include <QJsonDocument>
+#include <QJsonObject>
 #include "authenticationform.h"
+
+QString MainWindow::User;
 
 MainWindow::MainWindow(QWidget *parent): QMainWindow(parent), ui(new Ui::MainWindow)
 {
@@ -18,6 +22,11 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent), ui(new Ui::MainWin
         ui->btmLanguage->setText("&EN");
         setInterfaceLanguage("ru");
     }
+    tmr = new QTimer();
+    tmr->setInterval(500);
+    connect(tmr, SIGNAL(timeout()), this, SLOT(UserAuth()));
+    tmr->start();
+
 }
 
 MainWindow::~MainWindow()
@@ -68,15 +77,12 @@ void MainWindow::setInterfaceLanguage(QString lang)
 
 void MainWindow::on_btmTraining_clicked()
 {
-    AuthenticationForm* f = new AuthenticationForm();
-    f->exec();
-    if(f->isAuth())
-    {
-        TrainingForm *trForm = new TrainingForm();
-        this->hide();
-        trForm->exec();
-        this->show();
-    }
+    if(!UserAuth())
+        return;
+    TrainingForm *trForm = new TrainingForm();
+    this->hide();
+    trForm->exec();
+    this->show();
 }
 
 void MainWindow::on_btmSetting_clicked()
@@ -90,13 +96,29 @@ void MainWindow::on_btmSetting_clicked()
 
 void MainWindow::on_btmPuzzle_clicked()
 {
+    if(!UserAuth())
+        return;
+    ConstructorForm *form = new ConstructorForm();
+    this->hide();
+    form->exec();
+    this->show();
+}
+
+bool MainWindow::UserAuth()
+{
+    tmr->stop();
+    if(!User.isEmpty())
+        return true;
+
     AuthenticationForm* f = new AuthenticationForm();
     f->exec();
     if(f->isAuth())
     {
-        ConstructorForm *form = new ConstructorForm();
-        this->hide();
-        form->exec();
-        this->show();
+        User = f->getAuthData();
+        QJsonObject root = QJsonDocument::fromJson(QByteArray(User.toUtf8(),1000)).object();
+        ui->lblUser->setText(root.value("name").toString()+" "+root.value("sname").toString());
+    } else {
+        return false;
     }
+    return true;
 }

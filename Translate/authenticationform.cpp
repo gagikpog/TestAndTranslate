@@ -8,12 +8,15 @@ AuthenticationForm::AuthenticationForm(QWidget *parent) :QDialog(parent),ui(new 
     setWindowTitle("Authentication");
     setInterfaceLanguage(SettingsForm::ApplicationLanguage);
     setStyleSheet(SettingsForm::getStyles());
-    QRegExp re1("[A-Z]{1}[a-z]*|[А-Я]{1}[а-я]*");
-    QRegExpValidator *validator1 = new QRegExpValidator(re1, this);
+
+    regName = new QRegExp ("[A-Z]{1}[a-z]{1,}|[А-Я]{1}[а-я]{1,}");
+    regGroup = new QRegExp ("([A-Z]{2,3}|[a-z]{2,3}|[а-я]{2,3}|[А-Я]{2,3})-\\d{3}");
+
+    QRegExpValidator *validator1 = new QRegExpValidator(*regName, this);
     ui->editName->setValidator(validator1);
     ui->editSName->setValidator(validator1);
-    QRegExp re2("([A-Z]{2,3}|[a-z]{2,3}|[а-я]{2,3}|[А-Я]{2,3})-\\d{3}");
-    QRegExpValidator *validator2 = new QRegExpValidator(re2, this);
+
+    QRegExpValidator *validator2 = new QRegExpValidator(*regGroup, this);
     ui->editGroup->setValidator(validator2);
 }
 
@@ -43,17 +46,17 @@ QString AuthenticationForm::getAuthData()
 void AuthenticationForm::on_btmSingIn_clicked()
 {
     editsUpdate();
-    if(ui->editName->text().isEmpty())
+    if (!regName->exactMatch(ui->editName->text()))
     {
         ui->editName->setFocus();
         return;
     }
-    if(ui->editSName->text().isEmpty())
+    if(!regName->exactMatch(ui->editSName->text()))
     {
         ui->editSName->setFocus();
         return;
     }
-    if(ui->editGroup->text().isEmpty())
+    if(!regGroup->exactMatch(ui->editGroup->text()))
     {
         ui->editGroup->setFocus();
         return;
@@ -64,15 +67,15 @@ void AuthenticationForm::on_btmSingIn_clicked()
 
 void AuthenticationForm::editsUpdate()
 {
-    if(ui->editGroup->text().isEmpty())
-        ui->editGroup->setStyleSheet("background: #FF313E;");
-    else ui->editGroup->setStyleSheet("");
+    if(!regName->exactMatch(ui->editName->text()))
+        ui->editName->setStyleSheet("background: #FF313E;");
+    else ui->editName->setStyleSheet("");
 
-    if(ui->editSName->text().isEmpty())
+    if(!regName->exactMatch(ui->editSName->text()))
         ui->editSName->setStyleSheet("background: #FF313E;");
     else ui->editSName->setStyleSheet("");
 
-    if(ui->editName->text().isEmpty())
-        ui->editName->setStyleSheet("background: #FF313E;");
-    else ui->editName->setStyleSheet("");
+    if(!regGroup->exactMatch(ui->editGroup->text()))
+        ui->editGroup->setStyleSheet("background: #FF313E;");
+    else ui->editGroup->setStyleSheet("");
 }

@@ -23,6 +23,8 @@ private slots:
 private:
     bool auth = false;
     Ui::AuthenticationForm *ui;
+    QRegExp* regName;
+    QRegExp* regGroup;
 };
 
 #endif // AUTHENTICATIONFORM_H
