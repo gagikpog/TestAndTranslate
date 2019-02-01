@@ -10,6 +10,7 @@
 #include <QJsonObject>
 #include "authenticationform.h"
 #include "loggingcategories.h"
+#include "certificateform.h"
 
 QString MainWindow::User;
 
@@ -87,6 +88,11 @@ void MainWindow::on_btmTraining_clicked()
     this->hide();
     trForm->exec();
     this->show();
+
+    CertificateForm* cf = new CertificateForm(this);
+    cf->loadCertificate("");
+    cf->exec();
+
 }
 
 void MainWindow::on_btmSetting_clicked()

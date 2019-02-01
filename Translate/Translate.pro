@@ -6,7 +6,8 @@
 
 QT       += core gui widgets
 QT       += network
-QT       += sql
+QT       += sql webkit webkitwidgets
+QT       += printsupport
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -37,7 +38,8 @@ SOURCES += \
     readerform.cpp \
     linefeed.cpp \
     loggingcategories.cpp \
-    authenticationform.cpp
+    authenticationform.cpp \
+    certificateform.cpp
 
 HEADERS += \
         mainwindow.h \
@@ -51,7 +53,8 @@ HEADERS += \
     linefeed.h \
     loggingcategories.h \
     header.h \
-    authenticationform.h
+    authenticationform.h \
+    certificateform.h
 
 FORMS += \
         mainwindow.ui \
@@ -61,7 +64,8 @@ FORMS += \
     settingsform.ui \
     sentencemanagerform.ui \
     readerform.ui \
-    authenticationform.ui
+    authenticationform.ui \
+    certificateform.ui
 
 RESOURCES += \
     resourses.qrc
