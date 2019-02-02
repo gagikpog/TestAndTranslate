@@ -3,192 +3,273 @@
 #include "ui_settingsform.h"
 #include "mainwindow.h"
 
+//статические поля класса, тут настройки и конфигурации всего проекта
+//название ДБ
 QString SettingsForm::DatabaseName = "data.db";
+//название фаела стлей
 QString SettingsForm::StyleFilename = ":/Styles/dark.qss";
+//язык итерфейса
 QString SettingsForm::ApplicationLanguage = "en";
+//кодичество слов отображающих а форме тренеровка
 int SettingsForm::WordsCount = 8;
+//название текущего стиля
 QString SettingsForm::StylesStr = "";
+//названия фаела с настройкамыи
 const QString SettingsForm::settingsFilename = "settings.ini";
-
+//название шрифта
 QFont SettingsForm::font;
-
 
 SettingsForm::SettingsForm(QWidget *parent) :QDialog(parent), ui(new Ui::SettingsForm)
 {
-    ui->setupUi(this);
-    setWindowTitle("Settings");
-    readLocakSettings();
-    setStyleSheet(getStyles());
-    setInterfaceLanguage(ApplicationLanguage);
-    ui->fontComboBox->setCurrentFont(font);
-    ui->spinBox->setValue(WordsCount);
+   ui->setupUi(this);
+   //задвть заголовок окна
+   setWindowTitle("Settings");
+   //загружает настройки которые нужни конкретно для этого окна
+   readLocakSettings();
+   //задать стиль окна
+   setStyleSheet(getStyles());
+   //задать язык интерфейса
+   setInterfaceLanguage(ApplicationLanguage);
+   //указать какой шрифт сейяас выбран
+   ui->fontComboBox->setCurrentFont(font);
+   //задать значене "количество слов" из файла
+   ui->spinBox->setValue(WordsCount);
 }
 
 SettingsForm::~SettingsForm()
 {
-    delete ui;
+   delete ui;
 }
 
 void SettingsForm::setInterfaceLanguage(QString lang)
 {
-    if(lang == "ru")
-    {
-        ui->rBtmDark->setText("Темный");
-        ui->rBtmLight->setText("Светлая");
-        ui->rBtmCustom->setText("Другой");
-        ui->rBtmDefoult->setText("По умолчанию");
-        ui->btmStyle->setText("Загрузить стиль");
-        ui->labelWord->setText("Количество слов");
-        setWindowTitle("Настройки");
-    }
+   //перевести интерфейс на русский
+   if(lang == "ru")
+   {
+       ui->rBtmDark->setText("Темный");
+       ui->rBtmLight->setText("Светлая");
+       ui->rBtmCustom->setText("Другой");
+       ui->rBtmDefoult->setText("По умолчанию");
+       ui->btmStyle->setText("Загрузить стиль");
+       ui->labelWord->setText("Количество слов");
+       setWindowTitle("Настройки");
+   }
 }
 
 void SettingsForm::readSettings()
 {
-    QSettings settings(settingsFilename, QSettings::IniFormat);
-    StyleFilename = settings.value("styleFile", "").toString();
-    ApplicationLanguage = settings.value("language", "en").toString();
-    font.setFamily(settings.value("font", "Ubuntu").toString());
-    WordsCount = settings.value("wordsCount","8").toInt();
-
-    StylesStr = loadStyle(StyleFilename);
+   //статический метод который загружает основные параметры из файла
+   //объект для чтения
+   QSettings settings(settingsFilename, QSettings::IniFormat);
+   //загрузить стили
+   StyleFilename = settings.value("styleFile", "").toString();
+   //загрузить язык  интерфейса
+   ApplicationLanguage = settings.value("language", "en").toString();
+   //загрузить шрифты
+   font.setFamily(settings.value("font", "Ubuntu").toString());
+   //загрузить параметр "количество слов"
+   WordsCount = settings.value("wordsCount","8").toInt();
+   //загрузить стили из файла
+   StylesStr = loadStyle(StyleFilename);
 }
 
 void SettingsForm::writeLanguage()
 {
-    QSettings settings(settingsFilename, QSettings::IniFormat);
-    settings.setValue("language", ApplicationLanguage);
+   //записывает язык интерфейса в файл
+   //его вынесли в отдельный метод потому что это единственный
+   //параметр который меняется вне класса настройки
+   //объект для записи настроек
+   QSettings settings(settingsFilename, QSettings::IniFormat);
+   //запить языка
+   settings.setValue("language", ApplicationLanguage);
 }
 
 QString SettingsForm::getStyles()
 {
-    return StylesStr + "QWidget{font-family: \"" + font.family() + "\";}";
+   //объединяет стильы и шрифт как обший стиль (формт qss)
+   return StylesStr + "QWidget{font-family: \"" + font.family() + "\";}";
 }
 
 void SettingsForm::on_btmStyle_clicked()
 {
-    QFileDialog* dlg = new QFileDialog(this);
-    QString res = dlg->getOpenFileName(this,"caption","Styles","Qt style files(*.qss);; All files (*.*)");
-    if(res != "")
-    {
-        StyleFilename = res;
-        StylesStr = loadStyle(StyleFilename);
-        setStyleSheet(getStyles());
-        customStyleFile = res;
-        selectedRadioBtm = "custom";
-        writeSettings();
-    }else {
-        selectRadioBatton(selectedRadioBtm);
-    }
+   //создается диалоговое окно
+   QFileDialog* dlg = new QFileDialog(this);
+   //вызывается окно и результат выбора сохраняется в переменную res
+   QString res = dlg->getOpenFileName(this,"caption","Styles","Qt style files(*.qss);; All files (*.*)");
+   //если был выбран файл то продолжить
+   if(!res.isEmpty())
+   {
+       //задать файл как фаел для стилей
+       StyleFilename = res;
+       //загрузить стили
+       StylesStr = loadStyle(StyleFilename);
+       //задать стиль текущего окна
+       setStyleSheet(getStyles());
+       customStyleFile = res;
+       //задать название сохраненного пункта
+       selectedRadioBtm = "custom";
+       //сохранить настройки
+       writeSettings();
+   }else {
+       //если файл не выбран отменить выбор
+       selectRadioBatton(selectedRadioBtm);
+   }
 }
 
 void SettingsForm::writeSettings()
 {
-    QString check = "dark";
-    if(ui->rBtmLight->isChecked())
-        check = "light";
-    if(ui->rBtmCustom->isChecked())
-        check = "custom";
-    if(ui->rBtmDefoult->isChecked())
-        check = "defoult";
-
-    QSettings settings(settingsFilename, QSettings::IniFormat);
-    settings.setValue("styleFile", StyleFilename);
-    settings.setValue("checkbux",check );
-    settings.setValue("customStyleFile",customStyleFile);
-    settings.setValue("font",font.family());
-    settings.setValue("wordsCount",WordsCount);
+   //сохраняет настройки в файл
+   //определяет какой пункт выбран
+   QString check = "dark";
+   if(ui->rBtmLight->isChecked())
+       check = "light";
+   if(ui->rBtmCustom->isChecked())
+       check = "custom";
+   if(ui->rBtmDefoult->isChecked())
+       check = "defoult";
+   //объект для сохранений
+   QSettings settings(settingsFilename, QSettings::IniFormat);
+   //поочередно сохраняет все параметры
+   settings.setValue("styleFile", StyleFilename);
+   settings.setValue("checkbux",check );
+   settings.setValue("customStyleFile",customStyleFile);
+   settings.setValue("font",font.family());
+   settings.setValue("wordsCount",WordsCount);
 }
 
 void SettingsForm::readLocakSettings()
 {
-    QSettings settings(settingsFilename, QSettings::IniFormat);
-    selectRadioBatton(settings.value("checkbux", "").toString());
-    customStyleFile = settings.value("customStyleFile", "").toString();
+   //загружает настройки которые нужны конкретно для этого окна
+   //объект для чтения
+   QSettings settings(settingsFilename, QSettings::IniFormat);
+   //загружает начтройкии
+   selectRadioBatton(settings.value("checkbux", "").toString());
+   customStyleFile = settings.value("customStyleFile", "").toString();
 }
 
 void SettingsForm::selectRadioBatton(QString check)
 {
-    ui->rBtmDefoult->setChecked(check == "defoult");
-    ui->rBtmCustom->setChecked(check == "custom");
-    ui->rBtmDark->setChecked(check == "dark");
-    ui->rBtmLight->setChecked(check == "light");
-    ui->btmStyle->setEnabled(check == "custom");
-    selectedRadioBtm = check;
+   //переключает переключатель по его названию
+   ui->rBtmDefoult->setChecked(check == "defoult");
+   ui->rBtmCustom->setChecked(check == "custom");
+   ui->rBtmDark->setChecked(check == "dark");
+   ui->rBtmLight->setChecked(check == "light");
+   ui->btmStyle->setEnabled(check == "custom");
+   selectedRadioBtm = check;
 }
 
 void SettingsForm::on_rBtmCustom_clicked(bool checked)
 {
-    ui->btmStyle->setEnabled(checked);
-    if(!QFile::exists(customStyleFile)){
-        on_btmStyle_clicked();
-    }else{
-        StyleFilename = customStyleFile;
-        StylesStr = loadStyle(StyleFilename);
-        setStyleSheet(getStyles());
-        writeSettings();
-    }
+   //при выпора пункта "другой"
+   //кнопка "загрузить стиль" становится активной
+   ui->btmStyle->setEnabled(checked);
+   //если файл еще не был выбран он вызывает событие на нажатие кнопки "загрузить стиль"
+   if(!QFile::exists(customStyleFile)){
+       on_btmStyle_clicked();
+   }else{
+       //иначе
+       //меняем назваеие выбранного стиля
+       StyleFilename = customStyleFile;
+       //загружаем стиль с файла
+       StylesStr = loadStyle(StyleFilename);
+       //задаем стиль текущего окна
+       setStyleSheet(getStyles());
+       //сохроняем настройки
+       writeSettings();
+   }
 }
 
 void SettingsForm::on_rBtmLight_clicked(bool )
 {
-    ui->btmStyle->setEnabled(false);
-    StyleFilename = ":/Styles/light.qss";
-    StylesStr = loadStyle(StyleFilename);
-    setStyleSheet(getStyles());
-    selectedRadioBtm = "light";
-    writeSettings();
+   //отключаем кнопку "загрузить стиль"
+   ui->btmStyle->setEnabled(false);
+   //задаем файл стилей (он находится в ресурсах)
+   StyleFilename = ":/Styles/light.qss";
+   //загружаем стили
+   StylesStr = loadStyle(StyleFilename);
+   //задаем стиль текущего окна
+   setStyleSheet(getStyles());
+   //меняем назваеие выбранного стиля
+   selectedRadioBtm = "light";
+   //сохроняем настройки
+   writeSettings();
 }
 
 void SettingsForm::on_rBtmDark_clicked(bool )
 {
-    ui->btmStyle->setEnabled(false);
-    StyleFilename = ":/Styles/dark.qss";
-    StylesStr = loadStyle(StyleFilename);
-    setStyleSheet(getStyles());
-    selectedRadioBtm = "dark";
-    writeSettings();
+   //отключаем кнопку "загрузить стиль"
+   ui->btmStyle->setEnabled(false);
+   //задаем файл стилей (он находится в ресурсах)
+   StyleFilename = ":/Styles/dark.qss";
+   //загружаем стили
+   StylesStr = loadStyle(StyleFilename);
+   //задаем стиль текущего окна
+   setStyleSheet(getStyles());
+   //меняем название выбранного стиля
+   selectedRadioBtm = "dark";
+   //сохраняем настройки
+   writeSettings();
 }
 
 void SettingsForm::on_rBtmDefoult_clicked(bool )
 {
-    ui->btmStyle->setEnabled(false);
-    StyleFilename = "";
-    StylesStr = "";
-    setStyleSheet(getStyles());
-    selectedRadioBtm = "defoult";
-    writeSettings();
+   ui->btmStyle->setEnabled(false);
+   //задаем файл стилей (его нет)
+   //это означает пустой стиль(зависит от стиля ОС)
+   StyleFilename = "";
+   //загружаем стили
+   StylesStr = "";
+   //задаем стиль текущего окна
+   setStyleSheet(getStyles());
+   //меняем название выбранного стиля
+   selectedRadioBtm = "defoult";
+   //сохроняем настройки
+   writeSettings();
 }
 
 void SettingsForm::on_btmSManager_clicked()
 {
-    SentenceManagerForm *form = new SentenceManagerForm();
-    //this->hide();
-    form->exec();
-    //this->show();
+   //открываем форму для редактирования предложений
+   SentenceManagerForm *form = new SentenceManagerForm();
+   //this->hide();
+   form->exec();
+   //this->show();
 }
 
 void SettingsForm::on_fontComboBox_currentFontChanged(const QFont &f)
 {
-    font = f;
-    writeSettings();
-    setStyleSheet(getStyles());
+   //шрифт был изменен
+   font = f;
+   //сохранить настройки
+   writeSettings();
+   //задит стиль текущего окна
+   setStyleSheet(getStyles());
 }
 
 QString SettingsForm::loadStyle(QString filename)
 {
-    QFile* file = new QFile(filename);
-    if(!file->exists())
-        return "";
-    file->open(QIODevice::ReadOnly);
-    QTextStream* in = new QTextStream(file);
-    QString res = in->readAll();
-    file->close();
-    return res;
+   //загружает стлт из файла
+   QFile* file = new QFile(filename);
+   //если файл не существует то выйти
+   if(!file->exists())
+       return "";
+   //открыть файл для чтения
+   if(!file->open(QIODevice::ReadOnly))
+       return "";
+   //читает как текст
+   QTextStream* in = new QTextStream(file);
+   //загрузить все
+   QString res = in->readAll();
+   //закрыть файл
+   file->close();
+   //вернуть текст
+   return res;
 }
 
 void SettingsForm::on_spinBox_editingFinished()
 {
-    WordsCount = ui->spinBox->value();
-    writeSettings();
+   //имененить количества слов
+   WordsCount = ui->spinBox->value();
+   //сохранить настройки
+   writeSettings();
 }
