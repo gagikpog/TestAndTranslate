@@ -6,8 +6,10 @@
 
 QT       += core gui widgets
 QT       += network
-QT       += sql webkit webkitwidgets
+QT       += sql
 QT       += printsupport
+!win32:QT+= webkit webkitwidgets
+
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -25,10 +27,15 @@ DEFINES += QT_DEPRECATED_WARNINGS
 # You can also select to disable deprecated APIs only up to a certain version of Qt.
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
+!win32:SOURCES += certificateform.cpp
+
+!win32:HEADERS += certificateform.h
+
+!win32:FORMS   += certificateform.ui
 
 SOURCES += \
         main.cpp \
-        mainwindow.cpp \
+    mainwindow.cpp \
     translateform.cpp \
     trainingform.cpp \
     constructorform.cpp \
@@ -38,8 +45,7 @@ SOURCES += \
     readerform.cpp \
     linefeed.cpp \
     loggingcategories.cpp \
-    authenticationform.cpp \
-    certificateform.cpp
+    authenticationform.cpp
 
 HEADERS += \
         mainwindow.h \
@@ -53,8 +59,7 @@ HEADERS += \
     linefeed.h \
     loggingcategories.h \
     header.h \
-    authenticationform.h \
-    certificateform.h
+    authenticationform.h
 
 FORMS += \
         mainwindow.ui \
@@ -64,8 +69,7 @@ FORMS += \
     settingsform.ui \
     sentencemanagerform.ui \
     readerform.ui \
-    authenticationform.ui \
-    certificateform.ui
+    authenticationform.ui
 
 RESOURCES += \
     resourses.qrc

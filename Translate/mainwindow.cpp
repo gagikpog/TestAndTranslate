@@ -10,8 +10,9 @@
 #include <QJsonObject>
 #include "authenticationform.h"
 #include "loggingcategories.h"
+#ifdef __linux__
 #include "certificateform.h"
-
+#endif
 QString MainWindow::User;
 
 MainWindow::MainWindow(QWidget *parent): QMainWindow(parent), ui(new Ui::MainWindow)
@@ -88,11 +89,11 @@ void MainWindow::on_btmTraining_clicked()
     this->hide();
     trForm->exec();
     this->show();
-
+#ifdef __linux__
     CertificateForm* cf = new CertificateForm(this);
     cf->loadCertificate("");
     cf->exec();
-
+#endif
 }
 
 void MainWindow::on_btmSetting_clicked()
