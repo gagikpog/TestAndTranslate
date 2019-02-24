@@ -24,8 +24,10 @@ TrainingForm::TrainingForm(QWidget *parent) : QDialog(parent), ui(new Ui::Traini
     db.setPassword("sqlite18");
     if(!db.open()){
         qDebug(logDebug())<<"TrainingForm: DB open error>";
-        qDebug(logDebug())<<"\t\t"<<db.lastError().text();
-    }else qDebug(logDebug())<<"TrainingForm: DB opened";
+        qDebug(logDebug())<<"\t"<<db.lastError().text();
+    } else {
+        qDebug(logDebug())<<"TrainingForm: DB opened";
+    }
     //считать все данные
     readAllData();
     //вывести первый тест
@@ -221,6 +223,7 @@ void TrainingForm::changeReatingBD(QString enWord,int val)
     if(!query.exec(queryStr))
     {
         qDebug(logDebug())<<"error DB UPDATE";
+        qDebug(logDebug())<<"\tquery: "<<queryStr;
     }
 }
 

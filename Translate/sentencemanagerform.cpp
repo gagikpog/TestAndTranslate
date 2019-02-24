@@ -21,7 +21,7 @@ SentenceManagerForm::SentenceManagerForm(QWidget *parent) : QDialog(parent), ui(
 
     if(!db.open()){
         qDebug(logDebug())<<"SentenceManagerForm: DB open error>";
-        qDebug(logDebug())<<"\t\t"<<db.lastError().text();
+        qDebug(logDebug())<<"\t"<<db.lastError().text();
     }else qDebug(logDebug())<<"SentenceManagerForm: DB opened";
     //задать заголовок окна
     setWindowTitle("Task Editor");
@@ -105,6 +105,7 @@ void SentenceManagerForm::readSentence()
     if(lst.isEmpty())
     {
         qDebug(logDebug())<<"SentenceManagerForm: query result is empty";
+        qDebug(logDebug())<<"\tquery: "<<strQuery;
     }
     //объект запросов для английских предложений
     QSqlQuery* q = new QSqlQuery(db);
@@ -134,7 +135,8 @@ void SentenceManagerForm::readSentence()
            ui->treeWidget->addTopLevelItem(itm);
         }else {
             qDebug(logDebug())<<"SentenceManagerForm: query result is empty";
-            qDebug(logDebug())<<"\t\t"<<query->lastError().text();
+            qDebug(logDebug())<<"\t"<<query->lastError().text();
+            qDebug(logDebug())<<"\tquery: "<<strQuery;
         }
     }
 }
@@ -192,10 +194,11 @@ void SentenceManagerForm::treeRemove()
         QSqlQuery* query = new  QSqlQuery(db);
         //счетчик для определения ошибки
         int err = 0;
+        QString strQuery;
         //если текст корневой (русский) то нужно удалить и дочерние(английские) записи
         if(itm->text(2) == "")
         {
-            QString strQuery = "DELETE FROM sentenceEN WHERE id = " + QString::number(key);
+            strQuery = "DELETE FROM sentenceEN WHERE id = " + QString::number(key);
             if(!query->exec(strQuery))
                 err++;
             strQuery = "DELETE FROM sentenceRU WHERE key = " + QString::number(key);
@@ -212,7 +215,8 @@ void SentenceManagerForm::treeRemove()
             delete itm;
         } else{
             qDebug(logDebug())<<"SentenceManagerForm: failed to delete the sentence";
-            qDebug(logDebug())<<"\t\t"<<query->lastError().text();
+            qDebug(logDebug())<<"\t"<<query->lastError().text();
+            qDebug(logDebug())<<"\tquery: "<<strQuery;
         }
 
     }
@@ -248,7 +252,8 @@ void SentenceManagerForm::treeChange()
             itm->setText(0,form->Text());
         } else {
             qDebug(logDebug())<<"SentenceManagerForm: failed to change the sentence";
-            qDebug(logDebug())<<"\t\t"<<query->lastError().text();
+            qDebug(logDebug())<<"\t"<<query->lastError().text();
+            qDebug(logDebug())<<"\tquery: "<<strQuery;
         }
     }
 }
@@ -287,15 +292,18 @@ void SentenceManagerForm::treeAdd()
                         ui->treeWidget->addTopLevelItem(itm);
                     }else {
                         qDebug(logDebug())<<"SentenceManagerForm: unable to select added item";
-                        qDebug(logDebug())<<"\t\t"<<query->lastError().text();
+                        qDebug(logDebug())<<"\t"<<query->lastError().text();
+                        qDebug(logDebug())<<"\tquery: "<<strQuery;
                     }
                 }else {
                     qDebug(logDebug())<<"SentenceManagerForm: failed to 'select' the sentence after 'insert'";
-                    qDebug(logDebug())<<"\t\t"<<query->lastError().text();
+                    qDebug(logDebug())<<"\t"<<query->lastError().text();
+                    qDebug(logDebug())<<"\tquery: "<<strQuery;
                 }
             }else {
                 qDebug(logDebug())<<"SentenceManagerForm: failed to add the sentence";
-                qDebug(logDebug())<<"\t\t"<<query->lastError().text();
+                qDebug(logDebug())<<"\t"<<query->lastError().text();
+                qDebug(logDebug())<<"\tquery: "<<strQuery;
             }
         }else{
             //иначе нужно добавить не в корень а в дочернюю часть
@@ -325,15 +333,18 @@ void SentenceManagerForm::treeAdd()
                         itm->addChild(cItm);
                     }else {
                         qDebug(logDebug())<<"SentenceManagerForm: unable to select added item";
-                        qDebug(logDebug())<<"\t\t"<<query->lastError().text();
+                        qDebug(logDebug())<<"\t"<<query->lastError().text();
+                        qDebug(logDebug())<<"\tquery: "<<strQuery;
                     }
                 }else {
                     qDebug(logDebug())<<"SentenceManagerForm: failed to 'select' the sentence after 'insert'";
-                    qDebug(logDebug())<<"\t\t"<<query->lastError().text();
+                    qDebug(logDebug())<<"\t"<<query->lastError().text();
+                    qDebug(logDebug())<<"\tquery: "<<strQuery;
                 }
             }else {
                 qDebug(logDebug())<<"SentenceManagerForm: failed to add the sentence";
-                qDebug(logDebug())<<"\t\t"<<query->lastError().text();
+                qDebug(logDebug())<<"\t"<<query->lastError().text();
+                qDebug(logDebug())<<"\tquery: "<<strQuery;
             }
         }
     }

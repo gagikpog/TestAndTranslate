@@ -20,8 +20,10 @@ TranslateForm::TranslateForm(QWidget *parent) : QDialog(parent), ui(new Ui::Tran
     db.setPassword("sqlite18");
     if(!db.open()){
         qDebug(logDebug())<<"TranslateForm: DB open error>";
-        qDebug(logDebug())<<"\t\t"<<db.lastError().text();
-    }else qDebug(logDebug())<<"TranslateForm: DB opened";
+        qDebug(logDebug())<<"\t"<<db.lastError().text();
+    }else{
+        qDebug(logDebug())<<"TranslateForm: DB opened";
+    }
     //заполнить таблицу
     ReadDB();
     //задать язык интерфейса
@@ -154,6 +156,7 @@ void TranslateForm::on_btmFavorite_clicked()
             ui->msgOutput->setText("");
         }else {
             qDebug(logDebug())<<"TranslateForm: favorite word insert error";
+            qDebug(logDebug())<<"\tquery: "<<queryStr;
         }
         //обновить таблицу
         ReadDB();
@@ -229,7 +232,8 @@ void TranslateForm::on_btmRemove_clicked()
     QSqlQuery query = QSqlQuery(db);
     if(!query.exec(queryStr))
     {
-        qDebug(logDebug())<<"TranslateForm: fovorite wod delelte error";
+        qDebug(logDebug())<<"TranslateForm: fovorite wod delelte error";        
+        qDebug(logDebug())<<"\tquery: "<<queryStr;
     }
     //обновить таблицу
     ReadDB();
@@ -300,6 +304,7 @@ void TranslateForm::readTranslateFromFile()
                 if(!query.exec(queryStr))
                 {
                     qDebug(logDebug())<<"TranslateForm: translate reader error";
+                    qDebug(logDebug())<<"\tquery: "<<queryStr;
                     close();
                 }
                 queryStr = "INSERT INTO RuToEn (ru , en) VALUES";
@@ -316,6 +321,7 @@ void TranslateForm::readTranslateFromFile()
         if(!query.exec(queryStr))
         {
             qDebug(logDebug())<<"TranslateForm: translate reader error";
+            qDebug(logDebug())<<"\tquery: "<<queryStr;
         }
     }
 }
@@ -343,6 +349,7 @@ QString TranslateForm::offlineTranslate(QString txt)
         return query.value(0).toString();
     }else {
         qDebug(logDebug())<<"TranslateForm: offline translate error";
+        qDebug(logDebug())<<"\tquery: "<<queryStr;
     }
     return "Translate not find";
 }
