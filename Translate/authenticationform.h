@@ -2,6 +2,7 @@
 #define AUTHENTICATIONFORM_H
 
 #include <QDialog>
+#include <QRegExpValidator>
 
 namespace Ui {
 class AuthenticationForm;

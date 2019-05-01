@@ -127,6 +127,8 @@ void TranslateForm::on_btmFavorite_clicked()
     //проверка на простоту строк
     if( txt1 != "" && txt2 != "")
     {
+        txt1 = txt1.replace("'","`");
+        txt2 = txt2.replace("'","`");
         //если с русского на английский меняем местами слова
         if(TranslateLanguage == "en")
             txt1.swap(txt2);

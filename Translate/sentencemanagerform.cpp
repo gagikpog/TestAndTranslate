@@ -243,9 +243,9 @@ void SentenceManagerForm::treeChange()
         QString strQuery = "UPDATE ";
         if(itm->text(2) == "")
         {
-            strQuery += "sentenceRU SET sentence = \"" + form->Text() + "\" WHERE key = " + itm->text(1);
+            strQuery += "sentenceRU SET sentence = '" + form->Text() + "' WHERE key = " + itm->text(1);
         } else {
-            strQuery += "sentenceEN SET sentence = \"" + form->Text() + "\" WHERE key = " + itm->text(1);
+            strQuery += "sentenceEN SET sentence = '" + form->Text() + "' WHERE key = " + itm->text(1);
         }
         //если в БД удачно изменено то меняем в дереве
         if(query->exec(strQuery)){
@@ -274,12 +274,12 @@ void SentenceManagerForm::treeAdd()
         if(ui->treeWidget->selectedItems().isEmpty())
         {
             //запрос на добавление
-            strQuery += "sentenceRU (sentence) VALUES (\"" + form->Text() + "\");";
+            strQuery += "sentenceRU (sentence) VALUES ('" + form->Text() + "');";
             //если в БД удачно добавлена запись
             if(query->exec(strQuery))
             {
                 //запрос, чтобы получить код записи
-                strQuery = "SELECT key FROM sentenceRU WHERE sentence = \"" + form->Text() + "\";";
+                strQuery = "SELECT key FROM sentenceRU WHERE sentence = '" + form->Text() + "';";
                 if(query->exec(strQuery))
                 {
                     if(query->next())
@@ -315,11 +315,11 @@ void SentenceManagerForm::treeAdd()
                 itm = itm->parent();
             }
             //запрос на добавление
-            strQuery += "sentenceEN (id,sentence) VALUES (" + itm->text(1) + ",\"" + form->Text() + "\");";
+            strQuery += "sentenceEN (id,sentence) VALUES (" + itm->text(1) + ",'" + form->Text() + "');";
             if(query->exec(strQuery))
             {
                 //запрос, чтобы получить код записи
-                strQuery = "SELECT key FROM sentenceEN WHERE sentence = \"" + form->Text() + "\";";
+                strQuery = "SELECT key FROM sentenceEN WHERE sentence = '" + form->Text() + "';";
                 if(query->exec(strQuery))
                 {
                     if(query->next())

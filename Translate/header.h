@@ -3,6 +3,8 @@
 
 #include <QSqlError>
 
-//#define QODBC_DATABASE
+#ifdef _WIN32
+    #define QODBC_DATABASE
+#endif
 
 #endif // HEADER_H

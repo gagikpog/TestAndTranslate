@@ -40,6 +40,7 @@ QString ReaderForm::Text() const
     QString txt = ui->textEdit->toPlainText();
     //удаляются все лишние пробелы
     txt = txt.simplified();
+    txt = txt.replace("'","`");
     return txt;
 }
 
