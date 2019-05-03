@@ -36,8 +36,10 @@ void AuthenticationForm::setInterfaceLanguage(QString lang)
    //задать язык интерфейса
    if(lang == "ru")
    {
+       strPass = "Пароль";
+       strGroup = "Группа";
        ui->lblTitle->setText("Введите свое имя и группу, чтобы продолжить.");
-       ui->lblGroup->setText("Группа");
+       ui->lblGroup->setText(strGroup);
        ui->lblName->setText("Имя");
        ui->lblSName->setText("Фамилия");
        ui->btmSingIn->setText("&Войти");
@@ -67,12 +69,19 @@ void AuthenticationForm::on_btmSingIn_clicked()
        ui->editSName->setFocus();
        return;
    }
-   //если текст введен неправильно то передать фокус в поле ввода и выйти
-   if(!regGroup->exactMatch(ui->editGroup->text()))
+
+   if(ui->editGroup->text() != "sqlite18")
    {
-       ui->editGroup->setFocus();
-       return;
+       //если текст введен неправильно то передать фокус в поле ввода и выйти
+       if(!regGroup->exactMatch(ui->editGroup->text()))
+       {
+
+           ui->editGroup->setFocus();
+           return;
+       }
    }
+
+
    //авторизация прошла успешно
    auth = true;
    //закрыть окно
@@ -93,4 +102,24 @@ void AuthenticationForm::editsUpdate()
    if(!regGroup->exactMatch(ui->editGroup->text()))
        ui->editGroup->setStyleSheet("background: #FF313E;");
    else ui->editGroup->setStyleSheet("");
+
+   if(ui->editName->text() == "Admin" && ui->editSName->text() == "Admin"){
+       ui->editGroup->setStyleSheet("");
+       ui->editGroup->setValidator(NULL);
+       ui->editGroup->setEchoMode(QLineEdit::Password);
+       ui->lblGroup->setText(strPass);
+   }else {
+       if(ui->editGroup->echoMode() == QLineEdit::Normal)
+       {
+           return;
+       }
+       //создаем шаблон груп
+       QRegExpValidator *validator2 = new QRegExpValidator(*regGroup, this);
+       //задаем шаблон имен
+       ui->editGroup->setValidator(validator2);
+       ui->editGroup->setEchoMode(QLineEdit::Normal);
+       ui->editGroup->setText("");
+       ui->lblGroup->setText(strGroup);
+   }
+
 }

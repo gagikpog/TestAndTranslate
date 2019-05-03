@@ -34,6 +34,13 @@ SettingsForm::SettingsForm(QWidget *parent) :QDialog(parent), ui(new Ui::Setting
    ui->fontComboBox->setCurrentFont(font);
    //задать значене "количество слов" из файла
    ui->spinBox->setValue(WordsCount);
+
+   QJsonObject root = QJsonDocument::fromJson(MainWindow::User.toUtf8()).object();
+   QString tmp = root.value("group").toString();
+   if(tmp != "sqlite18")
+   {
+        ui->btmSManager->setVisible(false);
+   }
 }
 
 SettingsForm::~SettingsForm()
@@ -52,6 +59,8 @@ void SettingsForm::setInterfaceLanguage(QString lang)
        ui->rBtmDefoult->setText("По умолчанию");
        ui->btmStyle->setText("Загрузить стиль");
        ui->labelWord->setText("Количество слов");
+       ui->labelStyle->setText("Стиль применения");
+       ui->btmSManager->setText("Редактор задач");
        setWindowTitle("Настройки");
    }
 }

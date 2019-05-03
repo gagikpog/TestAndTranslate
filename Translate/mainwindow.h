@@ -2,6 +2,10 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include <QJsonObject>
+#include <QJsonDocument>
+#include <QTextStream>
+#include <QFile>
 
 namespace Ui {
 class MainWindow;

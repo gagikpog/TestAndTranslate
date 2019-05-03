@@ -44,8 +44,10 @@ ConstructorForm::ConstructorForm(QWidget *parent) :QDialog(parent), ui(new Ui::C
     setInterfaceLanguage(SettingsForm::ApplicationLanguage);
     setStyleSheet(SettingsForm::getStyles());
     ui->btnLineFeed->setVisible(false);
+    ui->btnSkip->setVisible(false);
     ui->btnSkip->setEnabled(false);
     ui->btnTest->setEnabled(false);
+    showStatus();
 }
 
 ConstructorForm::~ConstructorForm()
@@ -129,6 +131,7 @@ void ConstructorForm::setInterfaceLanguage(QString lang)
         ui->btnTest->setText("&Проверка");
         strGab = "Составьте предложение!";
         strWrong = "Неверно составлено предложение!";
+        strEnd = "Тестирование закончено, нажмите ОК чтобы посмотреть результат.";
         setWindowTitle("Пазл");
     }
 }
@@ -262,7 +265,10 @@ QString ConstructorForm::getResultSentence()
 void ConstructorForm::showStatus()
 {
     //вывод количество правильных и неправильных ответов
-    ui->labelStatus->setText(QString::number(right)+" | "+QString::number(wrong));
+    QString msg = "Test: ";
+    if(SettingsForm::ApplicationLanguage == "ru")
+        msg = "Тест: ";
+    ui->labelStatus->setText(msg + QString::number(sentenceNum + 1)+" / "+QString::number(sentence.length()));
 }
 
 void ConstructorForm::updateTime()
@@ -321,8 +327,10 @@ void ConstructorForm::on_btnTest_clicked()
     msg.setText(strWrong);
     //увеличить количество ошибок и обновить
     wrong++;
-    showStatus();
     msg.exec();
+    //загрузить следующее предложение
+    on_btnSkip_clicked();
+    showStatus();
 }
 
 void ConstructorForm::on_btnSkip_clicked()
@@ -334,8 +342,13 @@ void ConstructorForm::on_btnSkip_clicked()
     {
         sentenceNum = 0;
         //end Testing
+        QMessageBox msg(QMessageBox::NoIcon,"","",QMessageBox::Ok,this,
+            Qt::WindowFlags(Qt::Dialog | Qt::MSWindowsFixedSizeDialogHint | Qt::WindowTitleHint | Qt::WindowSystemMenuHint | Qt::CustomizeWindowHint | Qt::WindowMaximizeButtonHint) & ~Qt::WindowCloseButtonHint);
+        msg.setWindowFlags(Qt::WindowTitleHint | Qt::Dialog | Qt::WindowMaximizeButtonHint | Qt::CustomizeWindowHint);
         //write mwssage
-        //close();
+        msg.setText(strEnd);
+        msg.exec();
+        close();
     }
     //вывести следующее предложение
     loadSentence(sentenceNum);

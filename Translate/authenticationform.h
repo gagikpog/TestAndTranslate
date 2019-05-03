@@ -26,6 +26,8 @@ private:
     Ui::AuthenticationForm *ui;
     QRegExp* regName;
     QRegExp* regGroup;
+    QString strPass = "Password";
+    QString strGroup = "Group";
 };
 
 #endif // AUTHENTICATIONFORM_H

@@ -52,6 +52,7 @@ private:
     //Strings
     QString strGab = "Make a sentence!";
     QString strWrong = "Incorrectly written sentence!";
+    QString strEnd = "Testing completed, click OK to see the result.";
 };
 
 #endif // CONSTRUCTORFORM_H

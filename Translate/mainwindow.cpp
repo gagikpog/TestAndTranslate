@@ -4,10 +4,6 @@
 #include "trainingform.h"
 #include "constructorform.h"
 #include "settingsform.h"
-#include <QTextStream>
-#include <QFile>
-#include <QJsonDocument>
-#include <QJsonObject>
 #include "authenticationform.h"
 #include "loggingcategories.h"
 #ifdef __linux__
