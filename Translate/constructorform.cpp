@@ -204,7 +204,7 @@ bool ConstructorForm::loadSentence(int n)
     {
         QString s = lst[i];
         //убираем символы и пробелы
-        addWord(s.remove(QRegExp("[^\\w\']+")));
+        addWord(s.remove(QRegExp("[^\\w`]+")));
     }
     return true;
 }
@@ -304,7 +304,7 @@ void ConstructorForm::on_btnTest_clicked()
     {
         //берется строка и убираются все символы и пробелы а также приводится к нижнему регистру
         QString str = lst.at(i);
-        str = str.remove(QRegExp("[^\\w\']+")).toLower();
+        str = str.remove(QRegExp("[^\\w`]+")).toLower();
         //если совпадение
         if(str == res)
         {
