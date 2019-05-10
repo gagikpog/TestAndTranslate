@@ -11,6 +11,9 @@
 #include <QTextStream>
 #include <QDebug>
 #include <algorithm>
+#include <QJsonObject>
+#include <QJsonDocument>
+#include <QDate>
 
 namespace Ui {
 class TrainingForm;
@@ -26,7 +29,7 @@ public:
     explicit TrainingForm(QWidget *parent = 0);
     ~TrainingForm();
     void setInterfaceLanguage(QString lang = "ru");
-    int listLineCount = 5;
+    QStringList result();
 private slots:
     void on_btmCheck_clicked();
     void on_btmNext_clicked();
@@ -43,6 +46,7 @@ private:
     QList<ssint> data;
     QSqlDatabase db;
     int ansRight = 0, ansWrong = 0;
+    int listLineCount = 5;
 };
 
 struct ssint

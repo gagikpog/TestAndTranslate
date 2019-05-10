@@ -89,6 +89,18 @@ void MainWindow::on_btmTraining_clicked()
     CertificateForm* cf = new CertificateForm(this);
     cf->loadCertificate("");
     cf->exec();
+#else
+    QJsonObject textObject = QJsonDocument::fromJson(User.toUtf8()).object();
+    QString tmp = textObject.value("group").toString();
+    if(tmp == "sqlite18")
+    {
+         return;
+    }
+    qDebug(logDebug()) << "mainwindow form; WIN32; Training result:\t Calling show.exe";
+//    return;
+    QString prog = QDir::homePath() + "show.exe";
+    QProcess* process = new QProcess(NULL);
+    process->start(prog, trForm->result());
 #endif
 }
 
@@ -109,6 +121,23 @@ void MainWindow::on_btmPuzzle_clicked()
     this->hide();
     form->exec();
     this->show();
+#ifdef __linux__
+    CertificateForm* cf = new CertificateForm(this);
+    cf->loadCertificate("");
+    cf->exec();
+#else
+    QJsonObject textObject = QJsonDocument::fromJson(User.toUtf8()).object();
+    QString tmp = textObject.value("group").toString();
+    if(tmp == "sqlite18")
+    {
+         return;
+    }
+    qDebug(logDebug()) << "mainwindow form; WIN32; Puzzle result:\t Calling show.exe";
+//    return;
+    QString prog = QDir::homePath() + "show.exe";
+    QProcess* process = new QProcess(NULL);
+    process->start(prog, form->result());
+#endif
 }
 
 bool MainWindow::UserAuth(bool fo)

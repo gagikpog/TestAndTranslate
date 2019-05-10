@@ -56,6 +56,39 @@ void TrainingForm::setInterfaceLanguage(QString lang)
     }
 }
 
+QStringList TrainingForm::result()
+{
+    int percent = 0;
+    if(ansRight + ansWrong != 0)
+    {
+        percent =  (100*ansRight)/(ansRight + ansWrong);
+    }
+    // info from https://mgimo.ru/files/89/shkala_ECTS2.htm
+    int scorenumber = 2;
+    if (percent >= 90) {
+        scorenumber  = 5;
+    } else if (percent >= 75) {
+        scorenumber  = 4;
+    } else if (percent >= 60) {
+        scorenumber  = 3;
+    }
+
+    QJsonObject textObject = QJsonDocument::fromJson(MainWindow::User.toUtf8()).object();
+    textObject["date"] = QDate::currentDate().toString(Qt::SystemLocaleShortDate);
+    textObject["category"] = "train";
+    textObject["score"] = "_____";
+    textObject["scorenumber"] = QString::number(scorenumber);
+    textObject["percent"] = QString::number(percent);
+    textObject["wrong"] = QString::number(ansWrong);
+    textObject["right"] = QString::number(ansRight);
+    textObject["lang"] = SettingsForm::ApplicationLanguage;
+    QStringList res;
+    res << QJsonDocument(textObject).toJson(QJsonDocument::Compact);
+    qDebug(logDebug()) << "TrainingForm form; WIN32:\t make result JSON";
+    qDebug(logDebug()) << "\t\t" << res;
+    return res;
+}
+
 void TrainingForm::fillDB()
 {
     //функция предназначена для перевода текстовой информации и базу

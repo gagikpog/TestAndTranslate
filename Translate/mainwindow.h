@@ -6,6 +6,9 @@
 #include <QJsonDocument>
 #include <QTextStream>
 #include <QFile>
+#include <QProcess>
+#include <QDir>
+#include <QDebug>
 
 namespace Ui {
 class MainWindow;

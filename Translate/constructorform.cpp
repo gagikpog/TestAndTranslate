@@ -136,6 +136,39 @@ void ConstructorForm::setInterfaceLanguage(QString lang)
     }
 }
 
+QStringList ConstructorForm::result()
+{
+    int percent = 0;
+    if(right + wrong != 0)
+    {
+        percent =  (100*right)/(right + wrong);
+    }
+    // info from https://mgimo.ru/files/89/shkala_ECTS2.htm
+    int scorenumber = 2;
+    if (percent >= 90) {
+        scorenumber  = 5;
+    } else if (percent >= 75) {
+        scorenumber  = 4;
+    } else if (percent >= 60) {
+        scorenumber  = 3;
+    }
+
+    QJsonObject textObject = QJsonDocument::fromJson(MainWindow::User.toUtf8()).object();
+    textObject["date"] = QDate::currentDate().toString(Qt::SystemLocaleShortDate);
+    textObject["category"] = "constr";
+    textObject["score"] = "_____";
+    textObject["scorenumber"] = QString::number(scorenumber);
+    textObject["percent"] = QString::number(percent);
+    textObject["wrong"] = QString::number(wrong);
+    textObject["right"] = QString::number(right);
+    textObject["lang"] = SettingsForm::ApplicationLanguage;
+    QStringList res;
+    res << QJsonDocument(textObject).toJson(QJsonDocument::Compact);
+    qDebug(logDebug()) << "ConstructorForm form; WIN32:\t make result JSON";
+    qDebug(logDebug()) << "\t\t" << res;
+    return res;
+}
+
 void ConstructorForm::readRUSentence()
 {
 #ifndef QODBC_DATABASE

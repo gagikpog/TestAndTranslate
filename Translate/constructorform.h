@@ -27,7 +27,7 @@ public:
     void ListUpdate(int id);
     void ListConnect(int id);
     void setInterfaceLanguage(QString lang = "ru");
-
+    QStringList result();
 private slots:
     void updateTime();
     void on_btnTest_clicked();
