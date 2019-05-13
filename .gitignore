@@ -3,3 +3,4 @@ Debug/*.h
 Debug/*.cpp
 Debug/Translate
 *.log
+Translate/Translate.pro.user

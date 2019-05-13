@@ -97,9 +97,8 @@ void MainWindow::on_btmTraining_clicked()
          return;
     }
     qDebug(logDebug()) << "mainwindow form; WIN32; Training result:\t Calling show.exe";
-//    return;
-    QString prog = QDir::homePath() + "show.exe";
-    QProcess* process = new QProcess(NULL);
+    QString prog = QDir::currentPath() + "/show.exe";
+    QProcess* process = new QProcess(this);
     process->start(prog, trForm->result());
 #endif
 }
@@ -126,17 +125,17 @@ void MainWindow::on_btmPuzzle_clicked()
     cf->loadCertificate("");
     cf->exec();
 #else
-    QJsonObject textObject = QJsonDocument::fromJson(User.toUtf8()).object();
-    QString tmp = textObject.value("group").toString();
-    if(tmp == "sqlite18")
-    {
-         return;
-    }
-    qDebug(logDebug()) << "mainwindow form; WIN32; Puzzle result:\t Calling show.exe";
-//    return;
-    QString prog = QDir::homePath() + "show.exe";
-    QProcess* process = new QProcess(NULL);
-    process->start(prog, form->result());
+   QJsonObject textObject = QJsonDocument::fromJson(User.toUtf8()).object();
+   QString tmp = textObject.value("group").toString();
+   if(tmp == "sqlite18")
+   {
+        return;
+   }
+   qDebug(logDebug()) << "mainwindow form; WIN32; Puzzle result:\t Calling show.exe";
+   QString prog = QDir::currentPath() + "/show.exe";
+   qDebug(logDebug()) << "programm: " << prog;
+   QProcess* process = new QProcess(this);
+   process->start(prog, form->result());
 #endif
 }
 
