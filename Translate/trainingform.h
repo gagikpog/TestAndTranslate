@@ -47,6 +47,8 @@ private:
     QSqlDatabase db;
     int ansRight = 0, ansWrong = 0;
     int listLineCount = 5;
+    int testConunt = 3;
+    QString strEndMsg = "Test completed. Click OK to view the result";
 };
 
 struct ssint

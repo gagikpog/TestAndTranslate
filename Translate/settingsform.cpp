@@ -40,6 +40,8 @@ SettingsForm::SettingsForm(QWidget *parent) :QDialog(parent), ui(new Ui::Setting
    if(tmp != "sqlite18")
    {
         ui->btmSManager->setVisible(false);
+        ui->labelWord->setVisible(false);
+        ui->spinBox->setVisible(false);
    }
 }
 

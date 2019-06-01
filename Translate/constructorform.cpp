@@ -62,17 +62,21 @@ void ConstructorForm::ListUpdate(int id)
 {
     //перерисовывает все объекты типа  word
     Word* focus = NULL;
-    for(int i = 0;i<words.length();i++)
+    for (int i = 0;i<words.length();i++)
     {
         //перерисовка
         words.at(i)->repaint();
         //поиск объекта находящейся в фокусе
-        if(words.at(i)->ID() == id)
+        if (words.at(i)->ID() == id)
+        {
             focus = words.at(i);
+        }
     }
     //перерисовка
-    if(focus)
+    if (focus)
+    {
         focus->repaint();
+    }
 }
 
 void ConstructorForm::ListConnect(int id)
@@ -83,28 +87,30 @@ void ConstructorForm::ListConnect(int id)
     Word* wPtrE = NULL;
 
     //находим задний объект (мы знаем его ID)
-    for(int i = 0;i < words.length();i++)
+    for (int i = 0;i < words.length(); i++)
     {
-        if(words.at(i)->ID() == id)
+        if (words.at(i)->ID() == id)
         {
             wPtrB = words[i];
             break;
         }
     }
     //если не удалось найти выходим
-    if(!wPtrB)
+    if (!wPtrB)
+    {
         return;
+    }
 
     int dMin = connectionDistance;
 
     //ищем минимальное расстояние
-    for(int i = 0;i < words.length();i++)
+    for (int i = 0; i < words.length(); i++)
     {
         //пропускаем себя
-        if(words.at(i)->ID() == id)
+        if (words.at(i)->ID() == id)
             continue;
         //рассчитать расстояние
-        int dTemp = distance(wPtrB->posBegin(),words.at(i)->posEnd());
+        int dTemp = distance(wPtrB->posBegin(), words.at(i)->posEnd());
         //если оно меньше минимального
         if (dTemp < dMin)
         {

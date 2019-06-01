@@ -53,6 +53,7 @@ void TrainingForm::setInterfaceLanguage(QString lang)
         ui->btmCheck->setText("Проверка");
         ui->btmNext->setText("Далее");
         setWindowTitle("Тренировка");
+        strEndMsg = "Тест завершился. нажмите ОК для просмотра результата.";
     }
 }
 
@@ -144,12 +145,24 @@ void TrainingForm::fillLisrs()
     //очистить оба листа
     ui->list1->clear();
     ui->list2->clear();
-    int n = listLineCount,i = 0;
+    //тесто проводиться в 3 этапа
+    //после этого нужно завершить
+    if (testConunt-- == 0)
+    {
+        QMessageBox msg(QMessageBox::NoIcon,"","",QMessageBox::Ok,this,
+            Qt::WindowFlags(Qt::Dialog | Qt::MSWindowsFixedSizeDialogHint | Qt::WindowTitleHint | Qt::WindowSystemMenuHint | Qt::CustomizeWindowHint | Qt::WindowMaximizeButtonHint) & ~Qt::WindowCloseButtonHint);
+        msg.setWindowFlags(Qt::WindowTitleHint | Qt::Dialog | Qt::WindowMaximizeButtonHint | Qt::CustomizeWindowHint);
+        msg.setText(strEndMsg);
+        msg.exec();
+        close();
+    }
+
+    int n = listLineCount, i = 0;
     //выбрать и вывести n элементов которые еще не были показаны
-    while(n>0 && i < data.length())
+    while (n > 0 && i < data.length())
     {
         //если еще не было показано
-        if(!data.at(i).checked)
+        if (!data.at(i).checked)
         {
             //пометить как показанный
             data[i].checked = true;

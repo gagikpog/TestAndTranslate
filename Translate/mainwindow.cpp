@@ -57,23 +57,30 @@ void MainWindow::on_btmLanguage_clicked()
 
 void MainWindow::setInterfaceLanguage(QString lang)
 {
-    if(lang == "ru")
+    if (lang == "ru")
     {
         ui->btmExit->setText("&Выход");
         ui->btmSetting->setText("&Настройки");
         ui->btmTraining->setText("&Тренировка");
         ui->btmTranslate->setText("&Переводчик");
         ui->btmPuzzle->setText("П&азл");
+        setWindowTitle("Меню");
         if(User.isEmpty())
+        {
             ui->lblUser->setText("<a href=\"whatever\">Гость</a>");
-    }else {
+        }
+    } else {
         ui->btmExit->setText("&Close");
         ui->btmSetting->setText("&Settings");
         ui->btmTraining->setText("Training");
         ui->btmTranslate->setText("&Translate");
         ui->btmPuzzle->setText("&Puzzle");
-        if(User.isEmpty())
+        setWindowTitle("Menu");
+        if (User.isEmpty())
+        {
             ui->lblUser->setText("<a href=\"whatever\">Visitor</a>");
+        }
+
     }
 }
 

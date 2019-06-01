@@ -18,19 +18,19 @@ void Word::setText(QString t)
     //присвоить текст
     txt = t;
     //создается font для определения ширины и высоты шрифта чтоб соответственно задать размеры объекта
-    font = QFont("ubuntu",11);
+    font = QFont("ubuntu", 11);
     QFontMetrics fm(font);
     int pixelsWide = fm.width(txt);
     int pixelsHigh = fm.height();
     //задается размер объекта
-    setGeometry(pos().x(),pos().y(),pixelsWide+50,pixelsHigh+20);
+    setGeometry(pos().x(), pos().y(), pixelsWide + 50, pixelsHigh + 20);
 }
 
 void Word::rmBack()
 {
     //из цепочки убрать следующий объект
     //если объект существует
-    if(next)
+    if (next)
     {
         //берется указатель на нее
         Word* ptr = next;
@@ -45,7 +45,7 @@ void Word::rmFront()
 {
     //из цепочки убрать предыдущий объект
     //если объект существует
-    if(prev)
+    if (prev)
     {
         //берется указатель на нее
         Word* ptr = prev;
@@ -60,20 +60,30 @@ void Word::setBack(Word *word)
 {
     //привязать объект сзади
     //если объект существует
-    if(word)
+    if (word)
     {
         //и я не пытаюсь повторно его добавить
-        if(next != word)
+        if (next != word)
         {
             //если сзади уже прикреплен объект то его нужно сместить
-            if(next)
+            if (next)
             {
                 //берется указатель на нее
                 Word* ptr = next;
                 //убираю объект
                 rmBack();
+                //позиция при отбросе вниз
+                int posY =  posEnd().y() + height()*1.5;
+                //родительский виджет, нужен для определения высоты области
+                QGroupBox* prnt = ((QGroupBox*)parent());
+                //если он ниже центра экрана
+                if (posEnd().y() > prnt->height()/2)
+                {
+                    //отбрость вверх
+                    posY =  posEnd().y() - height()*1.5;
+                }
                 //задаю новую позицию
-                ptr->setPos(QPoint(posEnd().x(),posEnd().y()+height()*1.5));
+                ptr->setPos(QPoint(posEnd().x(),posY));
             }
             //добавляю сзади
             next = word;
