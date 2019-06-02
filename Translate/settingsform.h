@@ -23,6 +23,7 @@ public:
     static QString DatabaseName;
     static QString ApplicationLanguage;
     static int WordsCount;
+    static QString testCheckMode;
     static void readSettings();
     static void writeLanguage();
     static QString getStyles();
@@ -36,6 +37,8 @@ private slots:
     void on_fontComboBox_currentFontChanged(const QFont &f);
 
     void on_spinBox_editingFinished();
+
+    void on_testCheckModeBox_clicked(bool checked);
 
 private:
     Ui::SettingsForm *ui;

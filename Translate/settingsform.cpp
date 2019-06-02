@@ -12,6 +12,8 @@ QString SettingsForm::StyleFilename = ":/Styles/dark.qss";
 QString SettingsForm::ApplicationLanguage = "en";
 //кодичество слов отображающих а форме тренеровка
 int SettingsForm::WordsCount = 8;
+//двойной клик как кнопка "Проверка" в trainingform
+QString SettingsForm::testCheckMode = "off";
 //название текущего стиля
 QString SettingsForm::StylesStr = "";
 //названия фаела с настройкамыи
@@ -34,6 +36,8 @@ SettingsForm::SettingsForm(QWidget *parent) :QDialog(parent), ui(new Ui::Setting
    ui->fontComboBox->setCurrentFont(font);
    //задать значене "количество слов" из файла
    ui->spinBox->setValue(WordsCount);
+   //начальное значение при открытии окна
+   ui->testCheckModeBox->setChecked(testCheckMode == "on");
 
    QJsonObject root = QJsonDocument::fromJson(MainWindow::User.toUtf8()).object();
    QString tmp = root.value("group").toString();
@@ -63,6 +67,7 @@ void SettingsForm::setInterfaceLanguage(QString lang)
        ui->labelWord->setText("Количество слов");
        ui->labelStyle->setText("Стиль применения");
        ui->btmSManager->setText("Редактор задач");
+       ui->testCheckModeBox->setText("Двойной клик - нажатие на кнопку 'Проверка'");
        setWindowTitle("Настройки");
    }
 }
@@ -80,6 +85,8 @@ void SettingsForm::readSettings()
    font.setFamily(settings.value("font", "Ubuntu").toString());
    //загрузить параметр "количество слов"
    WordsCount = settings.value("wordsCount","8").toInt();
+   //загрузить парамета двойного клика как кнопка "Проверка" в trainingform
+   testCheckMode = settings.value("testCheckMode","off").toString();
    //загрузить стили из файла
    StylesStr = loadStyle(StyleFilename);
 }
@@ -142,10 +149,11 @@ void SettingsForm::writeSettings()
    QSettings settings(settingsFilename, QSettings::IniFormat);
    //поочередно сохраняет все параметры
    settings.setValue("styleFile", StyleFilename);
-   settings.setValue("checkbux",check );
-   settings.setValue("customStyleFile",customStyleFile);
-   settings.setValue("font",font.family());
-   settings.setValue("wordsCount",WordsCount);
+   settings.setValue("checkbox", check );
+   settings.setValue("customStyleFile", customStyleFile);
+   settings.setValue("font",font. family());
+   settings.setValue("wordsCount", WordsCount);
+   settings.setValue("testCheckMode", testCheckMode);
 }
 
 void SettingsForm::readLocakSettings()
@@ -154,7 +162,7 @@ void SettingsForm::readLocakSettings()
    //объект для чтения
    QSettings settings(settingsFilename, QSettings::IniFormat);
    //загружает начтройкии
-   selectRadioBatton(settings.value("checkbux", "").toString());
+   selectRadioBatton(settings.value("checkbox", "").toString());
    customStyleFile = settings.value("customStyleFile", "").toString();
 }
 
@@ -283,4 +291,10 @@ void SettingsForm::on_spinBox_editingFinished()
    WordsCount = ui->spinBox->value();
    //сохранить настройки
    writeSettings();
+}
+
+void SettingsForm::on_testCheckModeBox_clicked(bool checked)
+{
+    //включить/отключить режим быстрого управлением
+    testCheckMode = checked ? "on" : "off";
 }

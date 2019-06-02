@@ -11,7 +11,12 @@ int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
     MainWindow w;
-
+    //иконка для программы
+    QString iconFilename = "./tradslate_icon.ico";
+    if (QFileInfo::exists(iconFilename))
+    {
+        a.setWindowIcon(QIcon(iconFilename));
+    }
     // Устанавливаем файл логирования,
     // внимательно сверьтесь с тем, какой используете путь для файла
     m_logFile.reset(new QFile("logging.log"));

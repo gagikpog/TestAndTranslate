@@ -54,15 +54,16 @@ void TrainingForm::setInterfaceLanguage(QString lang)
         ui->btmNext->setText("Далее");
         setWindowTitle("Тренировка");
         strEndMsg = "Тест завершился. нажмите ОК для просмотра результата.";
+        strTestLbl = "Тест: ";
     }
 }
 
 QStringList TrainingForm::result()
 {
     int percent = 0;
-    if(ansRight + ansWrong != 0)
+    if(listLineCount * 3  + ansWrong != 0)
     {
-        percent =  (100*ansRight)/(ansRight + ansWrong);
+        percent =  (300 * listLineCount) / (listLineCount * 3 + ansWrong);
     }
     // info from https://mgimo.ru/files/89/shkala_ECTS2.htm
     int scorenumber = 2;
@@ -135,7 +136,9 @@ void TrainingForm::readAllData()
     int raNo = query.record().indexOf("rating");
     //по очереди вывожу все
     while (query.next())
+    {
         data.append(ssint(query.value(enNo).toString(),query.value(ruNo).toString(),query.value(raNo).toInt()));
+    }
     //сортирую все данные по рейтингу
     std::sort(data.begin(),data.end(),[](ssint&a,ssint&b){return a.rating<b.rating;});
 }
@@ -156,6 +159,8 @@ void TrainingForm::fillLisrs()
         msg.exec();
         close();
     }
+    //обновляем номер теста
+    ui->lblLevel->setText(strTestLbl + QString::number(3 - testConunt) + "/3");
 
     int n = listLineCount, i = 0;
     //выбрать и вывести n элементов которые еще не были показаны
@@ -291,4 +296,19 @@ void TrainingForm::on_list2_clicked(const QModelIndex &)
 {
     //при выборе слов активировать кнопку
     ui->btmCheck->setEnabled(!(ui->list1->selectedItems().empty() || ui->list2->selectedItems().empty()));
+}
+
+void TrainingForm::on_list1_doubleClicked(const QModelIndex &)
+{
+    //если режим включен, нажимаеться кнопка "проверка"
+    //&& если кнопка активна
+    if (SettingsForm::testCheckMode == "on" && ui->btmCheck->isEnabled())
+    {
+        on_btmCheck_clicked();
+    }
+}
+
+void TrainingForm::on_list2_doubleClicked(const QModelIndex &index)
+{
+    on_list1_doubleClicked(index);
 }

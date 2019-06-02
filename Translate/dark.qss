@@ -3,6 +3,7 @@ background: qradialgradient(cx: 0.3, cy: -0.4,
 fx: 0.3, fy: -0.4,
 radius: 1.3, stop: 0 #333, stop: 1 #333);
 color: #fff;
+font-size: 17pt;
 }
 QPushButton:!enabled {
 background: qradialgradient(cx: 0.3, cy: -0.4,

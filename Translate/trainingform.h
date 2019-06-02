@@ -35,6 +35,8 @@ private slots:
     void on_btmNext_clicked();
     void on_list1_clicked(const QModelIndex &index);
     void on_list2_clicked(const QModelIndex &index);
+    void on_list1_doubleClicked(const QModelIndex &index);
+    void on_list2_doubleClicked(const QModelIndex &index);
 
 private:
     Ui::TrainingForm *ui;
@@ -49,6 +51,7 @@ private:
     int listLineCount = 5;
     int testConunt = 3;
     QString strEndMsg = "Test completed. Click OK to view the result";
+    QString strTestLbl = "Test: ";
 };
 
 struct ssint

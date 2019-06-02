@@ -265,24 +265,24 @@ void SentenceManagerForm::treeAdd()
     //вызываем форму
     form->exec();
     //если была нажата сохранить
-    if(form->isChanged())
+    if (form->isChanged())
     {
         //создание объекта запросов
         QSqlQuery* query = new QSqlQuery(db);
         QString strQuery = "INSERT INTO ";
         //если что то не выбрано
-        if(ui->treeWidget->selectedItems().isEmpty())
+        if (ui->treeWidget->selectedItems().isEmpty())
         {
             //запрос на добавление
             strQuery += "sentenceRU (sentence) VALUES ('" + form->Text() + "');";
             //если в БД удачно добавлена запись
-            if(query->exec(strQuery))
+            if (query->exec(strQuery))
             {
                 //запрос, чтобы получить код записи
                 strQuery = "SELECT key FROM sentenceRU WHERE sentence = '" + form->Text() + "';";
-                if(query->exec(strQuery))
+                if (query->exec(strQuery))
                 {
-                    if(query->next())
+                    if ( query->next() )
                     {
                         //получаем код и добавляем в дерево
                         QString key = query->value("key").toString();
@@ -290,58 +290,58 @@ void SentenceManagerForm::treeAdd()
                         itm->setText(0,form->Text());
                         itm->setText(1,key);
                         ui->treeWidget->addTopLevelItem(itm);
-                    }else {
-                        qDebug(logDebug())<<"SentenceManagerForm: unable to select added item";
-                        qDebug(logDebug())<<"\t"<<query->lastError().text();
-                        qDebug(logDebug())<<"\tquery: "<<strQuery;
+                    } else {
+                        qDebug(logDebug()) << "SentenceManagerForm: unable to select added item";
+                        qDebug(logDebug()) << "\t" << query->lastError().text();
+                        qDebug(logDebug()) << "\tquery: " << strQuery;
                     }
-                }else {
-                    qDebug(logDebug())<<"SentenceManagerForm: failed to 'select' the sentence after 'insert'";
-                    qDebug(logDebug())<<"\t"<<query->lastError().text();
-                    qDebug(logDebug())<<"\tquery: "<<strQuery;
+                } else {
+                    qDebug(logDebug()) << "SentenceManagerForm: failed to 'select' the sentence after 'insert'";
+                    qDebug(logDebug()) << "\t"<<query->lastError().text();
+                    qDebug(logDebug()) << "\tquery: "<<strQuery;
                 }
-            }else {
-                qDebug(logDebug())<<"SentenceManagerForm: failed to add the sentence";
-                qDebug(logDebug())<<"\t"<<query->lastError().text();
-                qDebug(logDebug())<<"\tquery: "<<strQuery;
+            } else {
+                qDebug(logDebug()) << "SentenceManagerForm: failed to add the sentence";
+                qDebug(logDebug()) << "\t"<<query->lastError().text();
+                qDebug(logDebug()) << "\tquery: "<<strQuery;
             }
-        }else{
+        } else {
             //иначе нужно добавить не в корень а в дочернюю часть
             //получаем выделенную строку
             QTreeWidgetItem* itm = ui->treeWidget->currentItem();
             //если оно является дочерной то нужно взять его родителя
-            if(itm->text(2) != "")
+            if (itm->text(2) != "")
             {
                 itm = itm->parent();
             }
             //запрос на добавление
             strQuery += "sentenceEN (id,sentence) VALUES (" + itm->text(1) + ",'" + form->Text() + "');";
-            if(query->exec(strQuery))
+            if (query->exec(strQuery))
             {
                 //запрос, чтобы получить код записи
                 strQuery = "SELECT key FROM sentenceEN WHERE sentence = '" + form->Text() + "';";
-                if(query->exec(strQuery))
+                if (query->exec(strQuery))
                 {
-                    if(query->next())
+                    if (query->next())
                     {
                         //получаем код и добавляем к родителю
                         QString key = query->value("key").toString();
                         QTreeWidgetItem* cItm = new QTreeWidgetItem();
-                        cItm->setText(0,form->Text());
-                        cItm->setText(1,key);
-                        cItm->setText(2,itm->text(1));
+                        cItm->setText(0, form->Text());
+                        cItm->setText(1, key);
+                        cItm->setText(2, itm->text(1));
                         itm->addChild(cItm);
-                    }else {
+                    } else {
                         qDebug(logDebug())<<"SentenceManagerForm: unable to select added item";
                         qDebug(logDebug())<<"\t"<<query->lastError().text();
                         qDebug(logDebug())<<"\tquery: "<<strQuery;
                     }
-                }else {
+                } else {
                     qDebug(logDebug())<<"SentenceManagerForm: failed to 'select' the sentence after 'insert'";
                     qDebug(logDebug())<<"\t"<<query->lastError().text();
                     qDebug(logDebug())<<"\tquery: "<<strQuery;
                 }
-            }else {
+            } else {
                 qDebug(logDebug())<<"SentenceManagerForm: failed to add the sentence";
                 qDebug(logDebug())<<"\t"<<query->lastError().text();
                 qDebug(logDebug())<<"\tquery: "<<strQuery;

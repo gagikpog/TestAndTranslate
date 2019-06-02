@@ -51,6 +51,13 @@
       </widget>
      </item>
      <item>
+      <widget class="QLabel" name="lblLevel">
+       <property name="text">
+        <string>Test: 1/3</string>
+       </property>
+      </widget>
+     </item>
+     <item>
       <spacer name="horizontalSpacer">
        <property name="orientation">
         <enum>Qt::Horizontal</enum>

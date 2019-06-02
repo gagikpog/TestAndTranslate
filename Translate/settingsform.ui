@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>400</width>
-    <height>305</height>
+    <height>336</height>
    </rect>
   </property>
   <property name="maximumSize">
@@ -60,6 +60,16 @@
       </widget>
      </item>
     </layout>
+   </item>
+   <item>
+    <widget class="QCheckBox" name="testCheckModeBox">
+     <property name="enabled">
+      <bool>true</bool>
+     </property>
+     <property name="text">
+      <string>Double click - click on the 'Check' button</string>
+     </property>
+    </widget>
    </item>
    <item>
     <layout class="QVBoxLayout" name="verticalLayout_3">

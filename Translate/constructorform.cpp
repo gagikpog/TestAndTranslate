@@ -144,10 +144,11 @@ void ConstructorForm::setInterfaceLanguage(QString lang)
 
 QStringList ConstructorForm::result()
 {
+    int sentenceLength = sentence.length();
     int percent = 0;
-    if(right + wrong != 0)
+    if(sentenceLength != 0)
     {
-        percent =  (100*right)/(right + wrong);
+        percent =  (100*right)/(sentenceLength);
     }
     // info from https://mgimo.ru/files/89/shkala_ECTS2.htm
     int scorenumber = 2;
