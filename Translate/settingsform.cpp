@@ -2,6 +2,7 @@
 #include "sentencemanagerform.h"
 #include "ui_settingsform.h"
 #include "mainwindow.h"
+#include "header.h"
 
 //статические поля класса, тут настройки и конфигурации всего проекта
 //название ДБ
@@ -151,9 +152,12 @@ void SettingsForm::writeSettings()
    settings.setValue("styleFile", StyleFilename);
    settings.setValue("checkbox", check );
    settings.setValue("customStyleFile", customStyleFile);
-   settings.setValue("font",font. family());
+   settings.setValue("font", font.family());
    settings.setValue("wordsCount", WordsCount);
    settings.setValue("testCheckMode", testCheckMode);
+   settings.setValue("BUILD_DATE", BUILD_DATE + " " + BUILD_TIME);
+   settings.setValue("VERSION", VERSION);
+   settings.setValue("BUILD", BUILD);
 }
 
 void SettingsForm::readLocakSettings()

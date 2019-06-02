@@ -4,6 +4,8 @@
 #
 #-------------------------------------------------
 
+#VERSION 1.0.0
+
 QT       += core gui widgets
 QT       += network
 QT       += sql
