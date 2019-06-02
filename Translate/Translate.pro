@@ -10,6 +10,8 @@ QT       += sql
 QT       += printsupport
 !win32:QT+= webkit webkitwidgets
 
+#icon for programm (only windows)
+win32:RC_ICONS += translate.ico
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 

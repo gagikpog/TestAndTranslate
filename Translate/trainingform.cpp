@@ -61,9 +61,9 @@ void TrainingForm::setInterfaceLanguage(QString lang)
 QStringList TrainingForm::result()
 {
     int percent = 0;
-    if(listLineCount * 3  + ansWrong != 0)
+    if (listLineCount != 0)
     {
-        percent =  (300 * listLineCount) / (listLineCount * 3 + ansWrong);
+        percent =  (100 * ansRight) / (listLineCount * 3);
     }
     // info from https://mgimo.ru/files/89/shkala_ECTS2.htm
     int scorenumber = 2;

@@ -12,7 +12,7 @@ int main(int argc, char *argv[])
     QApplication a(argc, argv);
     MainWindow w;
     //иконка для программы
-    QString iconFilename = "./tradslate_icon.ico";
+    QString iconFilename = "./translate.ico";
     if (QFileInfo::exists(iconFilename))
     {
         a.setWindowIcon(QIcon(iconFilename));
