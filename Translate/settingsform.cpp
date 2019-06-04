@@ -3,6 +3,7 @@
 #include "ui_settingsform.h"
 #include "mainwindow.h"
 #include "header.h"
+#include "loggingcategories.h"
 
 //статические поля класса, тут настройки и конфигурации всего проекта
 //название ДБ
@@ -60,15 +61,16 @@ void SettingsForm::setInterfaceLanguage(QString lang)
    //перевести интерфейс на русский
    if(lang == "ru")
    {
-       ui->rBtmDark->setText("Темный");
-       ui->rBtmLight->setText("Светлая");
-       ui->rBtmCustom->setText("Другой");
-       ui->rBtmDefoult->setText("По умолчанию");
-       ui->btmStyle->setText("Загрузить стиль");
+       ui->rBtmDark->setText("&Темный");
+       ui->rBtmLight->setText("&Светлая");
+       ui->rBtmCustom->setText("&Другой");
+       ui->rBtmDefoult->setText("&По умолчанию");
+       ui->btmStyle->setText("&Загрузить стиль");
        ui->labelWord->setText("Количество слов");
        ui->labelStyle->setText("Стиль применения");
-       ui->btmSManager->setText("Редактор задач");
-       ui->testCheckModeBox->setText("Двойной клик - нажатие на кнопку 'Проверка'");
+       ui->btmSManager->setText("&Редактор задач");
+       ui->testCheckModeBox->setText("Двойной &клик - нажатие на кнопку 'Проверка'");
+       ui->btnUpdate->setText("Проверить &обновление");
        setWindowTitle("Настройки");
    }
 }
@@ -301,4 +303,17 @@ void SettingsForm::on_testCheckModeBox_clicked(bool checked)
 {
     //включить/отключить режим быстрого управлением
     testCheckMode = checked ? "on" : "off";
+}
+
+void SettingsForm::on_btnUpdate_clicked()
+{
+    qDebug(logDebug()) << "Settings Form; run updater";
+#ifdef __linux__
+    QString prog = QDir::currentPath() + "/Updater_1.0";
+#else
+    QString prog = QDir::currentPath() + "/Updater_1.0.exe";
+#endif
+    qDebug(logDebug()) << "programm: " << prog;
+    QProcess* process = new QProcess(this);
+    process->start(prog);
 }

@@ -40,6 +40,8 @@ private slots:
 
     void on_testCheckModeBox_clicked(bool checked);
 
+    void on_btnUpdate_clicked();
+
 private:
     Ui::SettingsForm *ui;
     void writeSettings();
