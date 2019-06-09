@@ -21,6 +21,10 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent), ui(new Ui::MainWin
         ui->btmLanguage->setText("&EN");
         setInterfaceLanguage("ru");
     }
+
+    QString version = SettingsForm::checkUpdate("h");
+    qDebug() << version;
+
     tmr = new QTimer();
     tmr->setInterval(500);
     connect(tmr, SIGNAL(timeout()), this, SLOT(UserAuth()));

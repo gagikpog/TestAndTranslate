@@ -34,8 +34,8 @@ DEL_DIR       = rmdir
 MOVE          = mv -f
 TAR           = tar -cf
 COMPRESS      = gzip -9f
-DISTNAME      = Translate1.0.0
-DISTDIR = /home/gagikpog/Documents/programming/QT/Translate/Debug/.tmp/Translate1.0.0
+DISTNAME      = Translate1.0.0.0
+DISTDIR = /home/gagikpog/Documents/programming/QT/Translate/Debug/.tmp/Translate1.0.0.0
 LINK          = g++
 LFLAGS        = -Wl,-rpath-link,/usr/lib/x86_64-linux-gnu
 LIBS          = $(SUBLIBS) -lQt5PrintSupport -lQt5WebKitWidgets -lQt5Widgets -lQt5WebKit -lQt5Gui -lQt5Network -lQt5Sql -lQt5Core -lGL -lpthread 
@@ -611,7 +611,9 @@ word.o: ../Translate/word.cpp ../Translate/word.h \
 settingsform.o: ../Translate/settingsform.cpp ../Translate/settingsform.h \
 		../Translate/sentencemanagerform.h \
 		ui_settingsform.h \
-		../Translate/mainwindow.h
+		../Translate/mainwindow.h \
+		../Translate/header.h \
+		../Translate/loggingcategories.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o settingsform.o ../Translate/settingsform.cpp
 
 sentencemanagerform.o: ../Translate/sentencemanagerform.cpp ../Translate/sentencemanagerform.h \

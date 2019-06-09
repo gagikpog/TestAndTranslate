@@ -108,7 +108,66 @@ void SettingsForm::writeLanguage()
 QString SettingsForm::getStyles()
 {
    //объединяет стильы и шрифт как обший стиль (формт qss)
-   return StylesStr + "QWidget{font-family: \"" + font.family() + "\";}";
+    return StylesStr + "QWidget{font-family: \"" + font.family() + "\";}";
+}
+
+QString SettingsForm::checkUpdate(QString flags)
+{
+    qDebug(logDebug()) << "Settings Form; run updater";
+#ifdef __linux__
+    QString prog = QDir::currentPath() + "/Updater_1.0";
+#else
+    QString prog = QDir::currentPath() + "/Updater_1.0.exe";
+#endif
+    qDebug(logDebug()) << "programm: " << prog;
+    QProcess* process = new QProcess(NULL);
+    //все возможные аргументы
+    bool hide = false,
+         show = false,
+         download = false;
+    //инициализация аргументов
+    for (int i = 0; i < flags.length(); i++)
+    {
+        if (flags[i] == 'h')
+        {
+            hide = true;
+        } else if (flags[i] == 'd')
+        {
+            download = true;
+        } else if (flags[i] == 's')
+        {
+            show = true;
+        }
+    }
+    //составление ключей
+    QStringList args;
+    if (hide && !show)
+    {
+        args << " -h ";
+    }
+    if (download)
+    {
+        args << " -d ";
+    }
+    qDebug(logDebug()) << "arguments: " << args;
+    //запуск процесса
+    process->start(prog, args);
+    //для обновления требуется закрыть программу
+    if (download)
+    {
+        exit(0);
+    }
+    //если скрытый режим, то программа вернет актуальную версию программы
+    QString res = "no result";
+
+    if (hide)
+    {
+        //ждем завершения
+        process->waitForFinished();
+        //читаем результат
+        res = QString (process->readAll());
+    }
+    return res;
 }
 
 void SettingsForm::on_btmStyle_clicked()
@@ -307,13 +366,6 @@ void SettingsForm::on_testCheckModeBox_clicked(bool checked)
 
 void SettingsForm::on_btnUpdate_clicked()
 {
-    qDebug(logDebug()) << "Settings Form; run updater";
-#ifdef __linux__
-    QString prog = QDir::currentPath() + "/Updater_1.0";
-#else
-    QString prog = QDir::currentPath() + "/Updater_1.0.exe";
-#endif
-    qDebug(logDebug()) << "programm: " << prog;
-    QProcess* process = new QProcess(this);
-    process->start(prog);
+    checkUpdate();
 }
+

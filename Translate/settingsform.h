@@ -9,7 +9,7 @@
 #include <QDebug>
 
 namespace Ui {
-class SettingsForm;
+    class SettingsForm;
 }
 
 class SettingsForm : public QDialog
@@ -27,6 +27,13 @@ public:
     static void readSettings();
     static void writeLanguage();
     static QString getStyles();
+    /**
+     * flags - s | d | h
+     * s - show. Открыть окно для обновления
+     * d - download. Скачать без разрешения (использовать только с h)
+     * h - hide. Открыть скрыто (если нет ключа d, то выводит актуальную версию программы)
+     */
+    static QString checkUpdate(QString flags = "s");
 private slots:
     void on_btmStyle_clicked();
     void on_rBtmCustom_clicked(bool checked);
@@ -35,11 +42,8 @@ private slots:
     void on_rBtmDefoult_clicked(bool checked);
     void on_btmSManager_clicked();
     void on_fontComboBox_currentFontChanged(const QFont &f);
-
     void on_spinBox_editingFinished();
-
     void on_testCheckModeBox_clicked(bool checked);
-
     void on_btnUpdate_clicked();
 
 private:
