@@ -164,12 +164,14 @@ QString SettingsForm::checkUpdate(QString flags)
     //если скрытый режим, то программа вернет актуальную версию программы
     QString res = "no result";
 
-    if (hide)
+    if (hide && !show)
     {
+        qDebug(logDebug()) << "wait for finished";
         //ждем завершения
         process->waitForFinished();
         //читаем результат
         res = QString (process->readAll());
+        qDebug(logDebug()) << "finished resoult: " << res;
     }
     return res;
 }
@@ -179,9 +181,9 @@ void SettingsForm::on_btmStyle_clicked()
    //создается диалоговое окно
    QFileDialog* dlg = new QFileDialog(this);
    //вызывается окно и результат выбора сохраняется в переменную res
-   QString res = dlg->getOpenFileName(this,"caption","Styles","Qt style files(*.qss);; All files (*.*)");
+   QString res = dlg->getOpenFileName(this, "caption", "Styles", "Qt style files(*.qss);; All files (*.*)");
    //если был выбран файл то продолжить
-   if(!res.isEmpty())
+   if (!res.isEmpty())
    {
        //задать файл как фаел для стилей
        StyleFilename = res;
@@ -252,9 +254,9 @@ void SettingsForm::on_rBtmCustom_clicked(bool checked)
    //кнопка "загрузить стиль" становится активной
    ui->btmStyle->setEnabled(checked);
    //если файл еще не был выбран он вызывает событие на нажатие кнопки "загрузить стиль"
-   if(!QFile::exists(customStyleFile)){
+   if (!QFile::exists(customStyleFile)){
        on_btmStyle_clicked();
-   }else{
+   } else {
        //иначе
        //меняем назваеие выбранного стиля
        StyleFilename = customStyleFile;
@@ -267,7 +269,7 @@ void SettingsForm::on_rBtmCustom_clicked(bool checked)
    }
 }
 
-void SettingsForm::on_rBtmLight_clicked(bool )
+void SettingsForm::on_rBtmLight_clicked(bool)
 {
    //отключаем кнопку "загрузить стиль"
    ui->btmStyle->setEnabled(false);
@@ -283,7 +285,7 @@ void SettingsForm::on_rBtmLight_clicked(bool )
    writeSettings();
 }
 
-void SettingsForm::on_rBtmDark_clicked(bool )
+void SettingsForm::on_rBtmDark_clicked(bool)
 {
    //отключаем кнопку "загрузить стиль"
    ui->btmStyle->setEnabled(false);
@@ -299,7 +301,7 @@ void SettingsForm::on_rBtmDark_clicked(bool )
    writeSettings();
 }
 
-void SettingsForm::on_rBtmDefoult_clicked(bool )
+void SettingsForm::on_rBtmDefoult_clicked(bool)
 {
    ui->btmStyle->setEnabled(false);
    //задаем файл стилей (его нет)

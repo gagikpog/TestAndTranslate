@@ -22,9 +22,6 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent), ui(new Ui::MainWin
         setInterfaceLanguage("ru");
     }
 
-    QString version = SettingsForm::checkUpdate("h");
-    qDebug() << version;
-
     tmr = new QTimer();
     tmr->setInterval(500);
     connect(tmr, SIGNAL(timeout()), this, SLOT(UserAuth()));
@@ -33,6 +30,9 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent), ui(new Ui::MainWin
 
 MainWindow::~MainWindow()
 {
+    qDebug(logDebug()) << "MainWindow destroyed: call update chacker";
+    QString version = SettingsForm::checkUpdate("hd");
+    qDebug(logDebug()) << "MainWindow destroyed: " << version;
     delete ui;
 }
 
