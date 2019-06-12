@@ -4,6 +4,7 @@
 #include "mainwindow.h"
 #include "header.h"
 #include "loggingcategories.h"
+#include "feedback.h"
 
 //статические поля класса, тут настройки и конфигурации всего проекта
 //название ДБ
@@ -71,7 +72,10 @@ void SettingsForm::setInterfaceLanguage(QString lang)
        ui->btmSManager->setText("&Редактор задач");
        ui->testCheckModeBox->setText("Двойной &клик - нажатие на кнопку 'Проверка'");
        ui->btnUpdate->setText("Проверить &обновление");
+       ui->btnFeedback->setText("О&братная связь");
        setWindowTitle("Настройки");
+       msgBoxTitle = "Ошибка";
+       msgBoxWarning = "Необходимо авторизоваться";
    }
 }
 
@@ -369,3 +373,17 @@ void SettingsForm::on_btnUpdate_clicked()
     checkUpdate();
 }
 
+
+void SettingsForm::on_btnFeedback_clicked()
+{
+    if (MainWindow::User != "")
+    {
+        Feedback* feedback = new Feedback(this);
+        feedback->exec();
+    } else {
+        QMessageBox* msgBox = new QMessageBox(this);
+        msgBox->setWindowTitle(msgBoxTitle);
+        msgBox->setText(msgBoxWarning);
+        msgBox->exec();
+    }
+}

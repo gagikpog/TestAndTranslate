@@ -49,7 +49,8 @@ SOURCES += \
     readerform.cpp \
     linefeed.cpp \
     loggingcategories.cpp \
-    authenticationform.cpp
+    authenticationform.cpp \
+    feedback.cpp
 
 HEADERS += \
         mainwindow.h \
@@ -63,7 +64,8 @@ HEADERS += \
     linefeed.h \
     loggingcategories.h \
     header.h \
-    authenticationform.h
+    authenticationform.h \
+    feedback.h
 
 FORMS += \
         mainwindow.ui \
@@ -73,7 +75,8 @@ FORMS += \
     settingsform.ui \
     sentencemanagerform.ui \
     readerform.ui \
-    authenticationform.ui
+    authenticationform.ui \
+    feedback.ui
 
 RESOURCES += \
     resourses.qrc

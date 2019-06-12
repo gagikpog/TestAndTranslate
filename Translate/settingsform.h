@@ -46,6 +46,8 @@ private slots:
     void on_testCheckModeBox_clicked(bool checked);
     void on_btnUpdate_clicked();
 
+    void on_btnFeedback_clicked();
+
 private:
     Ui::SettingsForm *ui;
     void writeSettings();
@@ -54,11 +56,13 @@ private:
     static QString loadStyle(QString filename);
     QString selectedRadioBtm = "Styles/defoult";
     QString customStyleFile = "";    
-
+    QString msgBoxTitle = "Error";
+    QString msgBoxWarning = "Login required";
     static QString StylesStr;
     static QString StyleFilename;
     static const QString settingsFilename;
     static QFont font;
+
 };
 
 #endif // SETTINGSFORM_H

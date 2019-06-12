@@ -23,13 +23,13 @@ public:
     ~MainWindow();
     void setInterfaceLanguage(QString lang= "ru");
     static QString User;
+    bool UserAuth(bool forcibly = false);
 private slots:
     void on_btmTranslate_clicked();
     void on_btmLanguage_clicked();
     void on_btmTraining_clicked();
     void on_btmSetting_clicked();
     void on_btmPuzzle_clicked();
-    bool UserAuth(bool forcibly = false);
     void on_lblUser_linkActivated(const QString &link);
 
 private:

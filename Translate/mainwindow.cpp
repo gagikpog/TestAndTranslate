@@ -92,7 +92,7 @@ void MainWindow::on_btmTraining_clicked()
 {
     if(!UserAuth())
         return;
-    TrainingForm *trForm = new TrainingForm();
+    TrainingForm* trForm = new TrainingForm();
     this->hide();
     trForm->exec();
     this->show();
@@ -154,7 +154,9 @@ bool MainWindow::UserAuth(bool fo)
 {
     tmr->stop();
     if(!User.isEmpty() && !fo)
+    {
         return true;
+    }
 
     AuthenticationForm* f = new AuthenticationForm();
     f->exec();
