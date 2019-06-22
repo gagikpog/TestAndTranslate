@@ -22,6 +22,7 @@ public:
     void setInterfaceLanguage(QString lang = "ru");
     static QString DatabaseName;
     static QString ApplicationLanguage;
+    static QString Host;
     static int WordsCount;
     static QString testCheckMode;
     static void readSettings();
@@ -45,7 +46,6 @@ private slots:
     void on_spinBox_editingFinished();
     void on_testCheckModeBox_clicked(bool checked);
     void on_btnUpdate_clicked();
-
     void on_btnFeedback_clicked();
 
 private:

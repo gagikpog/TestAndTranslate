@@ -11,6 +11,8 @@
 QString SettingsForm::DatabaseName = "data.db";
 //название фаела стлей
 QString SettingsForm::StyleFilename = ":/Styles/dark.qss";
+//путь к серверу
+QString SettingsForm::Host = "";
 //язык итерфейса
 QString SettingsForm::ApplicationLanguage = "en";
 //кодичество слов отображающих а форме тренеровка
@@ -91,9 +93,11 @@ void SettingsForm::readSettings()
    //загрузить шрифты
    font.setFamily(settings.value("font", "Ubuntu").toString());
    //загрузить параметр "количество слов"
-   WordsCount = settings.value("wordsCount","8").toInt();
+   WordsCount = settings.value("wordsCount", "8").toInt();
    //загрузить парамета двойного клика как кнопка "Проверка" в trainingform
-   testCheckMode = settings.value("testCheckMode","off").toString();
+   testCheckMode = settings.value("testCheckMode", "off").toString();
+   //загрузить название хоста
+   Host = settings.value("host", "http://k992302t.beget.tech").toString();
    //загрузить стили из файла
    StylesStr = loadStyle(StyleFilename);
 }
@@ -121,7 +125,7 @@ QString SettingsForm::checkUpdate(QString flags)
 #ifdef __linux__
     QString prog = QDir::currentPath() + "/Updater_1.0";
 #else
-    QString prog = QDir::currentPath() + "/Updater_1.0.exe";
+    QString prog = QDir::currentPath() + "/UpdTranslate_1.0.exe";
 #endif
     qDebug(logDebug()) << "programm: " << prog;
     QProcess* process = new QProcess(NULL);
@@ -222,6 +226,7 @@ void SettingsForm::writeSettings()
    settings.setValue("font", font.family());
    settings.setValue("wordsCount", WordsCount);
    settings.setValue("testCheckMode", testCheckMode);
+   settings.setValue("host", Host);
    settings.setValue("BUILD_DATE", BUILD_DATE + " " + BUILD_TIME);
    settings.setValue("VERSION", VERSION);
    settings.setValue("BUILD", BUILD);
@@ -378,6 +383,7 @@ void SettingsForm::on_btnUpdate_clicked()
 
 void SettingsForm::on_btnFeedback_clicked()
 {
+    //открытие формы feedback
     if (MainWindow::User != "")
     {
         Feedback* feedback = new Feedback(this);

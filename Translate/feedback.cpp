@@ -46,21 +46,21 @@ void Feedback::on_btnSend_clicked()
     connect(NAM, SIGNAL(finished(QNetworkReply*)), this, SLOT(replyFinished(QNetworkReply*)));
 
     //сервер
-    QString host = "http://k992302t.beget.tech/translate/feedback.php";
-
+    QString hostPage =  SettingsForm::Host + "/translate/feedback.php";
+    //из строки в формате json нужно достать name, sname и group
     QJsonObject root = QJsonDocument::fromJson(MainWindow::User.toUtf8()).object();
-
 
     QString name = root.value("name").toString() + " " + root.value("sname").toString();
     QString group = root.value("group").toString();
     QString msg = ui->textEdit->toPlainText();
-
+    //делаем экранирование текста
+    QString programmVersion = QUrl::toPercentEncoding(VERSION);
     name = QUrl::toPercentEncoding(name);
     group = QUrl::toPercentEncoding(group);
     msg = QUrl::toPercentEncoding(msg);
-
-    QString params = "?name=" + name + "&group=" + group + "&msg=" + msg;
-    QString url = host + params;
+    //составляем параметры запроса
+    QString params = "?name=" + name + "&group=" + group + "&msg=" + msg + "&version=" + programmVersion;
+    QString url = hostPage + params;
     qDebug(logDebug()) << "Feedback form sending";
     qDebug(logDebug()) << "send feedback: " << url;
     //отправляю get запрос
@@ -77,9 +77,11 @@ void Feedback::replyFinished(QNetworkReply* reply)
     QString DataAsString = QString::fromStdString(response.toStdString());
     if (DataAsString == "done\n")
     {
+        //пришел ответ от сервера что отзыв принят
         qDebug(logDebug()) << "Feedback form sending: Done";
         this->close();
     } else {
+        //не удалось соеденится с сервером или возникла ошибка на сервере
         qDebug(logDebug()) << "Feedback form sending: Error";
         qDebug(logDebug()) << "server resoult: " << DataAsString;
 
